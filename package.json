@@ -1,0 +1,19 @@
+{
+  "name": "deezer-tweaker",
+  "version": "1.0.0",
+  "main": "src/index.ts",
+  "scripts": {
+    "dev": "ts-node .",
+    "build": "tsc"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.60.1",
+    "@typescript-eslint/parser": "^5.60.1",
+    "eslint": "^8.43.0",
+    "ts-node": "^10.9.1",
+    "tsc": "^2.0.4",
+    "typescript": "^5.1.6"
+  },
+  "repository": "https://github.com/JustYuuto/deezer-tweaker.git",
+  "license": "MPL-2.0"
+}

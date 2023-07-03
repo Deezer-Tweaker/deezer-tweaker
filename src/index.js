@@ -5,6 +5,7 @@ const asar = require('@electron/asar');
 const { existsSync, statSync, rmSync } = require('fs');
 const { replaceInFile } = require('../utils/asar');
 const { join } = require('path');
+const Deezer = require('../utils/app');
 
 if (!existsSync(paths.program)) {
   Log.error('Deezer is not installed!');
@@ -41,12 +42,15 @@ replaceInFile(join(paths.extractedAsar, 'build', 'main.js'), 'function hasDevToo
 Log.success('Done\n');
 
 Log.info('Recreating the ASAR archive...');
-asar.createPackage(paths.extractedAsar, paths.asarBackup).then(() => {
+asar.createPackage(paths.extractedAsar, paths.asar).then(() => {
   Log.success('Done\n');
+
+  Log.info('Relaunching Deezer\n');
+  Deezer.relaunch();
+
+  Log.info('Deleting extracted ASAR folder...');
+  rmSync(paths.extractedAsar, { recursive: true });
+  Log.success('Done\n');
+
+  process.exit(0);
 });
-
-Log.info('Deleting extracted ASAR folder...');
-// rmSync(paths.extractedAsar, { recursive: true });
-Log.success('Done\n');
-
-process.exit(0);

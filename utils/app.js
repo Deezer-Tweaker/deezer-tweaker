@@ -1,4 +1,4 @@
-const { execSync } = require('child_process');
+const { execSync, spawn } = require('child_process');
 const { paths } = require('./paths');
 const { join } = require('path');
 
@@ -6,10 +6,12 @@ const process = 'Deezer.exe';
 module.exports = { process };
 
 module.exports.kill = () => {
-  execSync(`taskkill /f /im ${process}`);
+  if (execSync('tasklist').includes(process)) execSync(`taskkill /f /im ${process}`);
 };
 
 module.exports.relaunch = () => {
   module.exports.kill();
-  execSync(join(paths.program, process));
+  spawn(join(paths.program, process), [], {
+    detached: true
+  });
 };

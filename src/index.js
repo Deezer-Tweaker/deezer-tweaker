@@ -2,7 +2,7 @@ const originalFs = require('original-fs');
 const { paths } = require('../utils/paths');
 const Log = require('../utils/log');
 const asar = require('@electron/asar');
-const { existsSync, statSync, rmSync } = require('fs');
+const { existsSync, statSync, rmSync, copyFileSync } = require('fs');
 const { replaceInFile } = require('../utils/asar');
 const { join } = require('path');
 
@@ -18,6 +18,11 @@ if (!originalFs.existsSync(paths.asar)) {
   Log.error('Please try reinstalling Deezer.');
 
   process.exit(1);
+}
+
+if (!existsSync(paths.asarBackup)) {
+  Log.info('Backing up original ASAR file...');
+  copyFileSync(paths.asar, paths.asarBackup);
 }
 
 if (existsSync(paths.extractedAsar) && statSync(paths.extractedAsar).isDirectory()) {

@@ -3,6 +3,10 @@
     <h3>A tool to mod Deezer desktop app! (WIP)</h3>
 </div>
 
+## Functionalities
+
+* Enable DevTools
+
 ## License
 
 Mozilla Public License 2.0

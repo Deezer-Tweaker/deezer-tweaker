@@ -2,7 +2,7 @@ const originalFs = require('original-fs');
 const { paths } = require('../utils/paths');
 const Log = require('../utils/log');
 const asar = require('@electron/asar');
-const { existsSync, statSync, rmSync, copyFileSync } = require('fs');
+const { existsSync, statSync, rmSync } = require('fs');
 const { replaceInFile } = require('../utils/asar');
 const { join } = require('path');
 
@@ -22,7 +22,8 @@ if (!originalFs.existsSync(paths.asar)) {
 
 if (!existsSync(paths.asarBackup)) {
   Log.info('Backing up original ASAR file...');
-  copyFileSync(paths.asar, paths.asarBackup);
+  originalFs.copyFileSync(paths.asar, paths.asarBackup);
+  Log.success('Done\n');
 }
 
 if (existsSync(paths.extractedAsar) && statSync(paths.extractedAsar).isDirectory()) {
@@ -32,7 +33,7 @@ if (existsSync(paths.extractedAsar) && statSync(paths.extractedAsar).isDirectory
 }
 
 Log.info('Extracting ASAR...');
-asar.extractAll(paths.asar, paths.extractedAsar);
+asar.extractAll(paths.asarBackup, paths.extractedAsar);
 Log.success('Done\n');
 
 Log.info('Enabling devtools...');

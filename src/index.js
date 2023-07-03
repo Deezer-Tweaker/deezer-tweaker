@@ -2,7 +2,9 @@ const originalFs = require('original-fs');
 const { paths } = require('../utils/paths');
 const Log = require('../utils/log');
 const asar = require('@electron/asar');
-const { existsSync } = require('fs');
+const { existsSync, statSync, rmSync } = require('fs');
+const { replaceInFile } = require('../utils/asar');
+const { join } = require('path');
 
 if (!existsSync(paths.program)) {
   Log.error('Deezer is not installed!');
@@ -20,3 +22,6 @@ if (!originalFs.existsSync(paths.asar)) {
 
 asar.extractAll(paths.asar, paths.extractedAsar);
 
+Log.info('Enabling devtools...');
+replaceInFile(join(paths.extractedAsar, 'build', 'main.js'), 'function hasDevTools(){return"yes"===process.env.DZ_DEVTOOLS}', 'function hasDevTools(){return true}');
+Log.success('Done');

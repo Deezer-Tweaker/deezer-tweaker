@@ -41,12 +41,12 @@ replaceInFile(join(paths.extractedAsar, 'build', 'main.js'), 'function hasDevToo
 Log.success('Done\n');
 
 Log.info('Recreating the ASAR archive...');
-asar.createPackage(paths.extractedAsar, paths.asar).then(() => {
+asar.createPackage(paths.extractedAsar, paths.asarBackup).then(() => {
   Log.success('Done\n');
 });
 
 Log.info('Deleting extracted ASAR folder...');
-rmSync(paths.extractedAsar, { recursive: true });
+// rmSync(paths.extractedAsar, { recursive: true });
 Log.success('Done\n');
 
 process.exit(0);

@@ -20,7 +20,15 @@ if (!originalFs.existsSync(paths.asar)) {
   process.exit(1);
 }
 
+if (existsSync(paths.extractedAsar) && statSync(paths.extractedAsar).isDirectory()) {
+  Log.info('Deleting extracted ASAR folder...');
+  rmSync(paths.extractedAsar, { recursive: true });
+  Log.success('Done\n');
+}
+
+Log.info('Extracting ASAR...');
 asar.extractAll(paths.asar, paths.extractedAsar);
+Log.success('Done');
 
 Log.info('Enabling devtools...');
 replaceInFile(join(paths.extractedAsar, 'build', 'main.js'), 'function hasDevTools(){return"yes"===process.env.DZ_DEVTOOLS}', 'function hasDevTools(){return true}');

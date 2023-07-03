@@ -33,8 +33,19 @@ if (existsSync(paths.extractedAsar) && statSync(paths.extractedAsar).isDirectory
 
 Log.info('Extracting ASAR...');
 asar.extractAll(paths.asar, paths.extractedAsar);
-Log.success('Done');
+Log.success('Done\n');
 
 Log.info('Enabling devtools...');
 replaceInFile(join(paths.extractedAsar, 'build', 'main.js'), 'function hasDevTools(){return"yes"===process.env.DZ_DEVTOOLS}', 'function hasDevTools(){return true}');
-Log.success('Done');
+Log.success('Done\n');
+
+Log.info('Recreating the ASAR archive...');
+asar.createPackage(paths.extractedAsar, paths.asar).then(() => {
+  Log.success('Done\n');
+});
+
+Log.info('Deleting extracted ASAR folder...');
+rmSync(paths.extractedAsar, { recursive: true });
+Log.success('Done\n');
+
+process.exit(0);

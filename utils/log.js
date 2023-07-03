@@ -8,6 +8,14 @@ function error(message) {
   log('error', message);
 }
 
+function info(message) {
+  log('info', message);
+}
+
+function success(message) {
+  log('success', message);
+}
+
 module.exports = {
-  error
+  error, info, success
 };

@@ -37,7 +37,7 @@ Log.info('Extracting ASAR...');
 asar.extractAll(paths.asarBackup, paths.extractedAsar);
 Log.success('Done\n');
 
-Log.info('Enabling devtools...');
+Log.info('Injecting Deezer Tweaker...');
 replaceInFile(join(paths.extractedAsar, 'build', 'main.js'), 'function hasDevTools(){return"yes"===process.env.DZ_DEVTOOLS}', 'function hasDevTools(){return true}');
 Log.success('Done\n');
 

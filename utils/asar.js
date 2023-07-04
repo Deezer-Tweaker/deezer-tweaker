@@ -1,7 +1,7 @@
 const originalFs = require('original-fs');
 const { readFileSync, writeFileSync } = require('fs');
 const { join } = require('path');
-const { paths } = require('./paths');
+const paths = require('./paths');
 
 module.exports.replaceInAsarFile = (path, search, replace) => {
   const asar = originalFs.readFileSync(paths.asar, 'utf8');

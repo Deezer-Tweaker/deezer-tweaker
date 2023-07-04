@@ -1,5 +1,5 @@
 const originalFs = require('original-fs');
-const { paths } = require('../utils/paths');
+const paths = require('../utils/paths');
 const Log = require('../utils/log');
 const asar = require('@electron/asar');
 const { existsSync, statSync, rmSync } = require('fs');

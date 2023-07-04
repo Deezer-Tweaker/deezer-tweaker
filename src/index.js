@@ -2,9 +2,7 @@ const originalFs = require('original-fs');
 const paths = require('../utils/paths');
 const Log = require('../utils/log');
 const asar = require('@electron/asar');
-const { existsSync, statSync, rmSync } = require('fs');
-const { replaceInFile } = require('../utils/asar');
-const { join } = require('path');
+const { existsSync, statSync, rmSync, mkdirSync } = require('fs');
 const Deezer = require('../utils/app');
 
 if (!existsSync(paths.program)) {
@@ -37,8 +35,12 @@ Log.info('Extracting ASAR...');
 asar.extractAll(paths.asarBackup, paths.extractedAsar);
 Log.success('Done\n');
 
+Log.info('Creating data folder');
+mkdirSync(paths.data);
+Log.success('Done');
+
 Log.info('Injecting Deezer Tweaker...');
-replaceInFile(join(paths.extractedAsar, 'build', 'main.js'), 'function hasDevTools(){return"yes"===process.env.DZ_DEVTOOLS}', 'function hasDevTools(){return true}');
+require('./core');
 Log.success('Done\n');
 
 Log.info('Recreating the ASAR archive...');

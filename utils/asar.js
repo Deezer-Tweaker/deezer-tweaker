@@ -17,3 +17,8 @@ module.exports.replaceInFile = (path, search, replace) => {
   const file = readFileSync(path, 'utf8');
   writeFileSync(path, file.replace(search, replace), 'utf8');
 };
+
+module.exports.appendFile = (path, string) => {
+  const file = readFileSync(path, 'utf8');
+  writeFileSync(path, file + string, 'utf8');
+};

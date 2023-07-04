@@ -1,5 +1,5 @@
 const { execSync, spawn } = require('child_process');
-const { paths } = require('./paths');
+const paths = require('./paths');
 const { join } = require('path');
 
 const process = 'Deezer.exe';

@@ -3,10 +3,12 @@
     <h3>A tool to mod Deezer desktop app! (WIP)</h3>
 </div>
 
-## Functionalities
+## Features
 
-* Enable DevTools
+* Plugins
+* Themes
 * Custom CSS
+* Enable DevTools
 
 ## License
 

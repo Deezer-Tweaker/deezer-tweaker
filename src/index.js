@@ -48,7 +48,6 @@ require('./core');
 Log.success('Done\n');
 
 if (process.argv[2] === 'apply') {
-  Log.info('Applying plugins...');
   require('../commands/apply');
   console.log('');
 }

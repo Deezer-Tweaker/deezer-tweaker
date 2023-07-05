@@ -25,6 +25,13 @@ if (!existsSync(paths.asarBackup)) {
   Log.success('Done\n');
 }
 
+if (!existsSync(paths.data)) {
+  Log.info('Creating data folder');
+  mkdirSync(paths.data);
+  writeFileSync(join(paths.data, 'custom.css'), '');
+  Log.success('Done\n');
+}
+
 if (existsSync(paths.extractedAsar) && statSync(paths.extractedAsar).isDirectory()) {
   Log.info('Deleting extracted ASAR folder...');
   rmSync(paths.extractedAsar, { recursive: true });
@@ -34,10 +41,6 @@ if (existsSync(paths.extractedAsar) && statSync(paths.extractedAsar).isDirectory
 Log.info('Extracting ASAR...');
 asar.extractAll(paths.asarBackup, paths.extractedAsar);
 Log.success('Done\n');
-
-Log.info('Creating data folder');
-mkdirSync(paths.data);
-Log.success('Done');
 
 Log.info('Injecting Deezer Tweaker...');
 require('./core');

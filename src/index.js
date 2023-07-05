@@ -2,8 +2,9 @@ const originalFs = require('original-fs');
 const paths = require('../utils/paths');
 const Log = require('../utils/log');
 const asar = require('@electron/asar');
-const { existsSync, statSync, rmSync, mkdirSync } = require('fs');
+const { existsSync, statSync, rmSync, mkdirSync, writeFileSync } = require('fs');
 const Deezer = require('../utils/app');
+const { join } = require('path');
 
 if (!existsSync(paths.program)) {
   Log.error('Deezer is not installed!');
@@ -45,6 +46,12 @@ Log.success('Done\n');
 Log.info('Injecting Deezer Tweaker...');
 require('./core');
 Log.success('Done\n');
+
+if (process.argv[2] === 'apply') {
+  Log.info('Applying plugins...');
+  require('../commands/apply');
+  console.log('');
+}
 
 Log.info('Recreating the ASAR archive...');
 asar.createPackage(paths.extractedAsar, paths.asar).then(() => {

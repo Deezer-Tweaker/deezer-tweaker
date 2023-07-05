@@ -16,6 +16,10 @@ function success(message) {
   log('success', message);
 }
 
+function warn(message) {
+  log('warn', message);
+}
+
 module.exports = {
-  error, info, success
+  error, info, success, warn
 };

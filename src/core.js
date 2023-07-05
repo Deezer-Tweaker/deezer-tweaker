@@ -3,6 +3,30 @@ const { join } = require('path');
 const paths = require('../utils/paths');
 
 replaceInFile(join(paths.extractedAsar, 'build', 'main.js'), 'function hasDevTools(){return"yes"===process.env.DZ_DEVTOOLS}', 'function hasDevTools(){return true}');
+const cssPath = join(paths.data, 'custom.css');
+replaceInFile(
+  join(paths.extractedAsar, 'build', 'assets', 'cache', 'js', 'route-naboo.fda0f9eaad2eeb36f5b5.js'),
+  /(\{id:"account",label:Object\(q\.a\)\("Paramètres du compte"\),to:"\/account",isMain:!0,isAnimated:!0})/g,
+  `$1,{
+    id: "custom_css",
+    label: Object(q.a)("Custom CSS"),
+    onClick: () => {
+      return electron.openExternalLink('vscode://file/${cssPath.replaceAll('\\', '/')}');
+    },
+    isMain: !0
+  }`
+);
+replaceInFile(
+  join(paths.extractedAsar, 'build', 'renderer.js'),
+  /(__webpack_exports__)(}\)\(\);)/g,
+  `$1;const customCss = document.createElement('link');
+  customCss.setAttribute('rel', 'stylesheet');
+  customCss.setAttribute('type', 'text/css');
+  customCss.setAttribute('href', '${cssPath.replaceAll('\\', '\\\\')}');
+  customCss.setAttribute('id', 'deezer-tweaker-custom-css');
+  document.head.appendChild(customCss);
+  $2`
+);
 // TODO
 /*replaceInFile(
   join(paths.extractedAsar, 'build', 'assets', 'cache', 'js', 'route-naboo.fda0f9eaad2eeb36f5b5.js'),
@@ -18,18 +42,6 @@ replaceInFile(
   join(paths.extractedAsar, 'build', 'assets', 'cache', 'js', 'route-naboo.fda0f9eaad2eeb36f5b5.js'),
   /(audioPlayer_setVolume:function\(e\)\{this\.volume=Number\(e\))/g,
   '$1;console.log(Number(e))'
-);
-replaceInFile(
-  join(paths.extractedAsar, 'build', 'assets', 'cache', 'js', 'route-naboo.fda0f9eaad2eeb36f5b5.js'),
-  /(\{id:"account",label:Object\(q\.a\)\("Paramètres du compte"\),to:"\/account",isMain:!0,isAnimated:!0})/g,
-  `$1,{
-    id: "custom_css",
-    label: Object(q.a)("Custom CSS"),
-    onClick: () => {
-      window.open('data:text/html,<textarea></textarea>')
-    },
-    isMain: !0
-  }`
 );
 replaceInFile(
   join(paths.extractedAsar, 'build', 'assets', 'cache', 'js', 'route-playlist.765db7601fb9f9205f36.js'),

@@ -6,6 +6,7 @@
 ## Functionalities
 
 * Enable DevTools
+* Custom CSS
 
 ## License
 

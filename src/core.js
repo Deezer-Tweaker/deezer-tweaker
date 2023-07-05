@@ -26,12 +26,20 @@ replaceInFile(
   customCss.setAttribute('id', 'deezer-tweaker-custom-css');
   document.head.appendChild(customCss);$2`
 );
-// TODO
-/*replaceInFile(
+replaceInFile(
   join(paths.extractedAsar, 'build', 'assets', 'cache', 'js', 'route-naboo.fda0f9eaad2eeb36f5b5.js'),
   /(\{id:"profile",icon:Jn,label:Object\(q\.a\)\("menu_title_favorites_web"\),to:`\/\$\{r}\/profile\/\$\{e}`,isMain:!0})/g,
-  '$1, { id: "deezertweaker", icon: Jn, label: "Deezer Tweaker", to: "" ,isMain: true }'
-);*/
+  '$1, { id: "deezer-tweaker", icon: null, label: "Deezer Tweaker", to: `/${r}/deezer-tweaker`, isMain: true }'
+);
+replaceInFile(
+  join(paths.extractedAsar, 'build', 'assets', 'cache', 'js', 'app-web.b8b99a13a697527a646c.js'),
+  /(,{exact:!0,path:"\/",redirectTo:`\/\$\{e}\/`})/g,
+  `$1,{ exact: true, path: b('/deezer-tweaker'), component: () => {
+    // r.a is React
+    const { createElement } = r.a;
+    return createElement('h1', { className: 'heading-1' }, 'Deezer Tweaker');
+  } }`
+);
 replaceInFile(
   join(paths.extractedAsar, 'build', 'assets', 'cache', 'js', 'player-HTML5Renderer.60c297eb497cca6ab0eb.js'),
   /(audioPlayer_setVolume:function\(e\)\{this\.volume=(Number\(e\)))/g,

@@ -24,8 +24,7 @@ replaceInFile(
   customCss.setAttribute('type', 'text/css');
   customCss.setAttribute('href', '${cssPath.replaceAll('\\', '\\\\')}');
   customCss.setAttribute('id', 'deezer-tweaker-custom-css');
-  document.head.appendChild(customCss);
-  $2`
+  document.head.appendChild(customCss);$2`
 );
 // TODO
 /*replaceInFile(

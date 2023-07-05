@@ -22,3 +22,7 @@ module.exports.appendFile = (path, string) => {
   const file = readFileSync(path, 'utf8');
   writeFileSync(path, file + string, 'utf8');
 };
+
+module.exports.injectCss = (css) => {
+  module.exports.appendFile(join(paths.extractedAsar, 'build', 'assets', 'cache', 'css', 'sass_c', 'route-naboo.16f0341a6ad88bae835d.css'), css);
+};

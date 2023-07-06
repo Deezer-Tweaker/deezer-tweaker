@@ -9,12 +9,11 @@ replaceInFile(
   join(paths.extractedAsar, 'build', 'assets', 'cache', 'js', 'route-naboo.fda0f9eaad2eeb36f5b5.js'),
   /(\{id:"account",label:Object\(q\.a\)\("Paramètres du compte"\),to:"\/account",isMain:!0,isAnimated:!0})/g,
   `$1,{
-    id: "custom_css",
-    label: Object(q.a)("Custom CSS"),
-    onClick: () => {
-      return electron.openExternalLink('${cssPath.replaceAll('\\', '/')}');
-    },
-    isMain: !0
+    id: "deezer_tweaker",
+    label: Object(q.a)("Deezer Tweaker"),
+    to: \`/\${t}/deezer-tweaker\`,
+    isMain: true,
+    isAnimated: true
   }`
 );
 replaceInFile(
@@ -30,7 +29,7 @@ replaceInFile(
 replaceInFile(
   join(paths.extractedAsar, 'build', 'assets', 'cache', 'js', 'route-naboo.fda0f9eaad2eeb36f5b5.js'),
   /(\{id:"profile",icon:Jn,label:Object\(q\.a\)\("menu_title_favorites_web"\),to:`\/\$\{r}\/profile\/\$\{e}`,isMain:!0})/g,
-  '$1, { id: "deezer-tweaker", icon: null, label: "Deezer Tweaker", to: `/${r}/deezer-tweaker`, isMain: true }'
+  '$1, { id: "deezer-tweaker-marketplace", icon: null, label: "Marketplace", to: `/${r}/deezer-tweaker/marketplace`, isMain: true }'
 );
 replaceInFile(
   join(paths.extractedAsar, 'build', 'assets', 'cache', 'js', 'app-web.b8b99a13a697527a646c.js'),

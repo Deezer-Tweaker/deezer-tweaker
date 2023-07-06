@@ -11,7 +11,7 @@ replaceInFile(
     id: "custom_css",
     label: Object(q.a)("Custom CSS"),
     onClick: () => {
-      return electron.openExternalLink('vscode://file/${cssPath.replaceAll('\\', '/')}');
+      return electron.openExternalLink('${cssPath.replaceAll('\\', '/')}');
     },
     isMain: !0
   }`

@@ -1,6 +1,7 @@
 const { replaceInFile, appendFile } = require('../utils/asar');
-const { join } = require('path');
+const { join, resolve } = require('path');
 const paths = require('../utils/paths');
+const { readFileSync } = require('fs');
 
 replaceInFile(join(paths.extractedAsar, 'build', 'main.js'), 'function hasDevTools(){return"yes"===process.env.DZ_DEVTOOLS}', 'function hasDevTools(){return true}');
 const cssPath = join(paths.data, 'custom.css');
@@ -34,11 +35,7 @@ replaceInFile(
 replaceInFile(
   join(paths.extractedAsar, 'build', 'assets', 'cache', 'js', 'app-web.b8b99a13a697527a646c.js'),
   /(,{exact:!0,path:"\/",redirectTo:`\/\$\{e}\/`})/g,
-  `$1,{ exact: true, path: b('/deezer-tweaker'), component: () => {
-    // r.a is React
-    const { createElement } = r.a;
-    return createElement('h1', { className: 'heading-1' }, 'Deezer Tweaker');
-  } }`
+  `$1,{ exact: true, path: b('/deezer-tweaker'), component: ${require(resolve('src', 'core-plugins', 'page.js')).toString().replaceAll(/require\('.\/([a-zA-Z]+)'\)/g, (str, $1) => readFileSync(resolve('src', 'core-plugins', $1 + '.js')).toString())} }`
 );
 replaceInFile(
   join(paths.extractedAsar, 'build', 'assets', 'cache', 'js', 'player-HTML5Renderer.60c297eb497cca6ab0eb.js'),

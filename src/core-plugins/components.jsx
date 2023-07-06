@@ -15,9 +15,11 @@ const Tabs = ({ items }) => {
         </div>
       </nav>
       <div className="container">
-        <div className="container">
-          <h2 className="heading-2">{items[activeTab].name}</h2>
-        </div>
+        {!items[activeTab].hideTitle &&
+          <div className="container">
+            <h2 className="heading-2">{items[activeTab].name}</h2>
+          </div>
+        }
         <div className="container">
           {items[activeTab].component}
         </div>

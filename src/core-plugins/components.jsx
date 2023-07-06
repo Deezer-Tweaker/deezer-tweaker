@@ -1,3 +1,31 @@
+const Tabs = ({ items }) => {
+  const [activeTab, setActiveTab] = React.useState(0);
+
+  return (
+    <>
+      <nav className="navbar">
+        <div className="container" style={{ paddingBottom: 0 }}>
+          <ul className="navbar-nav" role="tablist">
+            {items.map((item, i) => ((
+              <li className={`navbar-item${activeTab === i ? ' active' : ''}`} onClick={() => setActiveTab(i)}>
+                <a className="chakra-text navbar-link css-93cf35 e3mndjk0">{item.name}</a>
+              </li>
+            )))}
+          </ul>
+        </div>
+      </nav>
+      <div className="container">
+        <div className="container">
+          <h2 className="heading-2">{items[activeTab].name}</h2>
+        </div>
+        <div className="container">
+          {items[activeTab].component}
+        </div>
+      </div>
+    </>
+  );
+}
+
 const Table = ({ columns, rows }) => {
   return (
     <>

@@ -1,5 +1,5 @@
 const originalFs = require('original-fs');
-const { readFileSync, writeFileSync, mkdirSync } = require('fs');
+const { readFileSync, writeFileSync, mkdirSync, existsSync } = require('fs');
 const { join } = require('path');
 const paths = require('./paths');
 const { copySync } = require('fs-extra');
@@ -29,6 +29,7 @@ module.exports.injectCss = (css) => {
 };
 
 module.exports.copyNodeModule = (module) => {
-  module.split('/').length === 2 && mkdirSync(join(paths.extractedAsar, 'node_modules', module.split('/')[0]));
+  if (module.split('/').length === 2 && !existsSync(join(paths.extractedAsar, 'node_modules', module.split('/')[0])))
+    mkdirSync(join(paths.extractedAsar, 'node_modules', module.split('/')[0]));
   copySync(join(__dirname, '..', 'node_modules', module), join(paths.extractedAsar, 'node_modules', module));
 };

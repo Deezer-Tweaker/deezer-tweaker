@@ -33,10 +33,6 @@ module.exports = () => {
       <h1 className="heading-1">Deezer Tweaker</h1>
       <Tabs items={[
         { name: 'Deezer Tweaker', component: <HomeComponent /> },
-        { name: 'Plugins', component: <PluginsComponent data={[
-            { name: 'Test', description: 'This is a test', author: 'Yuuto', enabled: false }
-          ]} /> },
-        { name: 'Themes', component: () => {} },
         { name: 'Settings', component: () => {} }
       ]} />
     </div>

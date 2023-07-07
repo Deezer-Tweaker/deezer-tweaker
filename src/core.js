@@ -63,7 +63,7 @@ replaceInFile(
 replaceInFile(
   join(paths.extractedAsar, 'build', 'assets', 'cache', 'js', 'app-web.b8b99a13a697527a646c.js'),
   /(,{exact:!0,path:"\/",redirectTo:`\/\$\{e}\/`})/g,
-  `$1,{ exact: true, path: b('/deezer-tweaker'), component: ${require(resolve(__dirname, 'core-plugins', 'options-page', 'index.js')).toString().replaceAll(/require\('(..?\/[a-zA-Z]+)'\)/g, (str, $1) => readFileSync(resolve(__dirname, 'core-plugins', 'options-page', $1 + '.js')).toString())} }`
+  `$1,{ exact: true, path: b('/deezer-tweaker'), component: ${require(resolve(__dirname, typeof window !== 'undefined' ? join('..', 'dtjs') : '.', 'core-plugins', 'options-page', 'index.js')).toString().replaceAll(/require\('(..?\/[a-zA-Z]+)'\)/g, (str, $1) => readFileSync(resolve(__dirname, typeof window !== 'undefined' ? join('..', 'dtjs') : '.', 'core-plugins', 'options-page', $1 + '.js')).toString())} }`
 );
 replaceInFile(
   join(paths.extractedAsar, 'build', 'assets', 'cache', 'js', 'app-web.b8b99a13a697527a646c.js'),
@@ -73,7 +73,7 @@ replaceInFile(
 replaceInFile(
   join(paths.extractedAsar, 'build', 'assets', 'cache', 'js', 'app-web.b8b99a13a697527a646c.js'),
   /(,{exact:!0,path:"\/",redirectTo:`\/\$\{e}\/`})/g,
-  `$1,{ exact: true, path: b('/deezer-tweaker/marketplace'), component: ${require(resolve(__dirname, 'core-plugins', 'marketplace', 'index.js')).toString().replaceAll(/require\('(.+\/+[a-zA-Z]+)'\)/g, (str, $1) => readFileSync(resolve(__dirname, 'core-plugins', 'marketplace', $1 + '.js')).toString())} }`
+  `$1,{ exact: true, path: b('/deezer-tweaker/marketplace'), component: ${require(resolve(__dirname, typeof window !== 'undefined' ? join('..', 'dtjs') : '.', 'core-plugins', 'marketplace', 'index.js')).toString().replaceAll(/require\('(.+\/+[a-zA-Z]+)'\)/g, (str, $1) => readFileSync(resolve(__dirname, typeof window !== 'undefined' ? join('..', 'dtjs') : '.', 'core-plugins', 'marketplace', $1 + '.js')).toString())} }`
 );
 replaceInFile(
   join(paths.extractedAsar, 'build', 'assets', 'cache', 'js', 'player-HTML5Renderer.60c297eb497cca6ab0eb.js'),

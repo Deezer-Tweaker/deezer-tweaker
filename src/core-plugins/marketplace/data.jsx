@@ -1,9 +1,7 @@
 const { join } = require('path');
 const asar = require('@electron/asar');
-const { rmSync, cpSync } = require('fs');
-const { copyNodeModule } = require('../../../utils/asar');
+const { copyNodeModule } = require('../utils/asar');
 const { copySync } = require('fs-extra');
-const paths = require('../../../utils/paths');
 
 const DataComponent = ({ data, title, error }) => {
   return (
@@ -35,14 +33,14 @@ const DataComponent = ({ data, title, error }) => {
                               copyNodeModule('@electron/asar');
                               copyNodeModule('chromium-pickle-js');
                               copySync(join(__dirname, '..', 'utils'), join(paths.extractedAsar, 'utils'));
-                              cpSync(join(__dirname, 'core.js'), join(paths.extractedAsar, 'utils', 'core.js'));
+                              fs.copyFileSync(join(__dirname, '..', 'utils', 'core.js'), join(paths.extractedAsar, 'utils', 'core.js'));
                               require('../utils/core');
                               require(join(paths.data, 'plugins', plugin.name, `${plugin.name}.js`).replaceAll('\\', '\\\\')).start(Object.assign(window.DeezerTweaker.pluginObject, {
                                 startingFrom: 'marketplace'
                               }));
                               asar.createPackage(paths.extractedAsar, paths.asar).then(() => {
                                 RestartDialog();
-                                rmSync(paths.extractedAsar, { recursive: true });
+                                fs.rmSync(paths.extractedAsar, { recursive: true });
                               });
                             });
                             fs.writeFileSync(join(paths.data, 'plugins', plugin.name, 'manifest.json'), JSON.stringify(plugin));
@@ -54,12 +52,12 @@ const DataComponent = ({ data, title, error }) => {
                             copyNodeModule('@electron/asar');
                             copyNodeModule('chromium-pickle-js');
                             copySync(join(__dirname, '..', 'utils'), join(paths.extractedAsar, 'utils'));
-                            cpSync(join(__dirname, 'core.js'), join(paths.extractedAsar, 'utils', 'core.js'));
+                            fs.copyFileSync(join(__dirname, '..', 'utils', 'core.js'), join(paths.extractedAsar, 'utils', 'core.js'));
                             require('../utils/core');
                             //require(join(paths.data, 'plugins', plugin.name, `${plugin.name}.js`).replaceAll('\\', '\\\\')).stop(window.DeezerTweaker.pluginObject);
                             asar.createPackage(paths.extractedAsar, paths.asar).then(() => {
                               RestartDialog();
-                              rmSync(paths.extractedAsar, { recursive: true });
+                              fs.rmSync(paths.extractedAsar, { recursive: true });
                             });
                           }
                         }}

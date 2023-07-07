@@ -33,6 +33,12 @@ if (!existsSync(paths.data)) {
   Log.info('Creating data folder');
   mkdirSync(paths.data);
   writeFileSync(join(paths.data, 'custom.css'), '');
+
+  const pluginsDir = join(paths.data, 'plugins');
+  const themesDir = join(paths.data, 'themes');
+  if (!existsSync(pluginsDir)) mkdirSync(pluginsDir);
+  if (!existsSync(themesDir)) mkdirSync(themesDir);
+
   Log.success('Done\n');
 }
 

@@ -2,10 +2,11 @@ const originalFs = require('original-fs');
 const paths = require('../utils/paths');
 const Log = require('../utils/log');
 const asar = require('@electron/asar');
-const { existsSync, statSync, rmSync, mkdirSync, writeFileSync } = require('fs');
+const { existsSync, statSync, rmSync, mkdirSync, writeFileSync, cpSync } = require('fs');
 const Deezer = require('../utils/app');
 const { join } = require('path');
 const { copyNodeModule } = require('../utils/asar');
+const { copySync } = require('fs-extra');
 
 if (!existsSync(paths.program)) {
   Log.error('Deezer is not installed!');
@@ -47,6 +48,8 @@ Log.success('Done\n');
 Log.info('Injecting Deezer Tweaker...');
 copyNodeModule('@electron/asar');
 copyNodeModule('chromium-pickle-js');
+copySync(join(__dirname, '..', 'utils'), join(paths.extractedAsar, 'utils'));
+cpSync(join(__dirname, 'core.js'), join(paths.extractedAsar, 'utils', 'core.js'));
 require('./core');
 Log.success('Done\n');
 

@@ -56,6 +56,7 @@ const DataComponent = ({ data, title, error }) => {
             );
           })}
         </ul>
+        {error && <pre><code>{error}</code></pre>}
       </div>
     </>
   );

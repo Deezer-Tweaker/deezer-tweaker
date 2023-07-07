@@ -33,14 +33,14 @@ if (!existsSync(paths.data)) {
   Log.info('Creating data folder');
   mkdirSync(paths.data);
   writeFileSync(join(paths.data, 'custom.css'), '');
-
-  const pluginsDir = join(paths.data, 'plugins');
-  const themesDir = join(paths.data, 'themes');
-  if (!existsSync(pluginsDir)) mkdirSync(pluginsDir);
-  if (!existsSync(themesDir)) mkdirSync(themesDir);
-
   Log.success('Done\n');
 }
+
+const pluginsDir = join(paths.data, 'plugins');
+const themesDir = join(paths.data, 'themes');
+if (!existsSync(pluginsDir)) mkdirSync(pluginsDir);
+if (!existsSync(themesDir)) mkdirSync(themesDir);
+
 
 if (existsSync(paths.extractedAsar) && statSync(paths.extractedAsar).isDirectory()) {
   Log.info('Deleting extracted ASAR folder...');
@@ -59,11 +59,6 @@ copySync(join(__dirname, '..', 'utils'), join(paths.extractedAsar, 'utils'));
 copySync(join(__dirname, 'core.js'), join(paths.extractedAsar, 'utils', 'core.js'));
 require('./core');
 Log.success('Done\n');
-
-if (process.argv[2] === 'apply') {
-  require('../commands/apply');
-  console.log('');
-}
 
 Log.info('Recreating the ASAR archive...');
 asar.createPackage(paths.extractedAsar, paths.asar).then(() => {

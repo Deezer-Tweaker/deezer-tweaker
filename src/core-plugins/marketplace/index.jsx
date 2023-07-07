@@ -1,4 +1,3 @@
-const { join } = require('path');
 module.exports = () => {
   const fs = require('fs');
   const React = r.a;
@@ -7,6 +6,7 @@ module.exports = () => {
   require('./plugins');
   require('./themes');
   require('./installed');
+  require('../restart-dialog/index');
   const { paths } = window.DeezerTweaker;
 
   return (

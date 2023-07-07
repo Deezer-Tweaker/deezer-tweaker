@@ -3,15 +3,21 @@ const RestartDialog = () => {
   div.classList.add('modal');
   div.setAttribute('role', 'dialog');
   div.setAttribute('aria-hidden', 'false');
+  div.setAttribute('id', 'restart-dialog');
   const template = `
   <div class="modal-backdrop" style="opacity: 0.8;"></div>
   <div class="modal-wrapper">
-    <div class="modal-dialog">
+    <div class="modal-dialog" style="opacity: 1;">
       <div class="modal-conversion">
         <h3 class="heading-3">Restart Deezer to apply plugins</h3>
         <div>
-          <button onclick="${require('../../../utils/app').relaunch.toString().replace('module.exports.kill', require('../../../utils/app').kill.toString)}">Restart now</button>
-          <button onclick="this.remove()">Restart later</button>
+          <button onclick="(() => {
+            require('child_process').spawn(join(paths.program, 'Deezer.exe'), [], {
+              detached: true
+            });
+            process.exit(0);
+          })()">Restart now</button>
+          <button onclick="document.querySelector('.naboo #restart-dialog').remove()">Restart later</button>
         </div>
       </div>
     </div>

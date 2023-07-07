@@ -49,7 +49,9 @@ replaceInFile(
   };
   window.DeezerTweaker.pluginObject = pluginObject;
   readdirSync(join(paths.data, 'plugins')).forEach(f => {
-    require(join(paths.data, 'plugins', f, \`\${f}.js\`).replaceAll('\\\\', '\\\\\\\\')).start(pluginObject);
+    require(join(paths.data, 'plugins', f, \`\${f}.js\`).replaceAll('\\\\', '\\\\\\\\')).start(Object.assign(pluginObject, {
+      startingFrom: 'app_start'
+    }));
   });
   \n$1`
 );

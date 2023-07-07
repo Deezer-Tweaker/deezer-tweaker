@@ -27,7 +27,7 @@ const loadPlugins = () => {
     }
     Log.info(`Applying plugin ${plugin.name}`);
     plugin.start({
-      asar: require('../utils/asar'), paths: require('../utils/paths')
+      asar: require('../utils/asar'), paths: require('../utils/paths'), startingFrom: 'cli'
     });
   });
 };

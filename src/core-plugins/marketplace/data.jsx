@@ -1,8 +1,6 @@
 const { join } = require('path');
 
 const DataComponent = ({ data, title, error }) => {
-  const { paths } = window.DeezerTweaker;
-
   return (
     <>
       <div className="container" style={{ paddingTop: 0 }}>

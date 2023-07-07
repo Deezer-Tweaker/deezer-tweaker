@@ -6,6 +6,7 @@ module.exports = () => {
   require('./data');
   require('./plugins');
   require('./themes');
+  const { paths } = window.DeezerTweaker;
 
   return (
     <>

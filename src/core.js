@@ -2,6 +2,7 @@ const { replaceInFile, appendFile } = require('../utils/asar');
 const { join, resolve } = require('path');
 const paths = require('../utils/paths');
 const { readFileSync } = require('fs');
+const fs = require('fs');
 
 replaceInFile(join(paths.extractedAsar, 'build', 'main.js'), 'function hasDevTools(){return"yes"===process.env.DZ_DEVTOOLS}', 'function hasDevTools(){return true}');
 const cssPath = join(paths.data, 'custom.css');
@@ -27,9 +28,30 @@ replaceInFile(
   document.head.appendChild(customCss);$2`
 );
 replaceInFile(
-  join(paths.extractedAsar, 'build', 'assets', 'cache', 'js', 'route-naboo.fda0f9eaad2eeb36f5b5.js'),
+  join(paths.extractedAsar, 'build', 'assets', 'cache', 'js', 'legacy.2bd71c3dfe2c9c3f1a78.js'),
   /(\/\*! For license information please see)/g,
-  `window.DeezerTweaker={};window.DeezerTweaker.paths=${JSON.stringify(paths)};\n$1`
+  `window.DeezerTweaker = {};
+  window.DeezerTweaker.paths = ${JSON.stringify(paths)};
+  window.DeezerTweaker.installedPlugins = ${JSON.stringify(fs.readdirSync(join(paths.data, 'plugins')).map(f => {
+    return require(join(paths.data, 'plugins', f, 'manifest.json'));
+  }))};
+  const { join } = require('path');
+  const { readFileSync, writeFileSync, readdirSync } = require('fs');
+  const originalFs = require('original-fs');
+  const { paths } = window.DeezerTweaker;
+  const pluginObject = {
+    asar: {
+      replaceInAsarFile: ${require('../utils/asar').replaceInAsarFile.toString().replace('module.exports', 'pluginObject.asar')},
+      replaceInFile: ${require('../utils/asar').replaceInFile.toString().replace('module.exports', 'pluginObject.asar')},
+      appendFile: ${require('../utils/asar').appendFile.toString().replace('module.exports', 'pluginObject.asar')},
+      injectCss: ${require('../utils/asar').injectCss.toString().replace('module.exports', 'pluginObject.asar')},
+    }, paths: window.DeezerTweaker.paths
+  };
+  window.DeezerTweaker.pluginObject = pluginObject;
+  readdirSync(join(paths.data, 'plugins')).forEach(f => {
+    require(join(paths.data, 'plugins', f, \`\${f}.js\`).replaceAll('\\\\', '\\\\\\\\')).start(pluginObject);
+  });
+  \n$1`
 );
 replaceInFile(
   join(paths.extractedAsar, 'build', 'assets', 'cache', 'js', 'route-naboo.fda0f9eaad2eeb36f5b5.js'),
@@ -40,6 +62,11 @@ replaceInFile(
   join(paths.extractedAsar, 'build', 'assets', 'cache', 'js', 'app-web.b8b99a13a697527a646c.js'),
   /(,{exact:!0,path:"\/",redirectTo:`\/\$\{e}\/`})/g,
   `$1,{ exact: true, path: b('/deezer-tweaker'), component: ${require(resolve('src', 'core-plugins', 'options-page', 'index.js')).toString().replaceAll(/require\('(..?\/[a-zA-Z]+)'\)/g, (str, $1) => readFileSync(resolve('src', 'core-plugins', 'options-page', $1 + '.js')).toString())} }`
+);
+replaceInFile(
+  join(paths.extractedAsar, 'build', 'assets', 'cache', 'js', 'app-web.b8b99a13a697527a646c.js'),
+  /(window.webpackJsonpDeezer=window\.webpackJsonpDeezer\|\|\[]\)\.push\(\[\[66,54],\{"\+jGe":function\(x,e,C\)\{"use strict";)/g,
+  '$1window.DeezerTweaker.importWebpackModule=C;'
 );
 replaceInFile(
   join(paths.extractedAsar, 'build', 'assets', 'cache', 'js', 'app-web.b8b99a13a697527a646c.js'),

@@ -2,11 +2,12 @@ const originalFs = require('original-fs');
 const paths = require('../utils/paths');
 const Log = require('../utils/log');
 const asar = require('@electron/asar');
-const { existsSync, statSync, rmSync, mkdirSync, writeFileSync, cpSync } = require('fs');
+const { existsSync, statSync, rmSync, mkdirSync, writeFileSync } = require('fs');
 const Deezer = require('../utils/app');
 const { join } = require('path');
 const { copyNodeModule } = require('../utils/asar');
 const { copySync } = require('fs-extra');
+const { dialog } = require('electron');
 
 if (!existsSync(paths.program)) {
   Log.error('Deezer is not installed!');
@@ -49,7 +50,7 @@ Log.info('Injecting Deezer Tweaker...');
 copyNodeModule('@electron/asar');
 copyNodeModule('chromium-pickle-js');
 copySync(join(__dirname, '..', 'utils'), join(paths.extractedAsar, 'utils'));
-cpSync(join(__dirname, 'core.js'), join(paths.extractedAsar, 'utils', 'core.js'));
+copySync(join(__dirname, 'core.js'), join(paths.extractedAsar, 'utils', 'core.js'));
 require('./core');
 Log.success('Done\n');
 
@@ -69,5 +70,9 @@ asar.createPackage(paths.extractedAsar, paths.asar).then(() => {
   rmSync(paths.extractedAsar, { recursive: true });
   Log.success('Done\n');
 
-  process.exit(0);
+  dialog.showMessageBox({
+    title: 'Done',
+    type: 'info',
+    message: 'Deezer Tweaker was successfully injected into Deezer.'
+  }).then(() => process.exit(0));
 });

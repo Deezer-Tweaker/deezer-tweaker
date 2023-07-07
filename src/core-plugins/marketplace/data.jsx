@@ -43,6 +43,7 @@ const DataComponent = ({ data, title, error }) => {
                           } else {
                             fs.rmdirSync(join(paths.data, 'plugins', plugin.name), { recursive: true });
                             isDownloaded(false);
+                            asar.extractAll(paths.asarBackup, paths.extractedAsar);
                             require('../utils/core');
                             //require(join(paths.data, 'plugins', plugin.name, `${plugin.name}.js`).replaceAll('\\', '\\\\')).stop(window.DeezerTweaker.pluginObject);
                             asar.createPackage(paths.extractedAsar, paths.asar).then(() => {

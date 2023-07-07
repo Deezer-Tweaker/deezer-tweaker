@@ -41,7 +41,6 @@ const themesDir = join(paths.data, 'themes');
 if (!existsSync(pluginsDir)) mkdirSync(pluginsDir);
 if (!existsSync(themesDir)) mkdirSync(themesDir);
 
-
 if (existsSync(paths.extractedAsar) && statSync(paths.extractedAsar).isDirectory()) {
   Log.info('Deleting extracted ASAR folder...');
   rmSync(paths.extractedAsar, { recursive: true });
@@ -57,6 +56,7 @@ copyNodeModule('@electron/asar');
 copyNodeModule('chromium-pickle-js');
 copySync(join(__dirname, '..', 'utils'), join(paths.extractedAsar, 'utils'));
 copySync(join(__dirname, 'core.js'), join(paths.extractedAsar, 'utils', 'core.js'));
+copySync(__dirname, join(paths.extractedAsar, 'dtjs'));
 require('./core');
 Log.success('Done\n');
 

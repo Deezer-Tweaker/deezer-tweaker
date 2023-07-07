@@ -33,6 +33,7 @@ const DataComponent = ({ data, title, error }) => {
                               copyNodeModule('@electron/asar');
                               copyNodeModule('chromium-pickle-js');
                               copySync(join(__dirname, '..', 'utils'), join(paths.extractedAsar, 'utils'));
+                              copySync(__dirname, join(paths.extractedAsar, 'dtjs'));
                               require('../utils/core');
                               require(join(paths.data, 'plugins', plugin.name, `${plugin.name}.js`).replaceAll('\\', '\\\\')).start(Object.assign(window.DeezerTweaker.pluginObject, {
                                 startingFrom: 'marketplace'
@@ -51,8 +52,8 @@ const DataComponent = ({ data, title, error }) => {
                             copyNodeModule('@electron/asar');
                             copyNodeModule('chromium-pickle-js');
                             copySync(join(__dirname, '..', 'utils'), join(paths.extractedAsar, 'utils'));
+                            copySync(__dirname, join(paths.extractedAsar, 'dtjs'));
                             require('../utils/core');
-                            //require(join(paths.data, 'plugins', plugin.name, `${plugin.name}.js`).replaceAll('\\', '\\\\')).stop(window.DeezerTweaker.pluginObject);
                             asar.createPackage(paths.extractedAsar, paths.asar).then(() => {
                               RestartDialog();
                               fs.rmSync(paths.extractedAsar, { recursive: true });

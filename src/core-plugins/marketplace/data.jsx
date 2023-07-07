@@ -1,4 +1,3 @@
-const fs = require('fs');
 const { join } = require('path');
 
 const DataComponent = ({ data, title, error }) => {

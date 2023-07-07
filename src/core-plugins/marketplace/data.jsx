@@ -23,12 +23,14 @@ const DataComponent = ({ data, title, error }) => {
                         type="button" className="chakra-button action-item-tempo-btn action-force css-1sqw0k3 e3mndjk0"
                         onClick={() => {
                           if (!downloaded) {
+                            if (!fs.existsSync(join(paths.data, 'plugins', plugin.name))) mkdirSync(join(paths.data, 'plugins', plugin.name));
                             fetch(plugin.file).then(res => res.text()).then(res => {
-                              fs.writeFileSync(join(paths.data, 'plugins', `${plugin.name}.js`), res);
-                              isDownloaded(true);
+                              fs.writeFileSync(join(paths.data, 'plugins', plugin.name, `${plugin.name}.js`), res);
                             });
+                            fs.writeFileSync(join(paths.data, 'plugins', plugin.name, 'manifest.json'), JSON.stringify(plugin));
+                            isDownloaded(true);
                           } else {
-                            fs.rmSync(join(paths.data, 'plugins', `${plugin.name}.js`));
+                            fs.rmdirSync(join(paths.data, 'plugins', plugin.name), { recursive: true });
                             isDownloaded(false);
                           }
                         }}

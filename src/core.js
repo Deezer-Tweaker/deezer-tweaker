@@ -28,6 +28,11 @@ replaceInFile(
 );
 replaceInFile(
   join(paths.extractedAsar, 'build', 'assets', 'cache', 'js', 'route-naboo.fda0f9eaad2eeb36f5b5.js'),
+  /(\/\*! For license information please see)/g,
+  `window.DeezerTweaker={};window.DeezerTweaker.paths=${JSON.stringify(paths)};\n$1`
+);
+replaceInFile(
+  join(paths.extractedAsar, 'build', 'assets', 'cache', 'js', 'route-naboo.fda0f9eaad2eeb36f5b5.js'),
   /(\{id:"profile",icon:Jn,label:Object\(q\.a\)\("menu_title_favorites_web"\),to:`\/\$\{r}\/profile\/\$\{e}`,isMain:!0})/g,
   '$1, { id: "deezer-tweaker-marketplace", icon: null, label: "Marketplace", to: `/${r}/deezer-tweaker/marketplace`, isMain: true }'
 );
@@ -39,7 +44,7 @@ replaceInFile(
 replaceInFile(
   join(paths.extractedAsar, 'build', 'assets', 'cache', 'js', 'app-web.b8b99a13a697527a646c.js'),
   /(,{exact:!0,path:"\/",redirectTo:`\/\$\{e}\/`})/g,
-  `$1,{ exact: true, path: b('/deezer-tweaker/marketplace'), component: ${require(resolve('src', 'core-plugins', 'marketplace', 'index.js')).toString().replaceAll(/require\('(..?\/[a-zA-Z]+)'\)/g, (str, $1) => readFileSync(resolve('src', 'core-plugins', 'marketplace', $1 + '.js')).toString())} }`
+  `$1,{ exact: true, path: b('/deezer-tweaker/marketplace'), component: ${require(resolve('src', 'core-plugins', 'marketplace', 'index.js')).toString().replaceAll(/require\('(.+\/+[a-zA-Z]+)'\)/g, (str, $1) => readFileSync(resolve('src', 'core-plugins', 'marketplace', $1 + '.js')).toString())} }`
 );
 replaceInFile(
   join(paths.extractedAsar, 'build', 'assets', 'cache', 'js', 'player-HTML5Renderer.60c297eb497cca6ab0eb.js'),

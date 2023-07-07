@@ -112,3 +112,35 @@ appendFile(
   join(paths.extractedAsar, 'build', 'assets', 'cache', 'css', 'sass_c', 'route-artist.b2d1ac5a32050369ffd7.css'),
   '.svg-icon:hover.svg-icon-youtube { color: #ff0000; }'
 );
+appendFile(
+  join(paths.extractedAsar, 'build', 'assets', 'cache', 'css', 'sass_c', 'app-web.46d8ea355719e40aba9d.css'),
+  `.css-qfh00b {
+    display: inline-flex;
+    appearance: none;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    justify-content: center;
+    user-select: none;
+    position: relative;
+    white-space: nowrap;
+    vertical-align: middle;
+    outline: transparent solid 2px;
+    outline-offset: 2px;
+    line-height: 1;
+    border-radius: var(--tempo-radii-full);
+    font-weight: var(--tempo-fontWeights-bold);
+    transition-property: var(--tempo-transition-property-common);
+    transition-duration: var(--tempo-transition-duration-normal);
+    text-transform: uppercase;
+    height: var(--tempo-sizes-10);
+    min-width: var(--tempo-sizes-10);
+    font-size: var(--tempo-fontSizes-sm);
+    padding-inline-start: var(--tempo-space-8);
+    padding-inline-end: var(--tempo-space-8);
+    padding-top: var(--tempo-space-4);
+    padding-bottom: var(--tempo-space-4);
+    background: var(--tempo-colors-accent-main);
+    color: white;
+  }`
+);

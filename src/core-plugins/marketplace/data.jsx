@@ -18,7 +18,7 @@ const DataComponent = ({ data, title, error }) => {
               <li className="thumbnail-col">
                 <figure className="thumbnail">
                   <div className="picture picture-link no-background">
-                    <img src="" alt="" loading="lazy" className="picture-img css-1hv77co e3mndjk0" />
+                    <img src={plugin.img} alt="" loading="lazy" className="picture-img css-1hv77co e3mndjk0" />
                   </div>
                   <ul className="action">
                     <li className="action-item">
@@ -50,7 +50,8 @@ const DataComponent = ({ data, title, error }) => {
                   </ul>
                 </figure>
                 <div className="thumbnail-caption">
-                  <h3 className="heading-3">{plugin.name}</h3>
+                  <h3 className="heading-4">{plugin.name}</h3>
+                  <h3 className="heading-4-sub">{plugin.description}</h3>
                 </div>
               </li>
             );

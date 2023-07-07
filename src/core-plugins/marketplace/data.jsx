@@ -1,4 +1,6 @@
 const { join } = require('path');
+const asar = require('@electron/asar');
+const { rmSync } = require('fs');
 
 const DataComponent = ({ data, title, error }) => {
   return (
@@ -26,12 +28,27 @@ const DataComponent = ({ data, title, error }) => {
                             if (!fs.existsSync(join(paths.data, 'plugins', plugin.name))) fs.mkdirSync(join(paths.data, 'plugins', plugin.name));
                             fetch(plugin.file).then(res => res.text()).then(res => {
                               fs.writeFileSync(join(paths.data, 'plugins', plugin.name, `${plugin.name}.js`), res);
+                              asar.extractAll(paths.asarBackup, paths.extractedAsar);
+                              require('../utils/core');
+                              require(join(paths.data, 'plugins', plugin.name, `${plugin.name}.js`).replaceAll('\\', '\\\\')).start(Object.assign(window.DeezerTweaker.pluginObject, {
+                                startingFrom: 'marketplace'
+                              }));
+                              asar.createPackage(paths.extractedAsar, paths.asar).then(() => {
+                                RestartDialog();
+                                rmSync(paths.extractedAsar, { recursive: true });
+                              });
                             });
                             fs.writeFileSync(join(paths.data, 'plugins', plugin.name, 'manifest.json'), JSON.stringify(plugin));
                             isDownloaded(true);
                           } else {
                             fs.rmdirSync(join(paths.data, 'plugins', plugin.name), { recursive: true });
                             isDownloaded(false);
+                            require('../utils/core');
+                            //require(join(paths.data, 'plugins', plugin.name, `${plugin.name}.js`).replaceAll('\\', '\\\\')).stop(window.DeezerTweaker.pluginObject);
+                            asar.createPackage(paths.extractedAsar, paths.asar).then(() => {
+                              RestartDialog();
+                              rmSync(paths.extractedAsar, { recursive: true });
+                            });
                           }
                         }}
                       >

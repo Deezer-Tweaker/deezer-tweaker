@@ -1,6 +1,9 @@
 const { join } = require('path');
 const asar = require('@electron/asar');
-const { rmSync } = require('fs');
+const { rmSync, cpSync } = require('fs');
+const { copyNodeModule } = require('../../../utils/asar');
+const { copySync } = require('fs-extra');
+const paths = require('../../../utils/paths');
 
 const DataComponent = ({ data, title, error }) => {
   return (
@@ -29,6 +32,10 @@ const DataComponent = ({ data, title, error }) => {
                             fetch(plugin.file).then(res => res.text()).then(res => {
                               fs.writeFileSync(join(paths.data, 'plugins', plugin.name, `${plugin.name}.js`), res);
                               asar.extractAll(paths.asarBackup, paths.extractedAsar);
+                              copyNodeModule('@electron/asar');
+                              copyNodeModule('chromium-pickle-js');
+                              copySync(join(__dirname, '..', 'utils'), join(paths.extractedAsar, 'utils'));
+                              cpSync(join(__dirname, 'core.js'), join(paths.extractedAsar, 'utils', 'core.js'));
                               require('../utils/core');
                               require(join(paths.data, 'plugins', plugin.name, `${plugin.name}.js`).replaceAll('\\', '\\\\')).start(Object.assign(window.DeezerTweaker.pluginObject, {
                                 startingFrom: 'marketplace'
@@ -44,6 +51,10 @@ const DataComponent = ({ data, title, error }) => {
                             fs.rmdirSync(join(paths.data, 'plugins', plugin.name), { recursive: true });
                             isDownloaded(false);
                             asar.extractAll(paths.asarBackup, paths.extractedAsar);
+                            copyNodeModule('@electron/asar');
+                            copyNodeModule('chromium-pickle-js');
+                            copySync(join(__dirname, '..', 'utils'), join(paths.extractedAsar, 'utils'));
+                            cpSync(join(__dirname, 'core.js'), join(paths.extractedAsar, 'utils', 'core.js'));
                             require('../utils/core');
                             //require(join(paths.data, 'plugins', plugin.name, `${plugin.name}.js`).replaceAll('\\', '\\\\')).stop(window.DeezerTweaker.pluginObject);
                             asar.createPackage(paths.extractedAsar, paths.asar).then(() => {

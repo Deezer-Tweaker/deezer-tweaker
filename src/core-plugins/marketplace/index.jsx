@@ -6,6 +6,7 @@ module.exports = () => {
   require('./data');
   require('./plugins');
   require('./themes');
+  require('./installed');
   const { paths } = window.DeezerTweaker;
 
   return (
@@ -15,14 +16,7 @@ module.exports = () => {
         <Tabs items={[
           { name: 'Plugins', hideTitle: true, component: <PluginsComponent /> },
           { name: 'Themes', hideTitle: true, component: <ThemesComponent /> },
-          { name: 'Installed', hideTitle: true, component:
-            <>
-              <DataComponent title="Plugins" data={fs.readdirSync(join(paths.data, 'plugins')).map(f => {
-                return require(join(paths.data, 'plugins', f, 'manifest.json'));
-              })} />
-              <DataComponent title="Themes" data={[]} />
-            </>
-          },
+          { name: 'Installed', hideTitle: true, component: <InstalledComponent /> },
         ]} />
       </div>
     </>

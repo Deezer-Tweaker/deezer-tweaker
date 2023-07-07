@@ -16,7 +16,7 @@ const loadPlugins = () => {
   const plugins = readdirSync(pluginsDir);
 
   plugins.forEach((p) => {
-    const plugin = require(join(pluginsDir, p));
+    const plugin = require(join(pluginsDir, p, `${p}.js`));
     if (!plugin.name) {
       Log.error(`Plugin ${p} is missing a name!`);
       return;

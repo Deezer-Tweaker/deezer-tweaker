@@ -5,6 +5,7 @@ const asar = require('@electron/asar');
 const { existsSync, statSync, rmSync, mkdirSync, writeFileSync } = require('fs');
 const Deezer = require('../utils/app');
 const { join } = require('path');
+const { copyNodeModule } = require('../utils/asar');
 
 if (!existsSync(paths.program)) {
   Log.error('Deezer is not installed!');
@@ -44,6 +45,8 @@ asar.extractAll(paths.asarBackup, paths.extractedAsar);
 Log.success('Done\n');
 
 Log.info('Injecting Deezer Tweaker...');
+copyNodeModule('@electron/asar');
+copyNodeModule('chromium-pickle-js');
 require('./core');
 Log.success('Done\n');
 

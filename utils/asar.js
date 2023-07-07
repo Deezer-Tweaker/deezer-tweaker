@@ -1,7 +1,8 @@
 const originalFs = require('original-fs');
-const { readFileSync, writeFileSync } = require('fs');
+const { readFileSync, writeFileSync, mkdirSync } = require('fs');
 const { join } = require('path');
 const paths = require('./paths');
+const { copySync } = require('fs-extra');
 
 module.exports.replaceInAsarFile = (path, search, replace) => {
   const asar = originalFs.readFileSync(paths.asar, 'utf8');
@@ -25,4 +26,9 @@ module.exports.appendFile = (path, string) => {
 
 module.exports.injectCss = (css) => {
   module.exports.appendFile(join(paths.extractedAsar, 'build', 'assets', 'cache', 'css', 'sass_c', 'route-naboo.16f0341a6ad88bae835d.css'), css);
+};
+
+module.exports.copyNodeModule = (module) => {
+  module.split('/').length === 2 && mkdirSync(join(paths.extractedAsar, 'node_modules', module.split('/')[0]));
+  copySync(join(__dirname, '..', 'node_modules', module), join(paths.extractedAsar, 'node_modules', module));
 };

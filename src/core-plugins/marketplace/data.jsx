@@ -9,7 +9,7 @@ const DataComponent = ({ data, title, error }) => {
       <div className="container">
         <ul className="thumbnail-grid thumbnail-grid-responsive">
           {data.map(plugin => {
-            const [downloaded, isDownloaded] = React.useState(fs.existsSync(join(paths.data, 'plugins', `${plugin.name}.js`)));
+            const [downloaded, isDownloaded] = React.useState(fs.existsSync(join(paths.data, 'plugins', plugin.name, `${plugin.name}.js`)));
 
             return (
               <li className="thumbnail-col">

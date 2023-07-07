@@ -3,7 +3,7 @@ const { join } = require('path');
 const DataComponent = ({ data, title, error }) => {
   return (
     <>
-      <div className="container" style={{ paddingTop: 0 }}>
+      <div className="container" style={{ padding: 0 }}>
         <h2 className="heading-2">{title}</h2>
       </div>
       <div className="container">

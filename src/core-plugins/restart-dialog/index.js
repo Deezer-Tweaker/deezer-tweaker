@@ -8,16 +8,16 @@ const RestartDialog = () => {
   <div class="modal-backdrop" style="opacity: 0.8;"></div>
   <div class="modal-wrapper">
     <div class="modal-dialog" style="opacity: 1;">
-      <div class="modal-conversion">
+      <div class="modal-conversion" style="padding: 50px 0">
         <h3 class="heading-3">Restart Deezer to apply plugins</h3>
-        <div>
-          <button onclick="(() => {
+        <div style="margin-top: var(--tempo-space-6); gap: 20px; display: flex; justify-content: center">
+          <button class="chakra-button css-qfh00b e3mndjk0" onclick="(() => {
             require('child_process').spawn(join(paths.program, 'Deezer.exe'), [], {
               detached: true
             });
             process.exit(0);
           })()">Restart now</button>
-          <button onclick="document.querySelector('.naboo #restart-dialog').remove()">Restart later</button>
+          <button class="chakra-button css-qfh00b e3mndjk0" onclick="document.querySelector('.naboo #restart-dialog').remove()">Restart later</button>
         </div>
       </div>
     </div>

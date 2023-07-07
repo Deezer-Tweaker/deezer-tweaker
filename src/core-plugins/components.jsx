@@ -100,3 +100,7 @@ const Checkbox = ({ enabled = false, onChange }) => {
     </div>
   );
 }
+
+const Button = ({ children, onClick }) => {
+  return <button className="chakra-button css-qfh00b e3mndjk0" onClick={onClick}>{children}</button>
+}

@@ -21,7 +21,9 @@ const Tabs = ({ items }) => {
           </div>
         }
         <div className="container">
-          {items[activeTab].component}
+            <React.Suspense fallback={<div>Loading...</div>}>
+            {items[activeTab].component}
+          </React.Suspense>
         </div>
       </div>
     </>

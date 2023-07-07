@@ -23,7 +23,7 @@ const DataComponent = ({ data, title, error }) => {
                         type="button" className="chakra-button action-item-tempo-btn action-force css-1sqw0k3 e3mndjk0"
                         onClick={() => {
                           if (!downloaded) {
-                            if (!fs.existsSync(join(paths.data, 'plugins', plugin.name))) mkdirSync(join(paths.data, 'plugins', plugin.name));
+                            if (!fs.existsSync(join(paths.data, 'plugins', plugin.name))) fs.mkdirSync(join(paths.data, 'plugins', plugin.name));
                             fetch(plugin.file).then(res => res.text()).then(res => {
                               fs.writeFileSync(join(paths.data, 'plugins', plugin.name, `${plugin.name}.js`), res);
                             });

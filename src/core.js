@@ -49,7 +49,7 @@ replaceInFile(
   };
   window.DeezerTweaker.pluginObject = pluginObject;
   readdirSync(join(paths.data, 'plugins')).forEach(f => {
-    const plugin = require(join(paths.data, 'plugins', f, \`\${f}.js\`);
+    const plugin = require(join(paths.data, 'plugins', f, \`\${f}.js\`));
     const jsCachePath = join(paths.extractedAsar, 'build', 'assets', 'cache', 'js');
     if (plugin.replacements && plugin.replacements.length !== 0) plugin.replacements.forEach(replacement => {
       require('../utils/asar').replaceInFile(replacement.file.replace('%jsCache%', jsCachePath), replacement.find, replacement.replace);

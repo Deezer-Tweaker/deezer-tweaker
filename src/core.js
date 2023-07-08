@@ -33,7 +33,7 @@ replaceInFile(
   `window.DeezerTweaker = {};
   window.DeezerTweaker.paths = ${JSON.stringify(paths)};
   window.DeezerTweaker.installedPlugins = ${JSON.stringify(fs.readdirSync(join(paths.data, 'plugins')).map(f => {
-    return require(join(paths.data, 'plugins', f, 'manifest.json'));
+    return require(join(paths.data, 'plugins', f, `${f}.js`));
   }))};
   const { join } = require('path');
   const { readFileSync, writeFileSync, readdirSync } = require('fs');

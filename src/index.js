@@ -36,6 +36,14 @@ if (!existsSync(paths.data)) {
   Log.success('Done\n');
 }
 
+const pluginsDir = join(paths.data, 'plugins');
+const themesDir = join(paths.data, 'themes');
+const settingsDir = join(paths.data, 'settings');
+
+if (!existsSync(pluginsDir)) mkdirSync(pluginsDir);
+if (!existsSync(themesDir)) mkdirSync(themesDir);
+if (!existsSync(settingsDir)) mkdirSync(settingsDir);
+
 if (existsSync(paths.extractedAsar) && statSync(paths.extractedAsar).isDirectory()) {
   Log.info('Deleting extracted ASAR folder...');
   rmSync(paths.extractedAsar, { recursive: true });

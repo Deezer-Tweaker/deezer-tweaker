@@ -104,3 +104,33 @@ const Checkbox = ({ enabled = false, onChange }) => {
 const Button = ({ children, onClick }) => {
   return <button className="chakra-button css-qfh00b e3mndjk0" onClick={onClick}>{children}</button>
 }
+
+const Switch = ({ label, enabled = false }) => {
+  const [isChecked, setIsChecked] = React.useState(enabled);
+
+  return (
+    <div className="css-70qvj9 e3mndjk0">
+      <label id="field-:rj:-label" htmlFor="field-:rj:" className="chakra-form__label css-1gt16kl e3mndjk0">{label}</label>
+      <label className="chakra-switch setting-input-item css-1g4burd e3mndjk0" data-checked={isChecked}>
+        <input
+          className="chakra-switch__input" type="checkbox" id="field-:rj:" aria-invalid="false" aria-disabled="false"
+          value aria-describedby="field-:rj:-helptext" onChange={() => setIsChecked(!isChecked)}
+          style={{
+            border: '0px', clip: 'rect(0px, 0px, 0px, 0px)', height: '1px', width: '1px', margin: '-1px', padding: '0px',
+            overflow: 'hidden', whiteSpace: 'nowrap', position: 'absolute'
+          }}
+        />
+        <span aria-hidden="true" className="chakra-switch__track css-1967ax6 e3mndjk0" data-checked={isChecked}>
+          <span className="chakra-switch__thumb css-1wgv1b1 e3mndjk0" data-checked={isChecked}></span>
+        </span>
+      </label>
+    </div>
+  );
+}
+
+const Modal = () => {
+  const modal = Object(window.DeezerTweaker.importWebpackModule('Ty5D').i)(Object(window.DeezerTweaker.importWebpackModule('/MKj').b(null, {
+    openModal: window.DeezerTweaker.importWebpackModule('bkRl').c
+  })))({ name: 'a' });
+  require('react-dom').render(modal, document.querySelector('.naboo'));
+}

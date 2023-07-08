@@ -49,9 +49,12 @@ replaceInFile(
   };
   window.DeezerTweaker.pluginObject = pluginObject;
   readdirSync(join(paths.data, 'plugins')).forEach(f => {
-    require(join(paths.data, 'plugins', f, \`\${f}.js\`).replaceAll('\\\\', '\\\\\\\\')).start(Object.assign(pluginObject, {
-      startingFrom: 'app_start'
-    }));
+    const plugin = require(join(paths.data, 'plugins', f, \`\${f}.js\`);
+    const jsCachePath = join(paths.extractedAsar, 'build', 'assets', 'cache', 'js');
+    if (plugin.replacements && plugin.replacements.length !== 0) plugin.replacements.forEach(replacement => {
+      require('../utils/asar').replaceInFile(replacement.file.replace('%jsCache%', jsCachePath), replacement.find, replacement.replace);
+    });
+    if (plugin.css && typeof plugin.css === 'string' && plugin.css.trim() !== '') require('../utils/asar').injectCss(plugin.css);
   });
   \n$1`
 );

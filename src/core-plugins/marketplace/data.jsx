@@ -70,7 +70,24 @@ const DataComponent = ({ data, title, error }) => {
                       {plugin.settings &&
                         <button
                           type="button" className="chakra-button action-item-tempo-btn action-force css-1sqw0k3 e3mndjk0"
-                          onClick={() => <Modal />}
+                          onClick={() => Modal({
+                            title: `${plugin.name} Settings`,
+                            body: () => <div style={{ padding: '20px' }}>{
+                              plugin.settings.map(setting => {
+                                if (setting.type === 'button') {
+                                  return (
+                                    <FormGroup>
+                                      <Button onClick={(e) => {
+                                        e.preventDefault();
+                                        setting.onClick();
+                                      }}>{setting.label}</Button>
+                                      {setting.subtext && <Subtext>{setting.subtext}</Subtext>}
+                                    </FormGroup>
+                                  );
+                                }
+                              })
+                            }</div>
+                          })}
                         >
                           <svg
                             viewBox="0 0 16 16" focusable="false" width="1em" height="1em" className="chakra-icon css-2zrqo5 e3mndjk0 svg-icon"

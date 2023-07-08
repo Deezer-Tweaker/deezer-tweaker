@@ -48,15 +48,7 @@ replaceInFile(
     }, paths: window.DeezerTweaker.paths
   };
   window.DeezerTweaker.pluginObject = pluginObject;
-  readdirSync(join(paths.data, 'plugins')).forEach(f => {
-    const plugin = require(join(paths.data, 'plugins', f, \`\${f}.js\`));
-    const jsCachePath = join(paths.extractedAsar, 'build', 'assets', 'cache', 'js');
-    if (plugin.replacements && plugin.replacements.length !== 0) plugin.replacements.forEach(replacement => {
-      require('../utils/asar').replaceInFile(replacement.file.replace('%jsCache%', jsCachePath), replacement.find, replacement.replace);
-    });
-    if (plugin.css && typeof plugin.css === 'string' && plugin.css.trim() !== '') require('../utils/asar').injectCss(plugin.css);
-  });
-  \n$1`
+  require('../utils/plugins').apply(true);\n$1`
 );
 replaceInFile(
   join(paths.extractedAsar, 'build', 'assets', 'cache', 'js', 'route-naboo.fda0f9eaad2eeb36f5b5.js'),

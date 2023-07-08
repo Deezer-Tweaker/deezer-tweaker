@@ -6,6 +6,7 @@ module.exports = () => {
   require('./plugins');
   require('./themes');
   require('./installed');
+  require('./settings');
   require('../restart-dialog/index');
   const { paths } = window.DeezerTweaker;
 
@@ -17,6 +18,7 @@ module.exports = () => {
           { name: 'Plugins', hideTitle: true, component: <PluginsComponent /> },
           { name: 'Themes', hideTitle: true, component: <ThemesComponent /> },
           { name: 'Installed', hideTitle: true, component: <InstalledComponent /> },
+          { name: 'Settings', component: <SettingsComponent /> },
         ]} />
       </div>
     </>

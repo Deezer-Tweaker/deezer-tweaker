@@ -128,9 +128,47 @@ const Switch = ({ label, enabled = false }) => {
   );
 }
 
-const Modal = () => {
-  const modal = Object(window.DeezerTweaker.importWebpackModule('Ty5D').i)(Object(window.DeezerTweaker.importWebpackModule('/MKj').b(null, {
-    openModal: window.DeezerTweaker.importWebpackModule('bkRl').c
-  })))({ name: 'a' });
-  require('react-dom').render(modal, document.querySelector('.naboo'));
+const Label = ({ htmlFor, children }) => {
+  return <label htmlFor={htmlFor} className="chakra-form__label css-8m1z4 e3mndjk0">{children}</label>;
+}
+
+const Subtext = ({ children }) => {
+  return <div className="chakra-form__helper-text css-z6jnh4 e3mndjk0">{children}</div>;
+}
+
+const Input = ({ type = 'text', name, id = name, value: _v }) => {
+  const [value, setValue] = React.useState(_v);
+
+  return <input
+    type={type} name={name} id={id} className="chakra-input css-1lus2zd e3mndjk0" value={value}
+    onChange={(e) => setValue(e.target.value)}
+  />;
+}
+
+const FormGroup = ({ children }) => {
+  return <div className="chakra-form-control css-1kxonj9 e3mndjk0" role="group">{children}</div>;
+}
+
+const Modal = ({ size = 'large', closable = true, title, body }) => {
+  const div = document.createElement('div');
+  div.classList.add('modal-div-container');
+  document.querySelector('#dzr-app .naboo').appendChild(div);
+  const container = document.querySelector('#dzr-app .naboo .modal-div-container');
+
+  const modal = (
+    <div className="modal" role="dialog" aria-hidden="false">
+      <div className="modal-backdrop" style={{ opacity: 0.8 }}></div>
+      <div className="modal-wrapper">
+        <div className={`modal-dialog modal-${size}`} style={{ opacity: 1 }} onBlur={() => container.remove()}>
+          <div>
+            {closable && <button className="modal-close icon icon-cancel" id="modal-close" onClick={() => container.remove()}></button>}
+            <div id="modal_title" className="modal-header">{title}</div>
+            <div className="modal-body">{typeof body === 'function' ? body() : body}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
+  require('react-dom/client').createRoot(container).render(modal);
 }

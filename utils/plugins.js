@@ -17,13 +17,14 @@ module.exports.apply = (startup = false) => {
     if (plugin.inject && typeof plugin.inject === 'function') {
       if (startup) return;
       plugin.inject({
+        React: require('react'),
         Api: {
           Routes: {
             create(path, component) {
               require('../utils/asar').replaceInFile(
                 join(paths.extractedAsar, 'build', 'assets', 'cache', 'js', 'app-web.b8b99a13a697527a646c.js'),
                 /(,{exact:!0,path:"\/",redirectTo:`\/\$\{e}\/`})/g,
-                `$1,{ exact: true, path: '${path}', redirectTo: \`\\/\\$\\{e}${path}\` },{ exact: true, path: b('${path}'), component: ${component?.toString()} }`
+                `$1,{ exact: true, path: '${path}', redirectTo: \`\\/\\\${e}${path}\` },{ exact: true, path: b('${path}'), component: ${component?.toString()} }`
               );
             },
             redirect(path, to) {

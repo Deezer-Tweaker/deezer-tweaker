@@ -16,7 +16,7 @@ const PluginsComponent = () => {
             data.push({
               name: js.name,
               description: js.description,
-              file: `https://raw.githubusercontent.com/Deezer-Tweaker/community-plugins/main/${name}/${js.main}`,
+              file: `https://raw.githubusercontent.com/Deezer-Tweaker/community-plugins/main/${name}/${name}.js`,
               img: `https://raw.githubusercontent.com/Deezer-Tweaker/community-plugins/main/${name}/${js.screenshot}`,
               settings: js.settings
             });

@@ -9,7 +9,7 @@ const PluginsComponent = () => {
       .then((res) => res.json())
       .then((json) => {
         pluginsNb = json.filter(d => d.type === 'dir').length;
-        json.filter(d => d.type === 'dir').map(({ name }) => {
+        json.filter(d => d.type === 'dir' && d.name !== 'types').map(({ name }) => {
           fetch(`https://raw.githubusercontent.com/Deezer-Tweaker/community-plugins/main/${name}/${name}.js`).then(res => res.text()).then(res => {
             const js = eval?.('(() => {' + res.replace('module.exports =', 'return') + '})();');
             data.push({

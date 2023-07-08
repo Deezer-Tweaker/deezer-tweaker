@@ -71,6 +71,19 @@ const DataComponent = ({ data, title, error }) => {
                           } />
                         </svg>
                       </button>
+                      {plugin.settings &&
+                        <button
+                          type="button" className="chakra-button action-item-tempo-btn action-force css-1sqw0k3 e3mndjk0"
+                          onClick={() => <Modal />}
+                        >
+                          <svg
+                            viewBox="0 0 16 16" focusable="false" width="1em" height="1em" className="chakra-icon css-2zrqo5 e3mndjk0 svg-icon"
+                            aria-hidden="true"
+                          >
+                            <path d="M10.5 7.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3ZM6 7.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Zm-4.5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Z" />
+                          </svg>
+                        </button>
+                      }
                     </li>
                   </ul>
                 </figure>

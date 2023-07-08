@@ -10,12 +10,15 @@ const PluginsComponent = () => {
       .then((json) => {
         pluginsNb = json.filter(d => d.type === 'dir').length;
         json.filter(d => d.type === 'dir').map(({ name }) => {
-          fetch(`https://raw.githubusercontent.com/Deezer-Tweaker/community-plugins/main/${name}/manifest.json`).then(res => res.json()).then(res => {
+          fetch(`https://raw.githubusercontent.com/Deezer-Tweaker/community-plugins/main/${name}/${name}.js`).then(res => res.text()).then(res => {
+            const js = new Function(res);
+            console.log(js);
             data.push({
               name: res.name,
               description: res.description,
               file: `https://raw.githubusercontent.com/Deezer-Tweaker/community-plugins/main/${name}/${res.main}`,
-              img: `https://raw.githubusercontent.com/Deezer-Tweaker/community-plugins/main/${name}/${res.screenshot}`
+              img: `https://raw.githubusercontent.com/Deezer-Tweaker/community-plugins/main/${name}/${res.screenshot}`,
+              settings: res.settings
             });
             setData(data);
           });

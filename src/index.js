@@ -66,7 +66,6 @@ Log.info('Applying plugins...');
 require('../utils/plugins').apply();
 Log.info('Applied plugins\n');
 
-
 Log.info('Recreating the ASAR archive...');
 asar.createPackage(paths.extractedAsar, paths.asar).then(() => {
   Log.success('Done\n');

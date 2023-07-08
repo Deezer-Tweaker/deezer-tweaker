@@ -8,8 +8,9 @@ const PluginsComponent = () => {
     fetch('https://api.github.com/repos/Deezer-Tweaker/community-plugins/contents')
       .then((res) => res.json())
       .then((json) => {
-        pluginsNb = json.filter(d => d.type === 'dir').length;
-        json.filter(d => d.type === 'dir' && d.name !== 'types').map(({ name }) => {
+        const filter = d => d.type === 'dir' && d.name !== 'types';
+        pluginsNb = json.filter(filter).length;
+        json.filter(filter).map(({ name }) => {
           fetch(`https://raw.githubusercontent.com/Deezer-Tweaker/community-plugins/main/${name}/${name}.js`).then(res => res.text()).then(res => {
             const js = eval?.('(() => {' + res.replace('module.exports =', 'return') + '})();');
             data.push({

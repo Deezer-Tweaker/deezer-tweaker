@@ -35,15 +35,12 @@ const DataComponent = ({ data, title, error }) => {
                               copySync(join(__dirname, '..', 'utils'), join(paths.extractedAsar, 'utils'));
                               copySync(__dirname, join(paths.extractedAsar, 'dtjs'));
                               require('../utils/core');
-                              require(join(paths.data, 'plugins', plugin.name, `${plugin.name}.js`).replaceAll('\\', '\\\\')).start(Object.assign(window.DeezerTweaker.pluginObject, {
-                                startingFrom: 'marketplace'
-                              }));
+                              require('../utils/plugins').apply();
                               asar.createPackage(paths.extractedAsar, paths.asar).then(() => {
                                 RestartDialog();
                                 fs.rmSync(paths.extractedAsar, { recursive: true });
                               });
                             });
-                            fs.writeFileSync(join(paths.data, 'plugins', plugin.name, 'manifest.json'), JSON.stringify(plugin));
                             isDownloaded(true);
                           } else {
                             fs.rmdirSync(join(paths.data, 'plugins', plugin.name), { recursive: true });
@@ -54,6 +51,7 @@ const DataComponent = ({ data, title, error }) => {
                             copySync(join(__dirname, '..', 'utils'), join(paths.extractedAsar, 'utils'));
                             copySync(__dirname, join(paths.extractedAsar, 'dtjs'));
                             require('../utils/core');
+                            require('../utils/plugins').apply();
                             asar.createPackage(paths.extractedAsar, paths.asar).then(() => {
                               RestartDialog();
                               fs.rmSync(paths.extractedAsar, { recursive: true });

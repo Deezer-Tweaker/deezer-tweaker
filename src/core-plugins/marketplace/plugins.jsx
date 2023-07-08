@@ -11,14 +11,13 @@ const PluginsComponent = () => {
         pluginsNb = json.filter(d => d.type === 'dir').length;
         json.filter(d => d.type === 'dir').map(({ name }) => {
           fetch(`https://raw.githubusercontent.com/Deezer-Tweaker/community-plugins/main/${name}/${name}.js`).then(res => res.text()).then(res => {
-            const js = new Function(res);
-            console.log(js);
+            const js = eval?.('(() => {' + res.replace('module.exports =', 'return') + '})();');
             data.push({
-              name: res.name,
-              description: res.description,
-              file: `https://raw.githubusercontent.com/Deezer-Tweaker/community-plugins/main/${name}/${res.main}`,
-              img: `https://raw.githubusercontent.com/Deezer-Tweaker/community-plugins/main/${name}/${res.screenshot}`,
-              settings: res.settings
+              name: js.name,
+              description: js.description,
+              file: `https://raw.githubusercontent.com/Deezer-Tweaker/community-plugins/main/${name}/${js.main}`,
+              img: `https://raw.githubusercontent.com/Deezer-Tweaker/community-plugins/main/${name}/${js.screenshot}`,
+              settings: js.settings
             });
             setData(data);
           });

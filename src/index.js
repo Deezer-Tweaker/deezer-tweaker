@@ -36,11 +36,6 @@ if (!existsSync(paths.data)) {
   Log.success('Done\n');
 }
 
-const pluginsDir = join(paths.data, 'plugins');
-const themesDir = join(paths.data, 'themes');
-if (!existsSync(pluginsDir)) mkdirSync(pluginsDir);
-if (!existsSync(themesDir)) mkdirSync(themesDir);
-
 if (existsSync(paths.extractedAsar) && statSync(paths.extractedAsar).isDirectory()) {
   Log.info('Deleting extracted ASAR folder...');
   rmSync(paths.extractedAsar, { recursive: true });
@@ -58,6 +53,11 @@ copySync(join(__dirname, 'core.js'), join(paths.extractedAsar, 'utils', 'core.js
 copySync(__dirname, join(paths.extractedAsar, 'dtjs'));
 require('./core');
 Log.success('Done\n');
+
+Log.info('Applying plugins...');
+require('../utils/plugins').apply();
+Log.info('Applied plugins\n');
+
 
 Log.info('Recreating the ASAR archive...');
 asar.createPackage(paths.extractedAsar, paths.asar).then(() => {

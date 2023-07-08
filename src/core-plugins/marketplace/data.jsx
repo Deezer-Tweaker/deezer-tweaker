@@ -1,6 +1,6 @@
 const { join } = require('path');
 const asar = require('@electron/asar');
-const { copyNodeModule } = require('../utils/asar');
+const { copyModules } = require('../utils/asar');
 const { copySync } = require('fs-extra');
 
 const DataComponent = ({ data, title, error }) => {
@@ -30,8 +30,7 @@ const DataComponent = ({ data, title, error }) => {
                             fetch(plugin.file).then(res => res.text()).then(res => {
                               fs.writeFileSync(join(paths.data, 'plugins', plugin.name, `${plugin.name}.js`), res);
                               asar.extractAll(paths.asarBackup, paths.extractedAsar);
-                              copyNodeModule('@electron/asar');
-                              copyNodeModule('chromium-pickle-js');
+                              copyModules();
                               copySync(join(__dirname, '..', 'utils'), join(paths.extractedAsar, 'utils'));
                               copySync(__dirname, join(paths.extractedAsar, 'dtjs'));
                               require('../utils/core');
@@ -46,8 +45,7 @@ const DataComponent = ({ data, title, error }) => {
                             fs.rmdirSync(join(paths.data, 'plugins', plugin.name), { recursive: true });
                             isDownloaded(false);
                             asar.extractAll(paths.asarBackup, paths.extractedAsar);
-                            copyNodeModule('@electron/asar');
-                            copyNodeModule('chromium-pickle-js');
+                            copyModules();
                             copySync(join(__dirname, '..', 'utils'), join(paths.extractedAsar, 'utils'));
                             copySync(__dirname, join(paths.extractedAsar, 'dtjs'));
                             require('../utils/core');

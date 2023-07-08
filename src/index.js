@@ -5,7 +5,7 @@ const asar = require('@electron/asar');
 const { existsSync, statSync, rmSync, mkdirSync, writeFileSync } = require('fs');
 const Deezer = require('../utils/app');
 const { join } = require('path');
-const { copyNodeModule } = require('../utils/asar');
+const { copyModules } = require('../utils/asar');
 const { copySync } = require('fs-extra');
 const { dialog } = require('electron');
 
@@ -52,8 +52,7 @@ asar.extractAll(paths.asarBackup, paths.extractedAsar);
 Log.success('Done\n');
 
 Log.info('Injecting Deezer Tweaker...');
-copyNodeModule('@electron/asar');
-copyNodeModule('chromium-pickle-js');
+copyModules();
 copySync(join(__dirname, '..', 'utils'), join(paths.extractedAsar, 'utils'));
 copySync(join(__dirname, 'core.js'), join(paths.extractedAsar, 'utils', 'core.js'));
 copySync(__dirname, join(paths.extractedAsar, 'dtjs'));

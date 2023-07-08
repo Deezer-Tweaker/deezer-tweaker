@@ -33,3 +33,8 @@ module.exports.copyNodeModule = (module) => {
     mkdirSync(join(paths.extractedAsar, 'node_modules', module.split('/')[0]));
   copySync(join(__dirname, '..', 'node_modules', module), join(paths.extractedAsar, 'node_modules', module));
 };
+
+module.exports.copyModules = () => {
+  const modules = ['@electron/asar', 'chromium-pickle-js', 'react', 'react-dom', 'scheduler'];
+  modules.forEach(m => module.exports.copyNodeModule(m));
+};

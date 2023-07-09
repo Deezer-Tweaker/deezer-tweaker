@@ -5,5 +5,6 @@ module.exports = {
   asarBackup: join(process.env.LOCALAPPDATA, 'Programs', 'deezer-desktop', 'resources', 'app.asar.bkp'),
   extractedAsar: join(process.env.LOCALAPPDATA, 'Programs', 'deezer-desktop', 'resources', 'app-extracted'),
   program: join(process.env.LOCALAPPDATA, 'Programs', 'deezer-desktop'),
-  data: join(process.env.LOCALAPPDATA, 'deezer-tweaker')
+  data: join(process.env.LOCALAPPDATA, 'deezer-tweaker'),
+  corePlugins: join(process.env.LOCALAPPDATA, 'Programs', 'deezer-desktop', 'resources', 'app.asar', 'dtjs', 'core-plugins')
 };

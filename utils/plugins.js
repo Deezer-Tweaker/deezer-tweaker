@@ -27,10 +27,15 @@ const DeezerTweaker = {
         if (!options.main) options.main = true;
         if (!options.appendAfter) options.appendAfter = true;
         if (!options.appendId) options.appendId = 'profile';
+        const idsList = [
+          'home', 'shows', 'radio', 'explore', 'bugreport', 'profile', 'loved', 'downloads', 'playlists', 'albums',
+          'artists', 'podcasts', 'concerts'
+        ];
+        const nextId = idsList.findIndex(v => v === options.appendId) + 1;
         replaceInFile(
           join(paths.extractedAsar, 'build', 'assets', 'cache', 'js', 'route-naboo.fda0f9eaad2eeb36f5b5.js'),
-          `/{id:"${options.appendId}",...+![0-1]}[,^]/g`,
-          `$1, { id: "${id}", icon: ${icon}, label: "${label}", to: \`${to}\`, isMain: ${options.main.toString()} }`
+          new RegExp(`({id:"${options.appendId}",[a-zA-Z0-9,:()."_\`/\${}!]+})(,{id:"${idsList[nextId]})`),
+          `$1, { id: "${id}", icon: ${icon}, label: "${label}", to: \`${to}\`, isMain: ${options.main.toString()} }$2`
         );
       },
       remove(id) {

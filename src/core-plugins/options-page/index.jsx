@@ -3,7 +3,7 @@ module.exports = () => {
   const fs = require('fs');
   const { join } = require('path');
   const { paths } = window.DeezerTweaker;
-  require('../components');
+  require(paths.corePlugins + '/components');
 
   const HomeComponent = () => {
     const [customCss, setCustomCss] = React.useState(fs.readFileSync(join(paths.data, 'custom.css'), 'utf8'));

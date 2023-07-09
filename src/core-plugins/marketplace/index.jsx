@@ -1,14 +1,14 @@
 module.exports = () => {
   const fs = require('fs');
   const React = r.a;
-  require('../components');
+  const { paths } = window.DeezerTweaker;
+  require(paths.corePlugins + '/components');
   require('./data');
   require('./plugins');
   require('./themes');
   require('./installed');
   require('./settings');
   require('../restart-dialog/index');
-  const { paths } = window.DeezerTweaker;
 
   return (
     <>

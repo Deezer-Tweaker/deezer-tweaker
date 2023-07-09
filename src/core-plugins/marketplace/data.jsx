@@ -1,6 +1,6 @@
 const { join } = require('path');
 const asar = require('@electron/asar');
-const { copyModules } = require('../utils/asar');
+const { copyModules } = require(paths.asar + '/utils/asar');
 const { copySync } = require('fs-extra');
 
 const DataComponent = ({ data, title, error }) => {

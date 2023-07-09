@@ -3,9 +3,9 @@ const { join, resolve } = require('path');
 const paths = require('../utils/paths');
 const { readFileSync } = require('fs');
 const fs = require('fs');
+const { DeezerTweaker } = require('../utils/plugins');
 
-replaceInFile(join(paths.extractedAsar, 'build', 'main.js'), 'function hasDevTools(){return"yes"===process.env.DZ_DEVTOOLS}', 'function hasDevTools(){return true}');
-const cssPath = join(paths.data, 'custom.css');
+DeezerTweaker.App.enableDevTools();
 replaceInFile(
   join(paths.extractedAsar, 'build', 'assets', 'cache', 'js', 'route-naboo.fda0f9eaad2eeb36f5b5.js'),
   /(\{id:"account",label:Object\(q\.a\)\("Paramètres du compte"\),to:"\/account",isMain:!0,isAnimated:!0})/g,
@@ -17,16 +17,8 @@ replaceInFile(
     isAnimated: true
   }`
 );
-replaceInFile(
-  join(paths.extractedAsar, 'build', 'renderer.js'),
-  /(__webpack_exports__)(}\)\(\);)/g,
-  `$1;const customCss = document.createElement('link');
-  customCss.setAttribute('rel', 'stylesheet');
-  customCss.setAttribute('type', 'text/css');
-  customCss.setAttribute('href', '${cssPath.replaceAll('\\', '\\\\')}');
-  customCss.setAttribute('id', 'deezer-tweaker-custom-css');
-  document.head.appendChild(customCss);$2`
-);
+const cssPath = join(paths.data, 'custom.css');
+DeezerTweaker.CSS.injectStyleSheet(cssPath, 'deezer-tweaker-custom-css');
 replaceInFile(
   join(paths.extractedAsar, 'build', 'assets', 'cache', 'js', 'legacy.2bd71c3dfe2c9c3f1a78.js'),
   /(\/\*! For license information please see)/g,
@@ -50,25 +42,24 @@ replaceInFile(
   window.DeezerTweaker.pluginObject = pluginObject;
   require('../utils/plugins').apply(true);\n$1`
 );
-replaceInFile(
-  join(paths.extractedAsar, 'build', 'assets', 'cache', 'js', 'route-naboo.fda0f9eaad2eeb36f5b5.js'),
-  /(\{id:"profile",icon:Jn,label:Object\(q\.a\)\("menu_title_favorites_web"\),to:`\/\$\{r}\/profile\/\$\{e}`,isMain:!0})/g,
-  '$1, { id: "deezer-tweaker-marketplace", icon: null, label: "Marketplace", to: `/${r}/deezer-tweaker/marketplace`, isMain: true }'
+DeezerTweaker.Api.Sidebar.add('deezer-tweaker-marketplace', null, 'Marketplace', '/${r}/deezer-tweaker/marketplace');
+const requireRegex = /require\(paths.([a-zA-Z]+) \+ '(.?.?\/[a-zA-Z]+)'\)/g;
+DeezerTweaker.Api.Routes.create(
+  '/deezer-tweaker',
+  require(resolve(__dirname, typeof window !== 'undefined' ? join('..', 'dtjs') : '.', 'core-plugins', 'options-page', 'index.js')).toString().replaceAll(requireRegex, (str, $1, $2) => {
+    return readFileSync(resolve(paths[$1], $2.replace('/', '') + '.js'), 'utf8');
+  }), false
 );
-replaceInFile(
-  join(paths.extractedAsar, 'build', 'assets', 'cache', 'js', 'app-web.b8b99a13a697527a646c.js'),
-  /(,{exact:!0,path:"\/",redirectTo:`\/\$\{e}\/`})/g,
-  `$1,{ exact: true, path: b('/deezer-tweaker'), component: ${require(resolve(__dirname, typeof window !== 'undefined' ? join('..', 'dtjs') : '.', 'core-plugins', 'options-page', 'index.js')).toString().replaceAll(/require\('(..?\/[a-zA-Z]+)'\)/g, (str, $1) => readFileSync(resolve(__dirname, typeof window !== 'undefined' ? join('..', 'dtjs') : '.', 'core-plugins', 'options-page', $1 + '.js')).toString())} }`
+DeezerTweaker.Api.Routes.create(
+  '/deezer-tweaker/marketplace',
+  require(resolve(__dirname, typeof window !== 'undefined' ? join('..', 'dtjs') : '.', 'core-plugins', 'marketplace', 'index.js')).toString().replaceAll(requireRegex, (str, $1, $2) => {
+    return readFileSync(resolve(paths[$1], $2.replace('/', '') + '.js'), 'utf8');
+  }), false
 );
 replaceInFile(
   join(paths.extractedAsar, 'build', 'assets', 'cache', 'js', 'app-web.b8b99a13a697527a646c.js'),
   /(window.webpackJsonpDeezer=window\.webpackJsonpDeezer\|\|\[]\)\.push\(\[\[66,54],\{"\+jGe":function\(x,e,C\)\{"use strict";)/g,
   '$1window.DeezerTweaker.importWebpackModule=C;'
-);
-replaceInFile(
-  join(paths.extractedAsar, 'build', 'assets', 'cache', 'js', 'app-web.b8b99a13a697527a646c.js'),
-  /(,{exact:!0,path:"\/",redirectTo:`\/\$\{e}\/`})/g,
-  `$1,{ exact: true, path: b('/deezer-tweaker/marketplace'), component: ${require(resolve(__dirname, typeof window !== 'undefined' ? join('..', 'dtjs') : '.', 'core-plugins', 'marketplace', 'index.js')).toString().replaceAll(/require\('(.+\/+[a-zA-Z]+)'\)/g, (str, $1) => readFileSync(resolve(__dirname, typeof window !== 'undefined' ? join('..', 'dtjs') : '.', 'core-plugins', 'marketplace', $1 + '.js')).toString())} }`
 );
 replaceInFile(
   join(paths.extractedAsar, 'build', 'assets', 'cache', 'js', 'player-HTML5Renderer.60c297eb497cca6ab0eb.js'),

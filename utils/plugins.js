@@ -6,18 +6,28 @@ const { replaceInFile, injectCss } = require('./asar');
 
 const DeezerTweaker = {
   CSS: {
+    importCacheStyleSheet(file) {
+      const cssCacheFolder = join(paths.asar, 'build', 'assets', 'cache', 'css', 'sass_c');
+      const cssFile = readdirSync(cssCacheFolder).find(f => f.startsWith(file));
+      this.injectStyleSheet(join(cssCacheFolder, cssFile), file);
+    },
     injectStyleSheet(url, id) {
-      replaceInFile(
-        join(paths.extractedAsar, 'build', 'renderer.js'),
-        /(__webpack_exports__)(}\)\(\);)/g,
-        `$1;
+      const code = `
         const customCss = document.createElement('link');
         customCss.setAttribute('rel', 'stylesheet');
         customCss.setAttribute('type', 'text/css');
         customCss.setAttribute('href', '${url.replaceAll('\\', '\\\\')}');
         customCss.setAttribute('id', '${id}');
-        document.head.appendChild(customCss);$2`
-      );
+        document.head.appendChild(customCss);`;
+      if (typeof window === 'undefined') {
+        replaceInFile(
+          join(paths.extractedAsar, 'build', 'renderer.js'),
+          /(__webpack_exports__)(}\)\(\);)/g,
+          `$1;${code}$2`
+        );
+      } else {
+        eval(code);
+      }
     }
   },
   Api: {

@@ -8,6 +8,7 @@ const { join } = require('path');
 const { copyModules } = require('../utils/asar');
 const { copySync } = require('fs-extra');
 const { dialog } = require('electron');
+const { execSync } = require('child_process');
 
 if (!existsSync(paths.program)) {
   Log.error('Deezer is not installed!');
@@ -50,6 +51,9 @@ if (existsSync(paths.extractedAsar) && statSync(paths.extractedAsar).isDirectory
   Log.success('Done\n');
 }
 
+Log.info('Compiling JSX...');
+Log.success(execSync('babel src/core-plugins/ --out-dir src/core-plugins').toString());
+
 Log.info('Extracting ASAR...');
 asar.extractAll(paths.asarBackup, paths.extractedAsar);
 Log.success('Done\n');
@@ -64,7 +68,7 @@ Log.success('Done\n');
 
 Log.info('Applying plugins...');
 require('../utils/plugins').apply();
-Log.info('Applied plugins\n');
+Log.success('Applied plugins\n');
 
 Log.info('Recreating the ASAR archive...');
 asar.createPackage(paths.extractedAsar, paths.asar).then(() => {

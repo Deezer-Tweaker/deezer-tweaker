@@ -111,7 +111,7 @@ const Switch = ({ label, enabled = false }) => {
   return (
     <div className="css-70qvj9 e3mndjk0">
       <label id="field-:rj:-label" htmlFor="field-:rj:" className="chakra-form__label css-1gt16kl e3mndjk0">{label}</label>
-      <label className="chakra-switch setting-input-item css-1g4burd e3mndjk0" data-checked={isChecked}>
+      <label className="chakra-switch setting-input-item css-1g4burd e3mndjk0" data-checked={isChecked || undefined}>
         <input
           className="chakra-switch__input" type="checkbox" id="field-:rj:" aria-invalid="false" aria-disabled="false"
           value aria-describedby="field-:rj:-helptext" onChange={() => setIsChecked(!isChecked)}
@@ -120,8 +120,8 @@ const Switch = ({ label, enabled = false }) => {
             overflow: 'hidden', whiteSpace: 'nowrap', position: 'absolute'
           }}
         />
-        <span aria-hidden="true" className="chakra-switch__track css-1967ax6 e3mndjk0" data-checked={isChecked}>
-          <span className="chakra-switch__thumb css-1wgv1b1 e3mndjk0" data-checked={isChecked}></span>
+        <span aria-hidden="true" className="chakra-switch__track css-1967ax6 e3mndjk0" data-checked={isChecked || undefined}>
+          <span className="chakra-switch__thumb css-1wgv1b1 e3mndjk0" data-checked={isChecked || undefined}></span>
         </span>
       </label>
     </div>

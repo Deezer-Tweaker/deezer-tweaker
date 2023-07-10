@@ -105,7 +105,7 @@ const Button = ({ children, onClick }) => {
   return <button className="chakra-button css-qfh00b e3mndjk0" onClick={onClick}>{children}</button>
 }
 
-const Switch = ({ label, enabled = false }) => {
+const Switch = ({ label, enabled = false, onChange }) => {
   const [isChecked, setIsChecked] = React.useState(enabled);
 
   return (
@@ -114,7 +114,10 @@ const Switch = ({ label, enabled = false }) => {
       <label className="chakra-switch setting-input-item css-1g4burd e3mndjk0" data-checked={isChecked || undefined}>
         <input
           className="chakra-switch__input" type="checkbox" id="field-:rj:" aria-invalid="false" aria-disabled="false"
-          value aria-describedby="field-:rj:-helptext" onChange={() => setIsChecked(!isChecked)}
+          value aria-describedby="field-:rj:-helptext" onChange={(e) => {
+            setIsChecked(!isChecked);
+            onChange(e);
+          }}
           style={{
             border: '0px', clip: 'rect(0px, 0px, 0px, 0px)', height: '1px', width: '1px', margin: '-1px', padding: '0px',
             overflow: 'hidden', whiteSpace: 'nowrap', position: 'absolute'

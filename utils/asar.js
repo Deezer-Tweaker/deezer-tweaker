@@ -35,6 +35,6 @@ module.exports.copyNodeModule = (module) => {
 };
 
 module.exports.copyModules = () => {
-  const modules = ['@electron/asar', 'chromium-pickle-js', 'react', 'react-dom', 'scheduler'];
+  const modules = ['@electron/asar', 'chromium-pickle-js', 'react', 'react-dom', 'scheduler', 'loose-envify'];
   modules.forEach(m => module.exports.copyNodeModule(m));
 };

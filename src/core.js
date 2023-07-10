@@ -24,6 +24,7 @@ replaceInFile(
   /(\/\*! For license information please see)/g,
   `window.DeezerTweaker = {};
   window.DeezerTweaker.paths = ${JSON.stringify(paths)};
+  require('../dtjs/core-plugins/updater/index');
   window.DeezerTweaker.installedPlugins = ${JSON.stringify(fs.readdirSync(join(paths.data, 'plugins')).map(f => {
     return require(join(paths.data, 'plugins', f, `${f}.js`));
   }))};

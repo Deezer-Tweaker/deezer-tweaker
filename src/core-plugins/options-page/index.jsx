@@ -29,12 +29,33 @@ module.exports = () => {
     );
   }
 
+  const SettingsComponent = () => {
+    const settings = fs.existsSync(join(paths.data, 'settings.json')) ? require(join(paths.data, 'settings.json')) : {};
+    if (typeof settings.notification_if_update_available === 'undefined') settings.notification_if_update_available = true;
+    const applySetting = (key, value) => {
+      settings[key] = value;
+      fs.writeFileSync(join(paths.data, 'settings.json'), JSON.stringify(settings));
+    }
+
+    return (
+      <>
+        <FormGroup>
+          <Switch
+            enabled={settings.notification_if_update_available}
+            onChange={(e) => applySetting('notification_if_update_available', e.target.checked)}
+            label="Enable sending a notification when an update is available"
+          />
+        </FormGroup>
+      </>
+    );
+  }
+
   return (
     <div className="container">
       <h1 className="heading-1">Deezer Tweaker</h1>
       <Tabs items={[
         { name: 'Deezer Tweaker', component: <HomeComponent /> },
-        { name: 'Settings', component: () => {} }
+        { name: 'Settings', component: <SettingsComponent /> }
       ]} />
     </div>
   );

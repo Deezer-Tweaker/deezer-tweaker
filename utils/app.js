@@ -2,16 +2,26 @@ const { execSync, spawn } = require('child_process');
 const paths = require('./paths');
 const { join } = require('path');
 
-const process = 'Deezer.exe';
-module.exports = { process };
-
 module.exports.kill = () => {
-  if (execSync('tasklist').includes(process)) execSync(`taskkill /f /im ${process}`);
+  let command, proc;
+  if (process.platform === 'win32') {
+    command = 'tasklist'; proc = 'Deezer.exe';
+  } else if (process.platform === 'darwin') {
+    command = 'ps -ef'; proc = '/Applications/Deezer.app';
+  }
+  if (execSync(command).includes(proc))
+    execSync(process.platform === 'win32' ? `taskkill /f /im ${proc}` : `killall Deezer`);
 };
 
 module.exports.relaunch = () => {
   module.exports.kill();
-  spawn(join(paths.program, process), [], {
-    detached: true
-  });
+  if (process.platform === 'win32') {
+    spawn(join(paths.program, 'Deezer.exe'), [], {
+      detached: true
+    });
+  } else if (process.platform === 'darwin') {
+    spawn('open', [paths.program], {
+      detached: true
+    });
+  }
 };

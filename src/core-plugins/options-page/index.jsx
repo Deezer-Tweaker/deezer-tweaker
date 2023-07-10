@@ -4,6 +4,7 @@ module.exports = () => {
   const { join } = require('path');
   const { paths } = window.DeezerTweaker;
   require(paths.corePlugins + '/components');
+  DeezerTweaker.CSS.importCacheStyleSheet('route-account');
 
   const HomeComponent = () => {
     const [customCss, setCustomCss] = React.useState(fs.readFileSync(join(paths.data, 'custom.css'), 'utf8'));

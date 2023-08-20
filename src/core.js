@@ -23,19 +23,16 @@ DeezerTweaker.CSS.injectStyleSheet(cssPath, 'deezer-tweaker-custom-css');
 replaceInFile(
   findFile('legacy'),
   /(\/\*! For license information please see)/g,
-  `window.DeezerTweaker = {};
+  `const { join } = require('path');
+  const { readFileSync, writeFileSync, readdirSync, existsSync } = require('fs');
+  window.DeezerTweaker = {};
   window.DeezerTweaker.paths = ${JSON.stringify(paths)};
-  require('../dtjs/core-plugins/updater/index');
+  if (existsSync('../dtjs/core-plugins/updater/index')) require('../dtjs/core-plugins/updater/index');
   window.DeezerTweaker.installedPlugins = ${JSON.stringify(fs.readdirSync(join(paths.data, 'plugins')).map(f => {
     return require(join(paths.data, 'plugins', f, `${f}.js`));
   }))};
-  const { join } = require('path');
-  const { readFileSync, writeFileSync, readdirSync } = require('fs');
-  const originalFs = require('original-fs');
-  const { paths } = window.DeezerTweaker;
   const pluginObject = {
     asar: {
-      replaceInAsarFile: ${require('../utils/asar').replaceInAsarFile.toString().replace('module.exports', 'pluginObject.asar')},
       replaceInFile: ${require('../utils/asar').replaceInFile.toString().replace('module.exports', 'pluginObject.asar')},
       appendFile: ${require('../utils/asar').appendFile.toString().replace('module.exports', 'pluginObject.asar')},
       injectCss: ${require('../utils/asar').injectCss.toString().replace('module.exports', 'pluginObject.asar')},

@@ -28,6 +28,7 @@ const paths = {
  * }} [options]
  */
 const findFile = (file, options = {}) => {
+  if (file.split('.').length > 1) file = file.split('.')[0];
   file = file + '.';
   if (!options) options = {};
   if (typeof options.dirPath === 'undefined') options.dirPath = join('assets', 'cache', 'js');

@@ -1,31 +1,23 @@
-const originalFs = require('original-fs');
 const { readFileSync, writeFileSync, mkdirSync, existsSync } = require('fs');
 const { join } = require('path');
 const paths = require('./paths');
 const { copySync } = require('fs-extra');
 const { findFile } = require('./paths');
 
-const replaceInAsarFile = (path, search, replace) => {
-  const asar = originalFs.readFileSync(paths.asar, 'utf8');
-  const file = readFileSync(join(paths.asar, path), 'utf8');
-  originalFs.writeFileSync(
-    paths.asar,
-    asar.replace(file, file.replace(search, replace)),
-    'utf8'
-  );
-};
-
 const replaceInFile = (path, search, replace) => {
+  if (typeof window !== 'undefined') throw new Error('This function cannot be used on client-side');
   const file = readFileSync(path, 'utf8');
   writeFileSync(path, file.replace(search, replace), 'utf8');
 };
 
 const appendFile = (path, string) => {
+  if (typeof window !== 'undefined') throw new Error('This function cannot be used on client-side');
   const file = readFileSync(path, 'utf8');
   writeFileSync(path, file + string, 'utf8');
 };
 
 const injectCss = (css) => {
+  if (typeof window !== 'undefined') throw new Error('This function cannot be used on client-side');
   appendFile(findFile('route-naboo', { dirPath: join('assets', 'cache', 'css', 'sass_c') }), css);
 };
 
@@ -41,5 +33,5 @@ const copyModules = () => {
 };
 
 module.exports = {
-  replaceInAsarFile, replaceInFile, appendFile, injectCss, copyNodeModule, copyModules
+  replaceInFile, appendFile, injectCss, copyNodeModule, copyModules
 };

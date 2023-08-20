@@ -28,6 +28,7 @@ const paths = {
  * }} [options]
  */
 const findFile = (file, options = {}) => {
+  if (typeof window !== 'undefined') throw new Error('This function cannot be used on client-side');
   if (file.split('.').length > 1) file = file.split('.')[0];
   file = file + '.';
   if (!options) options = {};

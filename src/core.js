@@ -1,7 +1,7 @@
 const { replaceInFile, appendFile } = require('../utils/asar');
 const { join } = require('path');
 const paths = require('../utils/paths');
-const { readFileSync } = require('fs');
+const { readFileSync, existsSync } = require('fs');
 const fs = require('fs');
 const { DeezerTweaker } = require('../utils/plugins');
 const { findFile } = require('../utils/paths');
@@ -49,12 +49,14 @@ const requireRegex = /require\(paths.([a-zA-Z]+) \+ '(.?.?[/[a-zA-Z-]+)'\)/g;
 DeezerTweaker.Api.Routes.create(
   '/deezer-tweaker',
   require(join(__dirname, typeof window !== 'undefined' ? join('..', 'dtjs') : '.', 'core-plugins', 'options-page', 'index.js')).toString().replaceAll(requireRegex, (str, $1, $2) => {
+    if (!existsSync(paths[$1])) return;
     return readFileSync(join(paths[$1], $2.replace('/', '') + '.js'), 'utf8');
   }), false
 );
 DeezerTweaker.Api.Routes.create(
   '/deezer-tweaker/marketplace',
   require(join(__dirname, typeof window !== 'undefined' ? join('..', 'dtjs') : '.', 'core-plugins', 'marketplace', 'index.js')).toString().replaceAll(requireRegex, (str, $1, $2) => {
+    if (!existsSync(paths[$1])) return;
     return readFileSync(join(paths[$1], $2.replace('/', '') + '.js'), 'utf8');
   }), false
 );

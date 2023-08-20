@@ -1,13 +1,14 @@
 const { replaceInFile, appendFile } = require('../utils/asar');
-const { join, resolve } = require('path');
+const { join } = require('path');
 const paths = require('../utils/paths');
 const { readFileSync } = require('fs');
 const fs = require('fs');
 const { DeezerTweaker } = require('../utils/plugins');
+const { findFile } = require('../utils/paths');
 
 DeezerTweaker.App.enableDevTools();
 replaceInFile(
-  join(paths.extractedAsar, 'build', 'assets', 'cache', 'js', 'route-naboo.fda0f9eaad2eeb36f5b5.js'),
+  findFile('route-naboo'),
   /(\{id:"account",label:Object\(q\.a\)\("Paramètres du compte"\),to:"\/account",isMain:!0,isAnimated:!0})/g,
   `$1,{
     id: "deezer_tweaker",
@@ -20,7 +21,7 @@ replaceInFile(
 const cssPath = join(paths.data, 'custom.css');
 DeezerTweaker.CSS.injectStyleSheet(cssPath, 'deezer-tweaker-custom-css');
 replaceInFile(
-  join(paths.extractedAsar, 'build', 'assets', 'cache', 'js', 'legacy.2bd71c3dfe2c9c3f1a78.js'),
+  findFile('legacy'),
   /(\/\*! For license information please see)/g,
   `window.DeezerTweaker = {};
   window.DeezerTweaker.paths = ${JSON.stringify(paths)};
@@ -58,27 +59,27 @@ DeezerTweaker.Api.Routes.create(
   }), false
 );
 replaceInFile(
-  join(paths.extractedAsar, 'build', 'assets', 'cache', 'js', 'app-web.b8b99a13a697527a646c.js'),
+  findFile('app-web'),
   /(window.webpackJsonpDeezer=window\.webpackJsonpDeezer\|\|\[]\)\.push\(\[\[66,54],\{"\+jGe":function\(x,e,C\)\{"use strict";)/g,
   '$1window.DeezerTweaker.importWebpackModule=C;'
 );
 replaceInFile(
-  join(paths.extractedAsar, 'build', 'assets', 'cache', 'js', 'player-HTML5Renderer.60c297eb497cca6ab0eb.js'),
+  findFile('player-HTML5Renderer'),
   /(audioPlayer_setVolume:function\(e\)\{this\.volume=(Number\(e\)))/g,
   '$1;console.log($2)'
 );
 replaceInFile(
-  join(paths.extractedAsar, 'build', 'assets', 'cache', 'js', 'route-naboo.fda0f9eaad2eeb36f5b5.js'),
+  findFile('route-naboo'),
   /(audioPlayer_setVolume:function\(e\)\{this\.volume=Number\(e\))/g,
   '$1;console.log(Number(e))'
 );
 replaceInFile(
-  join(paths.extractedAsar, 'build', 'assets', 'cache', 'js', 'route-playlist.765db7601fb9f9205f36.js'),
+  findFile('route-playlist'),
   /(return n\.a\.createElement\("div",\{className:t,"aria-label":(Object\(d\.a\)\("datagrid_text_bypopularity_web",\{sprintf:\[e\+" \/ 10"]}\)))/g,
   '$1,title:$2'
 );
 replaceInFile(
-  join(paths.extractedAsar, 'build', 'assets', 'cache', 'js', 'route-artist.da60dee88fbc6e814b76.js'),
+  findFile('route-artist'),
   /(},zt\|\|\(zt=r\.a\.createElement\(ia\.a,\{size:"16"}\)\)\)\):null})(_renderTwitter\(\)\{)/g,
   `$1_renderYouTube() {
     return r.a.createElement(
@@ -93,16 +94,16 @@ replaceInFile(
   }$2`
 );
 replaceInFile(
-  join(paths.extractedAsar, 'build', 'assets', 'cache', 'js', 'route-artist.da60dee88fbc6e814b76.js'),
+  findFile('route-artist'),
   /(,this\._renderTwitter\(\))/g,
   '$1,this._renderYouTube()'
 );
 appendFile(
-  join(paths.extractedAsar, 'build', 'assets', 'cache', 'css', 'sass_c', 'route-artist.b2d1ac5a32050369ffd7.css'),
+  findFile('route-artist', { dirPath: join('assets', 'cache', 'css', 'sass_c') }),
   '.svg-icon:hover.svg-icon-youtube { color: #ff0000; }'
 );
 appendFile(
-  join(paths.extractedAsar, 'build', 'assets', 'cache', 'css', 'sass_c', 'app-web.46d8ea355719e40aba9d.css'),
+  findFile('app-web', { dirPath: join('assets', 'cache', 'css', 'sass_c') }),
   `.css-qfh00b {
     display: inline-flex;
     appearance: none;

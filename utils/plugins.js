@@ -3,6 +3,7 @@ const { join } = require('path');
 const paths = require('./paths');
 const fs = require('fs');
 const { replaceInFile, injectCss } = require('./asar');
+const { findFile } = require('./paths');
 
 const DeezerTweaker = {
   CSS: {
@@ -21,9 +22,7 @@ const DeezerTweaker = {
         document.head.appendChild(customCss);`;
       if (typeof window === 'undefined') {
         replaceInFile(
-          join(paths.extractedAsar, 'build', 'renderer.js'),
-          /(__webpack_exports__)(}\)\(\);)/g,
-          `$1;${code}$2`
+          findFile('renderer', { dirPath: '' }), /(__webpack_exports__)(}\)\(\);)/g, `$1;${code}$2`
         );
       } else {
         eval(code);
@@ -43,30 +42,27 @@ const DeezerTweaker = {
         ];
         const nextId = idsList.findIndex(v => v === options.appendId) + 1;
         replaceInFile(
-          join(paths.extractedAsar, 'build', 'assets', 'cache', 'js', 'route-naboo.fda0f9eaad2eeb36f5b5.js'),
+          findFile('route-naboo'),
           new RegExp(`({id:"${options.appendId}",[a-zA-Z0-9,:()."_\`/\${}!]+})(,{id:"${idsList[nextId]})`),
           `$1, { id: "${id}", icon: ${icon}, label: "${label}", to: \`${to}\`, isMain: ${options.main.toString()} }$2`
         );
       },
       remove(id) {
-        replaceInFile(
-          join(paths.extractedAsar, 'build', 'assets', 'cache', 'js', 'route-naboo.fda0f9eaad2eeb36f5b5.js'),
-          new RegExp(`/{id:"${id}",...+![0-1]}[,^]/g`), ''
-        );
+        replaceInFile(findFile('route-naboo'), new RegExp(`/{id:"${id}",...+![0-1]}[,^]/g`), '');
       }
     },
     Routes: {
       create(path, component, fromPlugin = true) {
         const c = fromPlugin ? component?.toString()?.replace('React', 'r.a') : component?.toString();
         replaceInFile(
-          join(paths.extractedAsar, 'build', 'assets', 'cache', 'js', 'app-web.b8b99a13a697527a646c.js'),
+          findFile('app-web'),
           /(,{exact:!0,path:"\/",redirectTo:`\/\$\{e}\/`})/g,
           `$1,{ exact: true, path: '${path}', redirectTo: \`\\/\${e}${path}\` },{ exact: true, path: b('${path}'), component: ${c} }`
         );
       },
       redirect(path, to) {
         replaceInFile(
-          join(paths.extractedAsar, 'build', 'assets', 'cache', 'js', 'app-web.b8b99a13a697527a646c.js'),
+          findFile('app-web'),
           /(,{exact:!0,path:"\/",redirectTo:`\/\$\{e}\/`})/g,
           `$1,{ exact: true, path: '${path}', redirectTo: '${to}' }`
         );
@@ -96,8 +92,13 @@ const DeezerTweaker = {
     return plugins;
   })(),
   App: {
-    enableDevTools(enable = true) {
-      replaceInFile(join(paths.extractedAsar, 'build', 'main.js'), 'function hasDevTools(){return"yes"===process.env.DZ_DEVTOOLS}', `function hasDevTools(){return ${enable}}`);
+    /**
+     * Enables or disable Chrome DevTools
+     */
+    enableDevTools() {
+      replaceInFile(findFile('main', {
+        dirPath: ''
+      }), 'function hasDevTools(){return"yes"===process.env.DZ_DEVTOOLS}', 'function hasDevTools(){return true}');
     }
   }
 };

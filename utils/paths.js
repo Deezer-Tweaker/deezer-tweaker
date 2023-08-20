@@ -28,12 +28,15 @@ const paths = {
  * }} [options]
  */
 const findFile = (file, options = {}) => {
-  if (file.split('.').length > 1) file = file.split('.')[0];
+  file = file + '.';
   if (!options) options = {};
-  if (!options.dirPath) options.dirPath = join('assets', 'cache', 'js');
+  if (typeof options.dirPath === 'undefined') options.dirPath = join('assets', 'cache', 'js');
   const files = fs.readdirSync(join(paths[process.platform].extractedAsar, 'build', options.dirPath));
-  return files.find(f => f.startsWith(file));
+  return files.find(f => f.startsWith(file)) &&
+    join(paths[process.platform].extractedAsar, 'build', options.dirPath, files.find(f => f.startsWith(file)));
 };
 
-module.exports.findFile = findFile;
-module.exports = paths[process.platform];
+module.exports = {
+  ...paths[process.platform],
+  findFile
+};

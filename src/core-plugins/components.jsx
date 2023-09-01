@@ -162,7 +162,7 @@ const Modal = ({ size = 'large', closable = true, title, body }) => {
     <div className="modal" role="dialog" aria-hidden="false">
       <div className="modal-backdrop" style={{ opacity: 0.8 }}></div>
       <div className="modal-wrapper">
-        <div className={`modal-dialog modal-${size}`} style={{ opacity: 1 }} onBlur={() => container.remove()}>
+        <div className={`modal-dialog modal-${size}`} style={{ opacity: 1 }}>
           <div>
             {closable && <button className="modal-close icon icon-cancel" id="modal-close" onClick={() => container.remove()}></button>}
             <div id="modal_title" className="modal-header">{title}</div>

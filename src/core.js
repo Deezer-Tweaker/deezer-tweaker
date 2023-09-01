@@ -54,21 +54,13 @@ const importPlugin = (name) => require(join(corePluginsPath, name, 'index.js')).
 });
 DeezerTweaker.Api.Routes.create('/deezer-tweaker', importPlugin('Options'), false);
 DeezerTweaker.Api.Routes.create('/deezer-tweaker/marketplace', importPlugin('Marketplace'), false);
+
 replaceInFile(
   findFile('app-web'),
   /(window\.webpackJsonpDeezer\|\|\[]\)\.push\(\[\[[0-9,]+],\{"\+1VY":function\([a-zA-Z],[a-zA-Z],([a-zA-Z])\)\{"use strict";)/g,
   '$1window.DeezerTweaker.importWebpackModule=$2;'
 );
-replaceInFile(
-  findFile('player-HTML5Renderer'),
-  /(audioPlayer_setVolume:function\(e\)\{this\.volume=(Number\(e\)))/g,
-  '$1;console.log($2)'
-);
-replaceInFile(
-  findFile('route-naboo'),
-  /(audioPlayer_setVolume:function\(e\)\{this\.volume=Number\(e\))/g,
-  '$1;console.log(Number(e))'
-);
+
 replaceInFile(
   findFile('route-artist'),
   /(},[a-zA-Z]{1,2}\|\|\([a-zA-Z]{1,2}=r.a.createElement\("span",null,r\.a\.createElement\([a-zA-Z.]{1,4},\{boxSize:"16px"}\)\)\)\)\):null})(_renderTwitter\(\)\{)/g,
@@ -84,11 +76,8 @@ replaceInFile(
     )
   }$2`
 );
-replaceInFile(
-  findFile('route-artist'),
-  /(,this\._renderTwitter\(\))/g,
-  '$1,this._renderYouTube()'
-);
+replaceInFile(findFile('route-artist'), /(,this\._renderTwitter\(\))/g, '$1,this._renderYouTube()');
+
 appendFile(
   findFile('app-web', { dirPath: join('assets', 'cache', 'css', 'sass_c') }),
   '.css-editor { font-family: Menlo, Consolas, Monaco, Liberation Mono, Lucida Console, monospace; font-size: 16px; }'

@@ -105,37 +105,5 @@ replaceInFile(
 );
 appendFile(
   findFile('app-web', { dirPath: join('assets', 'cache', 'css', 'sass_c') }),
-  `.css-qfh00b {
-    display: inline-flex;
-    appearance: none;
-    -webkit-box-align: center;
-    align-items: center;
-    -webkit-box-pack: center;
-    justify-content: center;
-    user-select: none;
-    position: relative;
-    white-space: nowrap;
-    vertical-align: middle;
-    outline: transparent solid 2px;
-    outline-offset: 2px;
-    line-height: 1;
-    border-radius: var(--tempo-radii-full);
-    font-weight: var(--tempo-fontWeights-bold);
-    transition-property: var(--tempo-transition-property-common);
-    transition-duration: var(--tempo-transition-duration-normal);
-    text-transform: uppercase;
-    height: var(--tempo-sizes-10);
-    min-width: var(--tempo-sizes-10);
-    font-size: var(--tempo-fontSizes-sm);
-    padding-inline-start: var(--tempo-space-8);
-    padding-inline-end: var(--tempo-space-8);
-    padding-top: var(--tempo-space-4);
-    padding-bottom: var(--tempo-space-4);
-    background: var(--tempo-colors-accent-main);
-    color: white;
-  }
-  
-  .css-editor {
-    font-family: monospace;
-  }`
+  '.css-editor { font-family: Menlo, Consolas, Monaco, Liberation Mono, Lucida Console, monospace; font-size: 16px; }'
 );

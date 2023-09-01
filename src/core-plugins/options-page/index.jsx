@@ -25,7 +25,7 @@ module.exports = () => {
           </div>
           <div className="container">
             <textarea
-              className="chakra-textarea form-control form-control-block css-1f0xw6y e3mndjk0 css-editor" rows="8"
+              className="chakra-textarea form-control form-control-block css-1f0xw6y e3mndjk0 css-editor" rows="10"
               onChange={(e) => setCustomCss(e.target.value)}
             >{customCss}</textarea>
             <div style={{ marginTop: 'var(--tempo-space-6)' }}>

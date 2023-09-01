@@ -51,8 +51,10 @@ if (existsSync(paths.extractedAsar) && statSync(paths.extractedAsar).isDirectory
   Log.success('Done\n');
 }
 
-Log.info('Compiling JSX...');
-Log.success(execSync('babel src/core-plugins/ --out-dir src/core-plugins').toString());
+if (process.argv0.includes('electron')) {
+  Log.info('Compiling JSX...');
+  Log.success(execSync('babel src/core-plugins/ --out-dir src/core-plugins').toString());
+}
 
 Log.info('Extracting ASAR...');
 asar.extractAll(paths.asarBackup, paths.extractedAsar);

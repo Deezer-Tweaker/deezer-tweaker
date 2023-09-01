@@ -79,11 +79,11 @@ replaceInFile(
 );
 replaceInFile(
   findFile('route-artist'),
-  /(},zt\|\|\(zt=r\.a\.createElement\(ia\.a,\{size:"16"}\)\)\)\):null})(_renderTwitter\(\)\{)/g,
+  /(},[a-zA-Z]{1,2}\|\|\([a-zA-Z]{1,2}=r.a.createElement\("span",null,r\.a\.createElement\([a-zA-Z.]{1,4},\{boxSize:"16px"}\)\)\)\)\):null})(_renderTwitter\(\)\{)/g,
   `$1_renderYouTube() {
     return r.a.createElement(
-      "li", { className: ca.a.socialItem }, 
-      r.a.createElement(na.a, { text: "YouTube search results" },
+      "li", { className: ha.a.socialItem }, 
+      r.a.createElement(ta.a, { text: "YouTube search results" },
       r.a.createElement("a", { href: "https://www.youtube.com/results?search_query=" + this.props.name, target: "_blank", rel: "noreferrer" },
       r.a.createElement(
         "svg", { className: "svg-icon svg-icon-youtube", focusable: false, width: 16, height: 16, role: "img", viewBox: "0 0 576 512", "aria-hidden": true },
@@ -96,10 +96,6 @@ replaceInFile(
   findFile('route-artist'),
   /(,this\._renderTwitter\(\))/g,
   '$1,this._renderYouTube()'
-);
-appendFile(
-  findFile('route-artist', { dirPath: join('assets', 'cache', 'css', 'sass_c') }),
-  '.svg-icon:hover.svg-icon-youtube { color: #ff0000; }'
 );
 appendFile(
   findFile('app-web', { dirPath: join('assets', 'cache', 'css', 'sass_c') }),

@@ -42,7 +42,7 @@ replaceInFile(
   window.DeezerTweaker.pluginObject = pluginObject;
   require('../utils/plugins').apply(true);\n$1`
 );
-DeezerTweaker.Api.Sidebar.add('deezer-tweaker-marketplace', null, 'Marketplace', '/${r}/deezer-tweaker/marketplace');
+DeezerTweaker.Api.Sidebar.add('deezer-tweaker-marketplace', null, 'Marketplace', '/${n}/deezer-tweaker/marketplace');
 const requireRegex = /require\(paths.([a-zA-Z]+) \+ '(.?.?[/[a-zA-Z-]+)'\)/g;
 DeezerTweaker.Api.Routes.create(
   '/deezer-tweaker',

@@ -4,6 +4,7 @@ const RestartDialog = () => {
   div.setAttribute('role', 'dialog');
   div.setAttribute('aria-hidden', 'false');
   div.setAttribute('id', 'restart-dialog');
+
   const template = `
   <div class="modal-backdrop" style="opacity: 0.8;"></div>
   <div class="modal-wrapper">
@@ -12,9 +13,8 @@ const RestartDialog = () => {
         <h3 class="heading-3">Restart Deezer to apply plugins</h3>
         <div style="margin-top: var(--tempo-space-6); gap: 20px; display: flex; justify-content: center">
           <button class="chakra-button css-qfh00b e3mndjk0" onclick="(() => {
-            require('child_process').spawn(join(paths.program, 'Deezer.exe'), [], {
-              detached: true
-            });
+            const paths = require('../utils/paths');
+            require('child_process').spawn(join(paths.program, 'Deezer.exe'), [], { detached: true });
             process.exit(0);
           })()">Restart now</button>
           <button class="chakra-button css-qfh00b e3mndjk0" onclick="document.querySelector('.naboo #restart-dialog').remove()">Restart later</button>
@@ -22,6 +22,9 @@ const RestartDialog = () => {
       </div>
     </div>
   </div>`;
+
   div.innerHTML = template;
   document.querySelector('.naboo').appendChild(div);
 };
+
+module.exports = RestartDialog;

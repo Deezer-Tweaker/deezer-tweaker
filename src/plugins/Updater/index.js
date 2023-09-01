@@ -4,16 +4,11 @@
  * Licensed under the MPL-2.0 license
  */
 
-/* global electron */
+/* global electron, join */
 
-const {
-  join
-} = require('path');
-const {
-  existsSync,
-  writeFileSync
-} = require('fs');
+const { existsSync, writeFileSync } = require('fs');
 const paths = require('../../../utils/paths');
+
 const updateUrl = 'https://api.github.com/repos/Deezer-Tweaker/deezer-tweaker/releases/latest';
 fetch(updateUrl).then(res => res.json()).then(json => {
   if (json.tag_name !== window.DeezerTweaker.version) {

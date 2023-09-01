@@ -29,7 +29,7 @@ replaceInFile(
   `const { join } = require('path');
   const { readFileSync, writeFileSync, readdirSync, existsSync } = require('fs');
   window.DeezerTweaker = {
-    version: "${require('../package.json').version}", paths: ${JSON.stringify(paths)},
+    version: "${require('../package.json').version}", paths: ${JSON.stringify(paths)}, Deezer: {},
     installedPlugins: ${JSON.stringify(fs.readdirSync(join(paths.data, 'plugins')).map(f => {
     return require(join(paths.data, 'plugins', f, `${f}.js`));
   }))}
@@ -59,6 +59,12 @@ replaceInFile(
   findFile('app-web'),
   /(window\.webpackJsonpDeezer\|\|\[]\)\.push\(\[\[[0-9,]+],\{"\+1VY":function\([a-zA-Z],[a-zA-Z],([a-zA-Z])\)\{"use strict";)/g,
   '$1window.DeezerTweaker.importWebpackModule=$2;'
+);
+
+replaceInFile(
+  findFile('route-naboo'),
+  /(this.socket=new [a-zA-Z]\(this._conn.service,"xmpp"\),)/g,
+  '$1window.DeezerTweaker.Deezer.WebSocket=this.socket,'
 );
 
 replaceInFile(

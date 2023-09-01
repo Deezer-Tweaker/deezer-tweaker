@@ -1,8 +1,9 @@
-const { readFileSync, writeFileSync, mkdirSync, existsSync } = require('fs');
+const { readFileSync, writeFileSync, mkdirSync, existsSync, rmSync } = require('fs');
 const { join } = require('path');
 const paths = require('./paths');
 const { copySync } = require('fs-extra');
 const { findFile } = require('./paths');
+const asar = require('@electron/asar');
 
 const replaceInFile = (path, search, replace) => {
   if (typeof window !== 'undefined') throw new Error('This function cannot be used on client-side');
@@ -32,6 +33,19 @@ const copyModules = () => {
   modules.forEach(m => copyNodeModule(m));
 };
 
+const recompile = () => {
+  asar.extractAll(paths.asarBackup, paths.extractedAsar);
+  copyModules();
+  copySync(join(__dirname, '..', 'utils'), join(paths.extractedAsar, 'utils'));
+  copySync(__dirname, join(paths.extractedAsar, 'dtjs'));
+  require('../utils/core');
+  require('../utils/plugins').apply();
+  asar.createPackage(paths.extractedAsar, paths.asar).then(() => {
+    RestartDialog();
+    rmSync(paths.extractedAsar, { recursive: true });
+  });
+};
+
 module.exports = {
-  replaceInFile, appendFile, injectCss, copyNodeModule, copyModules
+  replaceInFile, appendFile, injectCss, copyNodeModule, copyModules, recompile
 };

@@ -1,7 +1,5 @@
 const { join } = require('path');
-const asar = require('@electron/asar');
-const { copyModules } = require(paths.asar + '/utils/asar');
-const { copySync } = require('fs-extra');
+const { recompile } = require(paths.asar + '/utils/asar');
 
 const DataComponent = ({ data, title, error }) => {
   return (
@@ -29,31 +27,13 @@ const DataComponent = ({ data, title, error }) => {
                             if (!fs.existsSync(join(paths.data, 'plugins', plugin.name))) fs.mkdirSync(join(paths.data, 'plugins', plugin.name));
                             fetch(plugin.file).then(res => res.text()).then(res => {
                               fs.writeFileSync(join(paths.data, 'plugins', plugin.name, `${plugin.name}.js`), res);
-                              asar.extractAll(paths.asarBackup, paths.extractedAsar);
-                              copyModules();
-                              copySync(join(__dirname, '..', 'utils'), join(paths.extractedAsar, 'utils'));
-                              copySync(__dirname, join(paths.extractedAsar, 'dtjs'));
-                              require('../utils/core');
-                              require('../utils/plugins').apply();
-                              asar.createPackage(paths.extractedAsar, paths.asar).then(() => {
-                                RestartDialog();
-                                fs.rmSync(paths.extractedAsar, { recursive: true });
-                              });
+                              recompile();
+                              isDownloaded(true);
                             });
-                            isDownloaded(true);
                           } else {
                             fs.rmdirSync(join(paths.data, 'plugins', plugin.name), { recursive: true });
                             isDownloaded(false);
-                            asar.extractAll(paths.asarBackup, paths.extractedAsar);
-                            copyModules();
-                            copySync(join(__dirname, '..', 'utils'), join(paths.extractedAsar, 'utils'));
-                            copySync(__dirname, join(paths.extractedAsar, 'dtjs'));
-                            require('../utils/core');
-                            require('../utils/plugins').apply();
-                            asar.createPackage(paths.extractedAsar, paths.asar).then(() => {
-                              RestartDialog();
-                              fs.rmSync(paths.extractedAsar, { recursive: true });
-                            });
+                            recompile();
                           }
                         }}
                       >

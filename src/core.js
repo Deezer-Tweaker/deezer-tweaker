@@ -26,10 +26,11 @@ replaceInFile(
   `const { join } = require('path');
   const { readFileSync, writeFileSync, readdirSync, existsSync } = require('fs');
   window.DeezerTweaker = {};
+  window.DeezerTweaker.version = "${require('../package.json').version}";
   window.DeezerTweaker.paths = ${JSON.stringify(paths)};
-  if (existsSync('../dtjs/core-plugins/updater/index')) require('../dtjs/core-plugins/updater/index');
+  if (existsSync(join('${paths.corePlugins.replaceAll('\\', '\\\\')}', 'updater', 'index.js'))) require(join('${paths.corePlugins.replaceAll('\\', '\\\\')}', 'updater', 'index.js'));
   window.DeezerTweaker.installedPlugins = ${JSON.stringify(fs.readdirSync(join(paths.data, 'plugins')).map(f => {
-    return require(join(paths.data, 'plugins', f, `${f}.js`));
+    return require(join(paths, 'plugins', f, `${f}.js`));
   }))};
   const pluginObject = {
     asar: {

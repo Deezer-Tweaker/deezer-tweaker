@@ -53,7 +53,9 @@ DeezerTweaker.Api.Sidebar.add('deezer-tweaker-marketplace', null, 'Marketplace',
 
 const requireRegex = /require\(paths.([a-zA-Z]+) \+ '(.?.?[/[a-zA-Z-]+)'\)/g;
 const corePluginsPath = join(__dirname, typeof window !== 'undefined' ? join('..', 'dtjs') : '.', 'plugins');
-const importPlugin = (name) => require(join(corePluginsPath, name, 'index.js')).toString().replaceAll(requireRegex, (str, $1, $2) => {
+const importPlugin = (name) => require(
+  name.endsWith('.js') ? join(paths.corePlugins, name) : join(paths.corePlugins, name, 'index.js')
+).toString().replaceAll(requireRegex, (str, $1, $2) => {
   return readFileSync(join(existsSync(paths[$1]) ? paths[$1] : corePluginsPath, $2.replace('/', '') + '.js'), 'utf8');
 });
 DeezerTweaker.Api.Routes.create('/deezer-tweaker', importPlugin('Options'), false);

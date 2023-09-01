@@ -13,12 +13,12 @@ module.exports = () => {
   const React = o.a;
   const { paths } = window.DeezerTweaker;
   require(paths.corePlugins + '/components');
-  require(paths.corePlugins + '/restart-dialog/index');
-  require(paths.corePlugins + '/marketplace/data');
-  require(paths.corePlugins + '/marketplace/plugins');
-  require(paths.corePlugins + '/marketplace/themes');
-  require(paths.corePlugins + '/marketplace/installed');
-  require(paths.corePlugins + '/marketplace/settings');
+  require(paths.corePlugins + '/RestartDialog/index');
+  require(paths.corePlugins + '/Marketplace/data');
+  require(paths.corePlugins + '/Marketplace/plugins');
+  require(paths.corePlugins + '/Marketplace/themes');
+  require(paths.corePlugins + '/Marketplace/installed');
+  require(paths.corePlugins + '/Marketplace/settings');
 
   return (
     <>

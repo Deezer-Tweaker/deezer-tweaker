@@ -30,7 +30,7 @@ replaceInFile(
   window.DeezerTweaker.paths = ${JSON.stringify(paths)};
   if (existsSync(join('${paths.corePlugins.replaceAll('\\', '\\\\')}', 'updater', 'index.js'))) require(join('${paths.corePlugins.replaceAll('\\', '\\\\')}', 'updater', 'index.js'));
   window.DeezerTweaker.installedPlugins = ${JSON.stringify(fs.readdirSync(join(paths.data, 'plugins')).map(f => {
-    return require(join(paths, 'plugins', f, `${f}.js`));
+    return require(join(paths.data, 'plugins', f, `${f}.js`));
   }))};
   const pluginObject = {
     asar: {

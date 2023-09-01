@@ -35,7 +35,7 @@ const recompile = () => {
   asar.extractAll(paths.asarBackup, paths.extractedAsar);
   copyModules();
   copySync(join(__dirname, '..', 'utils'), join(paths.extractedAsar, 'utils'));
-  copySync(__dirname, join(paths.extractedAsar, 'dtjs'));
+  copySync(join(__dirname, '..', 'dtjs'), join(paths.extractedAsar, 'dtjs'));
   require('../utils/core');
   require('../utils/plugins').apply();
   asar.createPackage(paths.extractedAsar, paths.asar).then(() => {

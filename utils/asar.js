@@ -6,19 +6,16 @@ const { findFile } = require('./paths');
 const asar = require('@electron/asar');
 
 const replaceInFile = (path, search, replace) => {
-  if (typeof window !== 'undefined') throw new Error('This function cannot be used on client-side');
   const file = readFileSync(path, 'utf8');
   writeFileSync(path, file.replace(search, replace), 'utf8');
 };
 
 const appendFile = (path, string) => {
-  if (typeof window !== 'undefined') throw new Error('This function cannot be used on client-side');
   const file = readFileSync(path, 'utf8');
   writeFileSync(path, file + string, 'utf8');
 };
 
 const injectCss = (css) => {
-  if (typeof window !== 'undefined') throw new Error('This function cannot be used on client-side');
   appendFile(findFile('route-naboo', { dirPath: join('assets', 'cache', 'css', 'sass_c') }), css);
 };
 

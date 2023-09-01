@@ -133,5 +133,9 @@ appendFile(
     padding-bottom: var(--tempo-space-4);
     background: var(--tempo-colors-accent-main);
     color: white;
+  }
+  
+  .css-editor {
+    font-family: monospace;
   }`
 );

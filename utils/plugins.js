@@ -56,14 +56,14 @@ const DeezerTweaker = {
         const c = fromPlugin ? component?.toString()?.replace('React', 'r.a') : component?.toString();
         replaceInFile(
           findFile('app-web'),
-          /(,{exact:!0,path:"\/",redirectTo:`\/\$\{e}\/`})/g,
-          `$1,{ exact: true, path: '${path}', redirectTo: \`\\/\${e}${path}\` },{ exact: true, path: b('${path}'), component: ${c} }`
+          /(,{exact:!0,path:"\/",redirectTo:`\/\$\{([a-z])}\/`})/g,
+          `$1,{ exact: true, path: '${path}', redirectTo: \`/\${$2}${path}\` },{ exact: true, path: C('${path}'), component: ${c} }`
         );
       },
       redirect(path, to) {
         replaceInFile(
           findFile('app-web'),
-          /(,{exact:!0,path:"\/",redirectTo:`\/\$\{e}\/`})/g,
+          /(,{exact:!0,path:"\/",redirectTo:`\/\$\{([a-z])}\/`})/g,
           `$1,{ exact: true, path: '${path}', redirectTo: '${to}' }`
         );
       }

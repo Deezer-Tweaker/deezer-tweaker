@@ -73,6 +73,33 @@ const DeezerTweaker = {
           `$1,{ exact: true, path: '${path}', redirectTo: '${to}' }`
         );
       }
+    },
+    ProfileMenu: {
+      /**
+       *
+       * @param {{
+       *   id: string,
+       *   label: string,
+       *   to: string,
+       *   main: boolean,
+       *   animated?: boolean
+       * }} options
+       */
+      addOption(options = {}) {
+        if (!options) options = {};
+        if (!options.id || !options.label || !options.to) return;
+        replaceInFile(
+          findFile('route-naboo'),
+          /(\{id:"account",label:Object\(([a-zA-Z]\.[a-zA-Z])\)\("Paramètres du compte"\),to:"\/account",isMain:!0,isAnimated:!0})/g,
+          `$1,{
+            id: "${options.id}",
+            label: Object($2)("${options.label}"),
+            to: "${options.to}",
+            isMain: ${!!options.main},
+            isAnimated: ${!!options.animated}
+          }`
+        );
+      }
     }
   },
   Plugins: (() => {

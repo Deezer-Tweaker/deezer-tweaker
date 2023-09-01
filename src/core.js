@@ -13,17 +13,14 @@ const { DeezerTweaker } = require('../utils/plugins');
 const { findFile } = require('../utils/paths');
 
 DeezerTweaker.App.enableDevTools();
-replaceInFile(
-  findFile('route-naboo'),
-  /(\{id:"account",label:Object\(([a-zA-Z]\.[a-zA-Z])\)\("Paramètres du compte"\),to:"\/account",isMain:!0,isAnimated:!0})/g,
-  `$1,{
-    id: "deezer_tweaker",
-    label: Object($2)("Deezer Tweaker"),
-    to: \`/deezer-tweaker\`,
-    isMain: true,
-    isAnimated: true
-  }`
-);
+
+DeezerTweaker.Api.ProfileMenu.addOption({
+  id: 'deezer_tweaker',
+  label: 'Deezer Tweaker',
+  to: '/deezer-tweaker',
+  main: true,
+  animated: true
+});
 const cssPath = join(paths.data, 'custom.css');
 DeezerTweaker.CSS.injectStyleSheet(cssPath, 'deezer-tweaker-custom-css');
 replaceInFile(
@@ -71,11 +68,6 @@ replaceInFile(
   findFile('route-naboo'),
   /(audioPlayer_setVolume:function\(e\)\{this\.volume=Number\(e\))/g,
   '$1;console.log(Number(e))'
-);
-replaceInFile(
-  findFile('route-playlist'),
-  /(return n\.a\.createElement\("div",\{className:t,"aria-label":(Object\(d\.a\)\("datagrid_text_bypopularity_web",\{sprintf:\[e\+" \/ 10"]}\)))/g,
-  '$1,title:$2'
 );
 replaceInFile(
   findFile('route-artist'),

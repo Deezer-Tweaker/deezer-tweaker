@@ -4,7 +4,8 @@
   "main": "src/index.js",
   "scripts": {
     "dev": "electron .",
-    "build": "node build.js"
+    "build": "node build.js",
+    "lint": "eslint --fix . --ext .js,.jsx --ignore {src/core-plugins/marketplace/*.js,src/core-plugins/options-page/*.js}"
   },
   "dependencies": {
     "@electron/asar": "^3.2.4",
@@ -21,7 +22,8 @@
     "@types/node": "^20.3.2",
     "electron": "^25.2.0",
     "electron-builder": "^24.4.0",
-    "eslint": "^8.43.0"
+    "eslint": "^8.43.0",
+    "eslint-plugin-simple-header": "^1.0.2"
   },
   "repository": "https://github.com/JustYuuto/deezer-tweaker.git",
   "license": "MPL-2.0"

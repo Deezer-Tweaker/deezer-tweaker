@@ -5,13 +5,12 @@
  */
 
 module.exports = () => {
-  /* global o, DeezerTweaker */
+  /* global o */
   const React = o.a;
   const fs = require('fs');
   const { join } = require('path');
   const { paths } = window.DeezerTweaker;
   require(paths.corePlugins + '/components');
-  DeezerTweaker.CSS.importCacheStyleSheet('route-account');
 
   // eslint-disable-next-line no-unused-vars
   const HomeComponent = () => {

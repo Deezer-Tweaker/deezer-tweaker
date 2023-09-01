@@ -10,7 +10,7 @@ const paths = require('./paths');
 const { copySync } = require('fs-extra');
 const { findFile } = require('./paths');
 const asar = require('@electron/asar');
-const RestartDialog = require(`../${typeof window !== 'undefined' ? 'dtjs' : 'src'}/core-plugins/restart-dialog`);
+const RestartDialog = require(`../${typeof window !== 'undefined' ? 'dtjs' : 'src'}/plugins/RestartDialog`);
 
 const replaceInFile = (path, search, replace) => {
   const file = readFileSync(path, 'utf8');

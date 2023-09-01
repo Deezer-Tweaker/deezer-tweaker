@@ -31,13 +31,13 @@ replaceInFile(
   /(\/\*! For license information please see)/g,
   `const { join } = require('path');
   const { readFileSync, writeFileSync, readdirSync, existsSync } = require('fs');
-  window.DeezerTweaker = {};
-  window.DeezerTweaker.version = "${require('../package.json').version}";
-  window.DeezerTweaker.paths = ${JSON.stringify(paths)};
-  if (existsSync(join('${paths.corePlugins.replaceAll('\\', '\\\\')}', 'updater', 'index.js'))) require(join('${paths.corePlugins.replaceAll('\\', '\\\\')}', 'updater', 'index.js'));
-  window.DeezerTweaker.installedPlugins = ${JSON.stringify(fs.readdirSync(join(paths.data, 'plugins')).map(f => {
+  window.DeezerTweaker = {
+    version: "${require('../package.json').version}", paths: ${JSON.stringify(paths)},
+    installedPlugins: ${JSON.stringify(fs.readdirSync(join(paths.data, 'plugins')).map(f => {
     return require(join(paths.data, 'plugins', f, `${f}.js`));
-  }))};
+  }))}
+  };
+  if (existsSync(join('${paths.corePlugins.replaceAll('\\', '\\\\')}', 'Updater', 'index.js'))) require(join('${paths.corePlugins.replaceAll('\\', '\\\\')}', 'Updater', 'index.js'));
   const pluginObject = {
     asar: {
       replaceInFile: ${require('../utils/asar').replaceInFile.toString().replace('module.exports', 'pluginObject.asar')},
@@ -49,20 +49,14 @@ replaceInFile(
   require('../utils/plugins').apply(true);\n$1`
 );
 DeezerTweaker.Api.Sidebar.add('deezer-tweaker-marketplace', null, 'Marketplace', '/${n}/deezer-tweaker/marketplace');
+
 const requireRegex = /require\(paths.([a-zA-Z]+) \+ '(.?.?[/[a-zA-Z-]+)'\)/g;
-const corePluginsPath = join(__dirname, typeof window !== 'undefined' ? join('..', 'dtjs') : '.', 'core-plugins');
-DeezerTweaker.Api.Routes.create(
-  '/deezer-tweaker',
-  require(join(corePluginsPath, 'options-page', 'index.js')).toString().replaceAll(requireRegex, (str, $1, $2) => {
-    return readFileSync(join(existsSync(paths[$1]) ? paths[$1] : corePluginsPath, $2.replace('/', '') + '.js'), 'utf8');
-  }), false
-);
-DeezerTweaker.Api.Routes.create(
-  '/deezer-tweaker/marketplace',
-  require(join(corePluginsPath, 'marketplace', 'index.js')).toString().replaceAll(requireRegex, (str, $1, $2) => {
-    return readFileSync(join(existsSync(paths[$1]) ? paths[$1] : corePluginsPath, $2.replace('/', '') + '.js'), 'utf8');
-  }), false
-);
+const corePluginsPath = join(__dirname, typeof window !== 'undefined' ? join('..', 'dtjs') : '.', 'plugins');
+const importPlugin = (name) => require(join(corePluginsPath, name, 'index.js')).toString().replaceAll(requireRegex, (str, $1, $2) => {
+  return readFileSync(join(existsSync(paths[$1]) ? paths[$1] : corePluginsPath, $2.replace('/', '') + '.js'), 'utf8');
+});
+DeezerTweaker.Api.Routes.create('/deezer-tweaker', importPlugin('Options'), false);
+DeezerTweaker.Api.Routes.create('/deezer-tweaker/marketplace', importPlugin('Marketplace'), false);
 replaceInFile(
   findFile('app-web'),
   /(window\.webpackJsonpDeezer\|\|\[]\)\.push\(\[\[[0-9,]+],\{"\+1VY":function\([a-zA-Z],[a-zA-Z],([a-zA-Z])\)\{"use strict";)/g,

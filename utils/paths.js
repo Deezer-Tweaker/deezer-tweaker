@@ -14,7 +14,7 @@ const paths = {
     extractedAsar: join(process.env.LOCALAPPDATA, 'Programs', 'deezer-desktop', 'resources', 'app-extracted'),
     program: join(process.env.LOCALAPPDATA, 'Programs', 'deezer-desktop'),
     data: join(process.env.LOCALAPPDATA, 'deezer-tweaker'),
-    corePlugins: join(process.env.LOCALAPPDATA, 'Programs', 'deezer-desktop', 'resources', 'app.asar', 'dtjs', 'core-plugins')
+    corePlugins: join(process.env.LOCALAPPDATA, 'Programs', 'deezer-desktop', 'resources', 'app.asar', 'dtjs', 'plugins')
   },
   darwin: {
     asar: join('/Applications', 'Deezer.app', 'Contents', 'Resources', 'app.asar'),
@@ -22,7 +22,7 @@ const paths = {
     extractedAsar: join('/Applications', 'Deezer.app', 'Contents', 'Resources', 'app-extracted'),
     program: join('/Applications', 'Deezer.app'),
     data: join(require('os').homedir(), 'Library', 'Application Support', 'deezer-tweaker'),
-    corePlugins: join('/Applications', 'Deezer.app', 'Contents', 'Resources', 'app-extracted', 'dtjs', 'core-plugins')
+    corePlugins: join('/Applications', 'Deezer.app', 'Contents', 'Resources', 'app-extracted', 'dtjs', 'plugins')
   }
 };
 

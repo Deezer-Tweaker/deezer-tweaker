@@ -59,7 +59,7 @@ if (existsSync(paths.extractedAsar) && statSync(paths.extractedAsar).isDirectory
 
 if (process.argv0.includes('electron')) {
   Log.info('Compiling JSX...');
-  Log.success(execSync('babel src/core-plugins/ --out-dir src/core-plugins').toString());
+  Log.success(execSync('babel src/plugins/ --out-dir src/plugins').toString());
 }
 
 Log.info('Extracting ASAR...');

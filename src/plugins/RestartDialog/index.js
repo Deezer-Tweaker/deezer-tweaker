@@ -10,7 +10,6 @@ const RestartDialog = () => {
   div.setAttribute('role', 'dialog');
   div.setAttribute('aria-hidden', 'false');
   div.setAttribute('id', 'restart-dialog');
-
   const template = `
   <div class="modal-backdrop" style="opacity: 0.8;"></div>
   <div class="modal-wrapper">
@@ -28,9 +27,7 @@ const RestartDialog = () => {
       </div>
     </div>
   </div>`;
-
   div.innerHTML = template;
   document.querySelector('.naboo').appendChild(div);
 };
-
 module.exports = RestartDialog;

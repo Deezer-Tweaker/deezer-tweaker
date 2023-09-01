@@ -14,6 +14,11 @@
 ## Installing
 
 Go to the [latest release](https://github.com/Deezer-Tweaker/deezer-tweaker/releases/latest). Download and run the `.exe` file.
+
+## Want a feature?
+
+[Open a new issue](https://github.com/Deezer-Tweaker/deezer-tweaker/issues/new) explaining the feature you want.
+
 ## Star History
 
 <a href="https://star-history.com/#Deezer-Tweaker/deezer-tweaker&Deezer-Tweaker/community-plugins&Date">

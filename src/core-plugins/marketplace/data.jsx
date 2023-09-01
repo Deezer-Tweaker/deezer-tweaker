@@ -67,7 +67,7 @@ const DataComponent = ({ data, title, error }) => {
                           } />
                         </svg>
                       </button>
-                      {plugin.settings &&
+                      {(downloaded && plugin.settings) &&
                         <button
                           type="button" className="chakra-button action-item-tempo-btn action-force css-1sqw0k3 e3mndjk0"
                           onClick={() => Modal({

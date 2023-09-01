@@ -120,7 +120,7 @@ const Switch = ({ label, enabled = false, onChange }) => {
   return (
     <div className="css-70qvj9 e3mndjk0">
       <label id="field-:rj:-label" htmlFor="field-:rj:" className="chakra-form__label css-1gt16kl e3mndjk0">{label}</label>
-      <label className="chakra-switch setting-input-item css-1g4burd e3mndjk0" data-checked={isChecked || undefined}>
+      <label className="chakra-switch css-1g4burd e3mndjk0" data-checked={isChecked || undefined}>
         <input
           className="chakra-switch__input" type="checkbox" id="field-:rj:" aria-invalid="false" aria-disabled="false"
           value aria-describedby="field-:rj:-helptext" onChange={(e) => {

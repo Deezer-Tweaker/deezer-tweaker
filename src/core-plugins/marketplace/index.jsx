@@ -1,6 +1,6 @@
 module.exports = () => {
   const fs = require('fs');
-  const React = r.a;
+  const React = o.a;
   const { paths } = window.DeezerTweaker;
   require(paths.corePlugins + '/components');
   require(paths.corePlugins + '/restart-dialog/index');

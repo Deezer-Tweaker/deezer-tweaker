@@ -1,5 +1,5 @@
 module.exports = () => {
-  const React = r.a;
+  const React = o.a;
   const fs = require('fs');
   const { join } = require('path');
   const { paths } = window.DeezerTweaker;

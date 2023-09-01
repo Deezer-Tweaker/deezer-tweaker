@@ -36,7 +36,8 @@ replaceInFile(
     .forEach(plugin => {
       const path = plugin.endsWith('.js') ?
         join(window.DeezerTweaker.paths.corePlugins, plugin) :
-        join(window.DeezerTweaker.paths.corePlugins, plugin, 'index.js')
+        join(window.DeezerTweaker.paths.corePlugins, plugin, 'index.js');
+      console.info(\`[Deezer Tweaker] Loaded core plugin \${plugin.replace(/.(js|jsx)/g, '')}\`);
       require(path);
     });
   require('../utils/plugins').apply(true);\n$1`

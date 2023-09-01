@@ -10,6 +10,7 @@ const paths = require('./paths');
 const fs = require('fs');
 const { replaceInFile, injectCss } = require('./asar');
 const { findFile } = require('./paths');
+const Log = require('../utils/log');
 
 const DeezerTweaker = {
   CSS: {
@@ -141,6 +142,9 @@ module.exports.apply = (startup = false) => {
   if (startup) Object.assign(window.DeezerTweaker, DeezerTweaker);
   readdirSync(join(paths.data, 'plugins')).forEach(f => {
     const plugin = require(join(paths.data, 'plugins', f, `${f}.js`));
+    (startup ? console : Log).info(
+      `${startup ? '[Deezer Tweaker] ' : ''}Loaded plugin ${f.replace(/.(js|jsx)/g, '')}`
+    );
     if (plugin.replacements && plugin.replacements.length !== 0) plugin.replacements.forEach(replacement => {
       if (!replacement.applyAtStartup && startup) return;
       replaceInFile(findFile(replacement.file.replace('%jsCache%/', '')), replacement.find, replacement.replace);

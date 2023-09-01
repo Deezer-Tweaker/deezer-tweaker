@@ -10,6 +10,7 @@ module.exports = {
     es2021: true,
     node: true
   },
+  parser: '@babel/eslint-parser',
   extends: ['eslint:recommended'],
   overrides: [
     {
@@ -27,6 +28,9 @@ module.exports = {
     sourceType: 'module'
   },
   plugins: ['simple-header'],
+  ignorePatterns: [
+    'dist', 'node_modules', 'src/core-plugins/options-page/*.js', 'src/core-plugins/marketplace/*.js', 'src/core-plugins/components.js'
+  ],
   rules: {
     indent: ['error', 2, { SwitchCase: 1 }],
     quotes: ['error', 'single'],

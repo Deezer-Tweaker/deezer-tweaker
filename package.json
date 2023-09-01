@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "electron .",
     "build": "node build.js",
-    "lint": "eslint --fix . --ext .js,.jsx --ignore {src/core-plugins/marketplace/*.js,src/core-plugins/options-page/*.js}"
+    "lint": "eslint --fix . --ext .js,.jsx"
   },
   "dependencies": {
     "@electron/asar": "^3.2.4",
@@ -17,6 +17,7 @@
   "devDependencies": {
     "@babel/cli": "^7.22.6",
     "@babel/core": "^7.22.6",
+    "@babel/eslint-parser": "^7.22.11",
     "@babel/preset-react": "^7.22.5",
     "@types/fs-extra": "^11.0.1",
     "@types/node": "^20.3.2",

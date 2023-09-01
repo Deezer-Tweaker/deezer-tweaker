@@ -1,5 +1,15 @@
+/*
+ * Deezer Tweaker, a tool to mod Deezer desktop app!
+ * Copyright (c) 2023 Yuuto
+ * Licensed under the MPL-2.0 license
+ */
+
 module.exports = () => {
+  /* global o */
+
+  // eslint-disable-next-line no-unused-vars
   const fs = require('fs');
+  // eslint-disable-next-line no-unused-vars
   const React = o.a;
   const { paths } = window.DeezerTweaker;
   require(paths.corePlugins + '/components');

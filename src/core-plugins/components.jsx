@@ -1,3 +1,12 @@
+/*
+ * Deezer Tweaker, a tool to mod Deezer desktop app!
+ * Copyright (c) 2023 Yuuto
+ * Licensed under the MPL-2.0 license
+ */
+
+/* eslint no-unused-vars: 0 */
+/* global React */
+
 const Tabs = ({ items }) => {
   const [activeTab, setActiveTab] = React.useState(0);
 
@@ -21,14 +30,14 @@ const Tabs = ({ items }) => {
           </div>
         }
         <div className="container">
-            <React.Suspense fallback={<div>Loading...</div>}>
+          <React.Suspense fallback={<div>Loading...</div>}>
             {items[activeTab].component}
           </React.Suspense>
         </div>
       </div>
     </>
   );
-}
+};
 
 const Table = ({ columns, rows }) => {
   return (
@@ -80,7 +89,7 @@ const Table = ({ columns, rows }) => {
         </div>
       </div>
     </>
-  )
+  );
 };
 
 const Checkbox = ({ enabled = false, onChange }) => {
@@ -99,11 +108,11 @@ const Checkbox = ({ enabled = false, onChange }) => {
       </label>
     </div>
   );
-}
+};
 
 const Button = ({ children, onClick }) => {
-  return <button className="chakra-button css-qfh00b e3mndjk0" onClick={onClick}>{children}</button>
-}
+  return <button className="chakra-button css-qfh00b e3mndjk0" onClick={onClick}>{children}</button>;
+};
 
 const Switch = ({ label, enabled = false, onChange }) => {
   const [isChecked, setIsChecked] = React.useState(enabled);
@@ -129,15 +138,15 @@ const Switch = ({ label, enabled = false, onChange }) => {
       </label>
     </div>
   );
-}
+};
 
 const Label = ({ htmlFor, children }) => {
   return <label htmlFor={htmlFor} className="chakra-form__label css-8m1z4 e3mndjk0">{children}</label>;
-}
+};
 
 const Subtext = ({ children }) => {
   return <div className="chakra-form__helper-text css-z6jnh4 e3mndjk0">{children}</div>;
-}
+};
 
 const Input = ({ type = 'text', name, id = name, value: _v }) => {
   const [value, setValue] = React.useState(_v);
@@ -146,11 +155,11 @@ const Input = ({ type = 'text', name, id = name, value: _v }) => {
     type={type} name={name} id={id} className="chakra-input css-1lus2zd e3mndjk0" value={value}
     onChange={(e) => setValue(e.target.value)}
   />;
-}
+};
 
 const FormGroup = ({ children }) => {
   return <div className="chakra-form-control css-1kxonj9 e3mndjk0" role="group">{children}</div>;
-}
+};
 
 const Modal = ({ size = 'large', closable = true, title, body }) => {
   const div = document.createElement('div');
@@ -174,4 +183,4 @@ const Modal = ({ size = 'large', closable = true, title, body }) => {
   );
 
   require('react-dom/client').createRoot(container).render(modal);
-}
+};

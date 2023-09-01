@@ -1,3 +1,9 @@
+/*
+ * Deezer Tweaker, a tool to mod Deezer desktop app!
+ * Copyright (c) 2023 Yuuto
+ * Licensed under the MPL-2.0 license
+ */
+
 const { execSync, spawn } = require('child_process');
 const paths = require('./paths');
 const { join } = require('path');
@@ -10,7 +16,7 @@ module.exports.kill = () => {
     command = 'ps -ef'; proc = '/Applications/Deezer.app';
   }
   if (execSync(command).includes(proc))
-    execSync(process.platform === 'win32' ? `taskkill /f /im ${proc}` : `killall Deezer`);
+    execSync(process.platform === 'win32' ? `taskkill /f /im ${proc}` : 'killall Deezer');
 };
 
 module.exports.relaunch = () => {

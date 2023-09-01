@@ -1,4 +1,11 @@
+/*
+ * Deezer Tweaker, a tool to mod Deezer desktop app!
+ * Copyright (c) 2023 Yuuto
+ * Licensed under the MPL-2.0 license
+ */
+
 module.exports = () => {
+  /* global o, DeezerTweaker */
   const React = o.a;
   const fs = require('fs');
   const { join } = require('path');
@@ -6,6 +13,7 @@ module.exports = () => {
   require(paths.corePlugins + '/components');
   DeezerTweaker.CSS.importCacheStyleSheet('route-account');
 
+  // eslint-disable-next-line no-unused-vars
   const HomeComponent = () => {
     const [customCss, setCustomCss] = React.useState(fs.readFileSync(join(paths.data, 'custom.css'), 'utf8'));
 
@@ -27,15 +35,16 @@ module.exports = () => {
         </div>
       </>
     );
-  }
+  };
 
+  // eslint-disable-next-line no-unused-vars
   const SettingsComponent = () => {
     const settings = fs.existsSync(join(paths.data, 'settings.json')) ? require(join(paths.data, 'settings.json')) : {};
     if (typeof settings.notification_if_update_available === 'undefined') settings.notification_if_update_available = true;
     const applySetting = (key, value) => {
       settings[key] = value;
       fs.writeFileSync(join(paths.data, 'settings.json'), JSON.stringify(settings));
-    }
+    };
 
     return (
       <>
@@ -48,7 +57,7 @@ module.exports = () => {
         </FormGroup>
       </>
     );
-  }
+  };
 
   return (
     <div className="container">

@@ -1,4 +1,13 @@
+/*
+ * Deezer Tweaker, a tool to mod Deezer desktop app!
+ * Copyright (c) 2023 Yuuto
+ * Licensed under the MPL-2.0 license
+ */
+
+// eslint-disable-next-line no-unused-vars
 const PluginsComponent = () => {
+  /* global React */
+
   const [loading, setLoading] = React.useState(true);
   const [data, setData] = React.useState([]);
   const [error, setError] = React.useState(null);

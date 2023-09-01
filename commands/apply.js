@@ -1,3 +1,9 @@
+/*
+ * Deezer Tweaker, a tool to mod Deezer desktop app!
+ * Copyright (c) 2023 Yuuto
+ * Licensed under the MPL-2.0 license
+ */
+
 const paths = require('../utils/paths');
 const { join } = require('path');
 const { readdirSync, existsSync, mkdirSync, readFileSync } = require('fs');
@@ -53,5 +59,4 @@ const loadThemes = () => {
   );
 };
 
-loadPlugins();
 loadThemes();

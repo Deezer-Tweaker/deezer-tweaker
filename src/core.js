@@ -7,7 +7,7 @@
 const { replaceInFile, appendFile } = require('../utils/asar');
 const { join } = require('path');
 const paths = require('../utils/paths');
-const { readFileSync, existsSync } = require('fs');
+const { readFileSync, existsSync, readdirSync } = require('fs');
 const { DeezerTweaker } = require('../utils/plugins');
 const { findFile } = require('../utils/paths');
 
@@ -39,14 +39,6 @@ replaceInFile(
         join(window.DeezerTweaker.paths.corePlugins, plugin, 'index.js')
       require(path);
     });
-  const pluginObject = {
-    asar: {
-      replaceInFile: ${require('../utils/asar').replaceInFile.toString().replace('module.exports', 'pluginObject.asar')},
-      appendFile: ${require('../utils/asar').appendFile.toString().replace('module.exports', 'pluginObject.asar')},
-      injectCss: ${require('../utils/asar').injectCss.toString().replace('module.exports', 'pluginObject.asar')},
-    }, paths: window.DeezerTweaker.paths
-  };
-  window.DeezerTweaker.pluginObject = pluginObject;
   require('../utils/plugins').apply(true);\n$1`
 );
 DeezerTweaker.Api.Sidebar.add('deezer-tweaker-marketplace', null, 'Marketplace', '/${n}/deezer-tweaker/marketplace');
@@ -54,7 +46,7 @@ DeezerTweaker.Api.Sidebar.add('deezer-tweaker-marketplace', null, 'Marketplace',
 const requireRegex = /require\(paths.([a-zA-Z]+) \+ '(.?.?[/[a-zA-Z-]+)'\)/g;
 const corePluginsPath = join(__dirname, typeof window !== 'undefined' ? join('..', 'dtjs') : '.', 'plugins');
 const importPlugin = (name) => require(
-  name.endsWith('.js') ? join(paths.corePlugins, name) : join(paths.corePlugins, name, 'index.js')
+  readdirSync(join('src', 'plugins')).find(f => f.startsWith(name)) ? join(paths.corePlugins, name) : join(paths.corePlugins, name, 'index.js')
 ).toString().replaceAll(requireRegex, (str, $1, $2) => {
   return readFileSync(join(existsSync(paths[$1]) ? paths[$1] : corePluginsPath, $2.replace('/', '') + '.js'), 'utf8');
 });

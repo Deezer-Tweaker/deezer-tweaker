@@ -15,11 +15,11 @@ const { findFile } = require('../utils/paths');
 DeezerTweaker.App.enableDevTools();
 replaceInFile(
   findFile('route-naboo'),
-  /(\{id:"account",label:Object\(q\.a\)\("Paramètres du compte"\),to:"\/account",isMain:!0,isAnimated:!0})/g,
+  /(\{id:"account",label:Object\(([a-zA-Z]\.[a-zA-Z])\)\("Paramètres du compte"\),to:"\/account",isMain:!0,isAnimated:!0})/g,
   `$1,{
     id: "deezer_tweaker",
-    label: Object(q.a)("Deezer Tweaker"),
-    to: \`/\${t}/deezer-tweaker\`,
+    label: Object($2)("Deezer Tweaker"),
+    to: \`/deezer-tweaker\`,
     isMain: true,
     isAnimated: true
   }`

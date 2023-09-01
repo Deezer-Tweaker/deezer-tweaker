@@ -1,4 +1,7 @@
 {
   "presets": ["@babel/preset-react"],
-  "ignore": ["src/plugins/Updater/*", "src/plugins/RestartDialog/*"]
+  "ignore": [
+    "src/plugins/*.js",
+    "src/plugins/RestartDialog/*"
+  ]
 }

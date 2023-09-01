@@ -8,7 +8,6 @@ const { replaceInFile, appendFile } = require('../utils/asar');
 const { join } = require('path');
 const paths = require('../utils/paths');
 const { readFileSync, existsSync } = require('fs');
-const fs = require('fs');
 const { DeezerTweaker } = require('../utils/plugins');
 const { findFile } = require('../utils/paths');
 
@@ -23,18 +22,23 @@ DeezerTweaker.Api.ProfileMenu.addOption({
 });
 const cssPath = join(paths.data, 'custom.css');
 DeezerTweaker.CSS.injectStyleSheet(cssPath, 'deezer-tweaker-custom-css');
+
 replaceInFile(
   findFile('legacy'),
   /(\/\*! For license information please see)/g,
-  `const { join } = require('path');
-  const { readFileSync, writeFileSync, readdirSync, existsSync } = require('fs');
+  `const { join } = require('path'), fs = require('fs');
   window.DeezerTweaker = {
-    version: "${require('../package.json').version}", paths: ${JSON.stringify(paths)}, Deezer: {},
-    installedPlugins: ${JSON.stringify(fs.readdirSync(join(paths.data, 'plugins')).map(f => {
-    return require(join(paths.data, 'plugins', f, `${f}.js`));
-  }))}
+    version: "${require('../package.json').version}", paths: ${JSON.stringify(paths)}, Deezer: {}
   };
-  if (existsSync(join('${paths.corePlugins.replaceAll('\\', '\\\\')}', 'Updater', 'index.js'))) require(join('${paths.corePlugins.replaceAll('\\', '\\\\')}', 'Updater', 'index.js'));
+  const pluginsToIgnore = ['components', 'Options', 'Marketplace', 'RestartDialog'];
+  fs.readdirSync(window.DeezerTweaker.paths.corePlugins)
+    .filter(plugin => !pluginsToIgnore.includes(plugin.split('.')[0]))
+    .forEach(plugin => {
+      const path = plugin.endsWith('.js') ?
+        join(window.DeezerTweaker.paths.corePlugins, plugin) :
+        join(window.DeezerTweaker.paths.corePlugins, plugin, 'index.js')
+      require(path);
+    });
   const pluginObject = {
     asar: {
       replaceInFile: ${require('../utils/asar').replaceInFile.toString().replace('module.exports', 'pluginObject.asar')},

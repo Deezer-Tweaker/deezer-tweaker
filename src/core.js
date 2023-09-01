@@ -59,8 +59,8 @@ DeezerTweaker.Api.Routes.create(
 );
 replaceInFile(
   findFile('app-web'),
-  /(window.webpackJsonpDeezer=window\.webpackJsonpDeezer\|\|\[]\)\.push\(\[\[66,54],\{"\+jGe":function\(x,e,C\)\{"use strict";)/g,
-  '$1window.DeezerTweaker.importWebpackModule=C;'
+  /(window\.webpackJsonpDeezer\|\|\[]\)\.push\(\[\[[0-9,]+],\{"\+1VY":function\([a-zA-Z],[a-zA-Z],([a-zA-Z])\)\{"use strict";)/g,
+  '$1window.DeezerTweaker.importWebpackModule=$2;'
 );
 replaceInFile(
   findFile('player-HTML5Renderer'),

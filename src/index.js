@@ -82,12 +82,12 @@ Log.info('Recreating the ASAR archive...');
 asar.createPackage(paths.extractedAsar, paths.asar).then(() => {
   Log.success('Done\n');
 
-  Log.info('Relaunching Deezer\n');
-  Deezer.relaunch();
-
   Log.info('Deleting extracted ASAR folder...');
   rmSync(paths.extractedAsar, { recursive: true });
   Log.success('Done\n');
+
+  Log.info('Relaunching Deezer\n');
+  Deezer.relaunch();
 
   if (!process.argv0.includes('electron')) {
     dialog.showMessageBox({

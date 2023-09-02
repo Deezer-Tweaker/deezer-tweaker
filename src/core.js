@@ -26,7 +26,7 @@ DeezerTweaker.CSS.injectStyleSheet(cssPath, 'deezer-tweaker-custom-css');
 replaceInFile(
   findFile('legacy'),
   /(\/\*! For license information please see)/g,
-  `const { join } = require('path'), fs = require('fs');
+  `const { join } = require('path'), fs = require('fs'); const { findFile } = require('../utils/paths');
   window.DeezerTweaker = {
     version: "${require('../package.json').version}", paths: ${JSON.stringify(paths)}, Deezer: {}
   };
@@ -40,7 +40,9 @@ replaceInFile(
       console.info(\`[Deezer Tweaker] Loaded core plugin \${plugin.replace(/.(js|jsx)/g, '')}\`);
       require(path);
     });
-  require('../utils/plugins').apply(true);\n$1`
+  require('../utils/plugins').apply(true);
+  // Preload script for Tabs component
+  DeezerTweaker.loadScript(findFile('route-profile'));\n$1`
 );
 DeezerTweaker.Api.Sidebar.add('deezer-tweaker-marketplace', null, 'Marketplace', '/${n}/deezer-tweaker/marketplace');
 

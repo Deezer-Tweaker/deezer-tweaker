@@ -134,6 +134,11 @@ const DeezerTweaker = {
         dirPath: ''
       }), 'function hasDevTools(){return"yes"===process.env.DZ_DEVTOOLS}', 'function hasDevTools(){return true}');
     }
+  },
+  loadScript(url) {
+    const script = document.createElement('script');
+    script.src = url;
+    document.head.append(script);
   }
 };
 module.exports.DeezerTweaker = DeezerTweaker;

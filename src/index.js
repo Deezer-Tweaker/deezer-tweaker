@@ -89,9 +89,13 @@ asar.createPackage(paths.extractedAsar, paths.asar).then(() => {
   rmSync(paths.extractedAsar, { recursive: true });
   Log.success('Done\n');
 
-  dialog.showMessageBox({
-    title: 'Done',
-    type: 'info',
-    message: 'Deezer Tweaker was successfully injected into Deezer.'
-  }).then(() => process.exit(0));
+  if (!process.argv0.includes('electron')) {
+    dialog.showMessageBox({
+      title: 'Done',
+      type: 'info',
+      message: 'Deezer Tweaker was successfully injected into Deezer.'
+    }).then(() => process.exit(0));
+  } else {
+    process.exit(0);
+  }
 });

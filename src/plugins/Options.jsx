@@ -41,46 +41,63 @@ module.exports = () => {
 
   // eslint-disable-next-line no-unused-vars
   const SettingsComponent = () => {
-    const settings = fs.existsSync(join(paths.data, 'settings.json')) ? require(join(paths.data, 'settings.json')) : {};
+    const [settings, setSettings] = React.useState(fs.existsSync(join(paths.data, 'settings.json')) ? require(join(paths.data, 'settings.json')) : {});
     if (typeof settings.notification_if_update_available === 'undefined') settings.notification_if_update_available = true;
     const applySetting = (key, value) => {
       settings[key] = value;
       fs.writeFileSync(join(paths.data, 'settings.json'), JSON.stringify(settings));
+      setSettings(settings);
     };
 
     return (
       <>
-        <FormGroup>
-          <Switch
-            enabled={settings.notification_if_update_available}
-            onChange={(e) => applySetting('notification_if_update_available', e.target.checked)}
-            label="Enable sending a notification when an update is available"
-          />
-        </FormGroup>
-        <Button onClick={() => {
-          const updateUrl = 'https://api.github.com/repos/Deezer-Tweaker/deezer-tweaker/releases/latest';
-          fetch(updateUrl).then(res => res.json()).then(json => {
-            if (json.tag_name !== window.DeezerTweaker.version) {
-              const notification = new Notification('New update available!', {
-                body: `The version ${json.tag_name} is available to download! Click on this notification to download it.`
-              });
-              notification.addEventListener('click', () => {
-                electron.openExternalLink(json.assets[0].browser_download_url);
-              });
-            }
-          });
-        }}>Check for updates</Button>
+        <FormControl>
+          <Flex>
+            <Label color="text.main">Enable sending a notification when an update is available</Label>
+            <Switch
+              isChecked={settings.notification_if_update_available}
+              onChange={(e) => applySetting('notification_if_update_available', e.target.checked)}
+            />
+          </Flex>
+        </FormControl>
+        <div className="container">
+          <Button colorScheme="primary" onClick={() => {
+            const updateUrl = 'https://api.github.com/repos/Deezer-Tweaker/deezer-tweaker/releases/latest';
+            fetch(updateUrl).then(res => res.json()).then(json => {
+              if (json.tag_name !== window.DeezerTweaker.version) {
+                const notification = new Notification('New update available!', {
+                  body: `The version ${json.tag_name} is available to download! Click on this notification to download it.`
+                });
+                notification.addEventListener('click', () => {
+                  electron.openExternalLink(json.assets[0].browser_download_url);
+                });
+              }
+            });
+          }}>Check for updates</Button>
+        </div>
       </>
     );
+  };
+
+  const [tab, setTab] = React.useState('home');
+  const componentsMap = {
+    home: <HomeComponent />,
+    settings: <SettingsComponent />
   };
 
   return (
     <div className="container">
       <h1 className="heading-1">Deezer Tweaker</h1>
-      <Tabs items={[
-        { name: 'Deezer Tweaker', component: <HomeComponent /> },
-        { name: 'Settings', component: <SettingsComponent /> }
+      <style>{'.navbar > .container { padding-bottom: 0; }'}</style>
+      <Tabs active={tab} items={[
+        { id: 'home', label: 'Deezer Tweaker', action: () => setTab('home') },
+        { id: 'settings', label: 'Settings', action: () => setTab('settings') }
       ]} />
+      <div className="container">
+        <React.Suspense fallback={<div>Loading</div>}>
+          {componentsMap[tab]}
+        </React.Suspense>
+      </div>
     </div>
   );
 };

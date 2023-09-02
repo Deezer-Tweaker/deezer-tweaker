@@ -20,16 +20,30 @@ module.exports = () => {
   require(paths.corePlugins + '/Marketplace/installed');
   require(paths.corePlugins + '/Marketplace/settings');
 
+  const [tab, setTab] = React.useState('plugins');
+  const componentsMap = {
+    plugins: <PluginsComponent />,
+    themes: <ThemesComponent />,
+    installed: <InstalledComponent />,
+    settings: <SettingsComponent />
+  };
+
   return (
     <>
       <div className="container">
         <h1 className="heading-1">Deezer Tweaker Marketplace</h1>
-        <Tabs items={[
-          { name: 'Plugins', hideTitle: true, component: <PluginsComponent /> },
-          { name: 'Themes', hideTitle: true, component: <ThemesComponent /> },
-          { name: 'Installed', hideTitle: true, component: <InstalledComponent /> },
-          { name: 'Settings', component: <SettingsComponent /> },
+        <style>{'.navbar > .container { padding-bottom: 0; }'}</style>
+        <Tabs active={tab} items={[
+          { id: 'plugins', label: 'Plugins', action: () => setTab('plugins') },
+          { id: 'themes', label: 'Themes', action: () => setTab('themes') },
+          { id: 'installed', label: 'Installed', action: () => setTab('installed') },
+          { id: 'settings', label: 'Settings', action: () => setTab('settings') },
         ]} />
+        <div className="container">
+          <React.Suspense fallback={<div>Loading</div>}>
+            {componentsMap[tab]}
+          </React.Suspense>
+        </div>
       </div>
     </>
   );

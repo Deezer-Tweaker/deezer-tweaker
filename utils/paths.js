@@ -6,6 +6,7 @@
 
 const { join } = require('path');
 const fs = require('fs');
+const { existsSync } = require('fs');
 
 const paths = {
   win32: {
@@ -38,9 +39,10 @@ const findFile = (file, options = {}) => {
   file = file + '.';
   if (!options) options = {};
   if (typeof options.dirPath === 'undefined') options.dirPath = join('assets', 'cache', 'js');
-  const files = fs.readdirSync(join(paths[process.platform].extractedAsar, 'build', options.dirPath));
+  const root = existsSync(paths[process.platform].extractedAsar) ? paths[process.platform].extractedAsar : paths[process.platform].asar;
+  const files = fs.readdirSync(join(root, 'build', options.dirPath));
   return files.find(f => f.startsWith(file)) &&
-    join(paths[process.platform].extractedAsar, 'build', options.dirPath, files.find(f => f.startsWith(file)));
+    join(root, 'build', options.dirPath, files.find(f => f.startsWith(file)));
 };
 
 module.exports = {

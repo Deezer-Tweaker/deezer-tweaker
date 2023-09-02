@@ -6,14 +6,39 @@
 
 // eslint-disable-next-line no-unused-vars
 const SettingsComponent = () => {
+  /* global React */
+  const [settings, setSettings] = React.useState({
+    auto_update_plugins: true,
+    auto_update_themes: true
+  });
+
+  const updateSettings = (key, e) => {
+    settings[key] = e.target.checked ?? e.target.value;
+    setSettings(settings);
+  };
+
   return (
     <>
-      <div>
-        <Switch label="Auto-update plugins" enabled={true} />
-        <Switch label="Auto-update themes" enabled={true} />
-      </div>
+      <FormControl>
+        <Flex>
+          <Label color="text.main">Auto-update plugins</Label>
+          <Switch
+            isChecked={settings.auto_update_plugins}
+            onChange={(e) => updateSettings('auto_update_plugins', e)}
+          />
+        </Flex>
+      </FormControl>
+      <FormControl>
+        <Flex>
+          <Label color="text.main">Auto-update themes</Label>
+          <Switch
+            isChecked={settings.auto_update_themes}
+            onChange={(e) => updateSettings('auto_update_themes', e)}
+          />
+        </Flex>
+      </FormControl>
       <div className="container">
-        <Button>Check for updates</Button>
+        <Button colorScheme="primary">Check for updates</Button>
       </div>
     </>
   );

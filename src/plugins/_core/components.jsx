@@ -12,7 +12,10 @@ const Flex = DeezerTweaker.importWebpackModule('NSet').f;
 const Tabs = DeezerTweaker.importWebpackModule('lssQ').a;
 
 const FormControl = DeezerTweaker.importWebpackModule('Q7m9').a;
-const FormHelperText = DeezerTweaker.importWebpackModule('Q7m9').c;
+const Input = DeezerTweaker.importWebpackModule('Hqq8').a;
+const InputGroup = DeezerTweaker.importWebpackModule('Hqq8').b;
+const InputLeftElement = DeezerTweaker.importWebpackModule('Hqq8').c;
+const InputRightElement = DeezerTweaker.importWebpackModule('Hqq8').d;
 const Button = DeezerTweaker.importWebpackModule('s86Q').a;
 const Switch = DeezerTweaker.importWebpackModule('eh3h').a;
 const Label = DeezerTweaker.importWebpackModule('Q7m9').d;

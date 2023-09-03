@@ -10,14 +10,27 @@ const { recompile } = require(paths.asar + '/utils/asar');
 
 // eslint-disable-next-line no-unused-vars
 const DataComponent = ({ data, title, error }) => {
+  const [search, setSearch] = React.useState(null);
+
   return (
     <>
-      <div className="container" style={{ padding: 0 }}>
+      <div className="container" style={{ padding: 0, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <h2 className="heading-2">{title}</h2>
+        <div className="_2HmiI">
+          <div className="_1aTuL">
+            <InputGroup size="sm">
+              <div>
+                <InputLeftElement pointerEvents="none" size="sm"></InputLeftElement>
+                <Input placeholder={`Search ${title.toLowerCase()}...`} role="searchbox" onChange={(e) => setSearch(e.target.value)}></Input>
+                <InputRightElement></InputRightElement>
+              </div>
+            </InputGroup>
+          </div>
+        </div>
       </div>
       <div className="container">
         <ul className="thumbnail-grid thumbnail-grid-responsive">
-          {data.map(plugin => {
+          {data.filter(plugin => search ? plugin.toLowerCase().includes(search.toLowerCase()) : plugin).map(plugin => {
             const [downloaded, isDownloaded] = React.useState(fs.existsSync(join(paths.data, 'plugins', plugin.name, `${plugin.name}.js`)));
 
             return (

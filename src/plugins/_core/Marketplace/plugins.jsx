@@ -16,7 +16,7 @@ const PluginsComponent = () => {
     setError(err.message);
     console.error(err);
   };
-  let pluginsNumber = 0;
+  let pluginsNumber = 1;
 
   if (loading) {
     fetch('https://raw.githubusercontent.com/Deezer-Tweaker/deezer-tweaker/master/src/plugins/_list.json')
@@ -58,7 +58,7 @@ const PluginsComponent = () => {
       .catch(handleError);
 
     const interval = setInterval(() => {
-      if (pluginsNumber >= data.length) {
+      if (pluginsNumber >= data.length || data.length >= 1) {
         clearInterval(interval);
         setLoading(false);
       }

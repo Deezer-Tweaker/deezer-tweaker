@@ -163,4 +163,17 @@ module.exports.apply = (startup = false) => {
       plugin.inject(DeezerTweaker);
     }
   });
+  const pluginsList = startup ?
+    require(join(paths.corePlugins, '..', '_list.json')) :
+    require(join(__dirname, '..', 'src', 'plugins', '_list.json'));
+  pluginsList
+    .filter(plugin => !plugin.main.startsWith('_') && !plugin.runOnDocument)
+    .forEach(plugin => {
+      startup ?
+        require(join(paths.corePlugins, '..', plugin.main)) :
+        require(join(__dirname, '..', 'src', 'plugins', plugin.main));
+      (startup ? console : Log).info(
+        `${startup ? '[Deezer Tweaker] ' : ''}Loaded plugin ${plugin.name}`
+      );
+    });
 };

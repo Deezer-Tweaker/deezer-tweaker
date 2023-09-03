@@ -47,9 +47,11 @@ replaceInFile(
 DeezerTweaker.Api.Sidebar.add('deezer-tweaker-marketplace', null, 'Marketplace', '/${n}/deezer-tweaker/marketplace');
 
 const requireRegex = /require\(paths.([a-zA-Z]+) \+ '(.?.?[/[a-zA-Z-]+)'\)/g;
-const corePluginsPath = join(__dirname, typeof window !== 'undefined' ? join('..', 'dtjs') : '.', 'plugins');
+const corePluginsPath = join(__dirname, typeof window !== 'undefined' ? join('..', 'dtjs') : '.', 'plugins', '_core');
 const importPlugin = (name) => require(
-  readdirSync(join('src', 'plugins')).find(f => f.startsWith(name)) ? join(paths.corePlugins, name) : join(paths.corePlugins, name, 'index.js')
+  readdirSync(join('src', 'plugins', '_core')).find(f => f.startsWith(name)) ?
+    join(!existsSync(corePluginsPath) ? paths.corePlugins : corePluginsPath, name) :
+    join(!existsSync(corePluginsPath) ? paths.corePlugins : corePluginsPath, name, 'index.js')
 ).toString().replaceAll(requireRegex, (str, $1, $2) => {
   return readFileSync(join(existsSync(paths[$1]) ? paths[$1] : corePluginsPath, $2.replace('/', '') + '.js'), 'utf8');
 });

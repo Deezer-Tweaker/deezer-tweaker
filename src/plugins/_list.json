@@ -2,7 +2,8 @@
   {
     "name": "NoTrack",
     "description": "Blocks analytics requests",
-    "main": "NoTrack.js"
+    "main": "NoTrack.js",
+    "runOnDocument": true
   },
   {
     "name": "Marketplace",
@@ -13,5 +14,10 @@
     "name": "Options",
     "description": "Deezer Tweaker Settings",
     "main": "_core/Options.js"
+  },
+  {
+    "name": "FreePremium",
+    "description": "Unlocks all audio qualities",
+    "main": "FreePremium.js"
   }
 ]

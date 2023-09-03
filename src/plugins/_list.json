@@ -1,0 +1,17 @@
+[
+  {
+    "name": "NoTrack",
+    "description": "Blocks analytics requests",
+    "main": "NoTrack.js"
+  },
+  {
+    "name": "Marketplace",
+    "description": "Deezer Tweaker Marketplace",
+    "main": "_core/Marketplace/index.js"
+  },
+  {
+    "name": "Options",
+    "description": "Deezer Tweaker Settings",
+    "main": "_core/Options.js"
+  }
+]

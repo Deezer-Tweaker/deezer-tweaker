@@ -40,9 +40,11 @@ replaceInFile(
       console.info(\`[Deezer Tweaker] Loaded core plugin \${plugin.replace(/.(js|jsx)/g, '')}\`);
       require(path);
     });
-  require('../utils/plugins').apply(true);
-  // Preload script for Tabs component
-  DeezerTweaker.loadScript(findFile('route-profile'));\n$1`
+  document.addEventListener('DOMContentLoaded', () => {
+    require('../utils/plugins').apply(true);
+    // Preload script for Tabs component
+    DeezerTweaker.loadScript(findFile('route-profile'));
+  });\n$1`
 );
 DeezerTweaker.Api.Sidebar.add('deezer-tweaker-marketplace', null, 'Marketplace', '/${n}/deezer-tweaker/marketplace');
 
@@ -59,8 +61,8 @@ DeezerTweaker.Api.Routes.create('/deezer-tweaker', importPlugin('Options'), fals
 DeezerTweaker.Api.Routes.create('/deezer-tweaker/marketplace', importPlugin('Marketplace'), false);
 
 replaceInFile(
-  findFile('app-web'),
-  /(window\.webpackJsonpDeezer\|\|\[]\)\.push\(\[\[[0-9,]+],\{"\+1VY":function\([a-zA-Z],[a-zA-Z],([a-zA-Z])\)\{"use strict";)/g,
+  findFile('legacy'),
+  /(window\.webpackJsonpDeezer\|\|\[]\)\.push\(\[\[[0-9,]+],\{"\+924":function\([a-zA-Z],[a-zA-Z],([a-zA-Z])\)\{"use strict";)/g,
   '$1window.DeezerTweaker.importWebpackModule=$2;'
 );
 

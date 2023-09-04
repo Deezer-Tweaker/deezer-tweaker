@@ -11,6 +11,7 @@ const { recompile } = require(paths.asar + '/utils/asar');
 // eslint-disable-next-line no-unused-vars
 const DataComponent = ({ data, title, error }) => {
   const [search, setSearch] = React.useState(null);
+  data = data.filter(plugin => search ? plugin.name.toLowerCase().includes(search.toLowerCase()) : plugin);
 
   return (
     <>
@@ -30,7 +31,7 @@ const DataComponent = ({ data, title, error }) => {
       </div>
       <div className="container">
         <ul className="thumbnail-grid thumbnail-grid-responsive">
-          {data.filter(plugin => search ? plugin.toLowerCase().includes(search.toLowerCase()) : plugin).map(plugin => {
+          {data.map(plugin => {
             const [downloaded, isDownloaded] = React.useState(fs.existsSync(join(paths.data, 'plugins', plugin.name, `${plugin.name}.js`)));
 
             return (
@@ -109,7 +110,7 @@ const DataComponent = ({ data, title, error }) => {
             );
           })}
         </ul>
-        {error && <pre><code>{error}</code></pre>}
+        {error && <span>An error occurred: {error}</span>}
       </div>
     </>
   );

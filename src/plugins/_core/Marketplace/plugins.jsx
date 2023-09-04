@@ -6,7 +6,7 @@
 
 // eslint-disable-next-line no-unused-vars
 const PluginsComponent = () => {
-  /* global React */
+  /* global React, paths */
 
   const [loading, setLoading] = React.useState(true);
   const [data, setData] = React.useState([]);
@@ -16,13 +16,11 @@ const PluginsComponent = () => {
     setError(err.message);
     console.error(err);
   };
-  let pluginsNumber = 1;
 
   if (loading) {
-    fetch('https://raw.githubusercontent.com/Deezer-Tweaker/deezer-tweaker/master/src/plugins/_list.json')
+    fetch(`${paths.corePlugins}/../_list.json`)
       .then((res) => res.json())
       .then(list => {
-        pluginsNumber += list.length;
         list.map(plugin => {
           data.push({
             name: plugin.name,
@@ -33,36 +31,35 @@ const PluginsComponent = () => {
           });
           setData(data);
         });
-      })
-      .catch(handleError);
 
-    fetch('https://api.github.com/repos/Deezer-Tweaker/community-plugins/contents')
-      .then((res) => res.json())
-      .then((json) => {
-        const filter = d => d.type === 'dir' && d.name !== 'types';
-        pluginsNumber += json.filter(filter).length;
-        json.filter(filter).map(({ name }) => {
-          fetch(`https://raw.githubusercontent.com/Deezer-Tweaker/community-plugins/main/${name}/${name}.js`).then(res => res.text()).then(res => {
-            const js = eval?.('(() => {' + res.replace('module.exports =', 'return') + '})();');
-            data.push({
-              name: js.name,
-              description: js.description,
-              file: `https://raw.githubusercontent.com/Deezer-Tweaker/community-plugins/main/${name}/${name}.js`,
-              img: js.screenshot && `https://raw.githubusercontent.com/Deezer-Tweaker/community-plugins/main/${name}/${js.screenshot}`,
-              settings: js.settings
+        fetch('https://api.github.com/repos/Deezer-Tweaker/community-plugins/contents')
+          .then((res) => res.json())
+          .then((json) => {
+            const filter = d => d.type === 'dir' && d.name !== 'types';
+            json.filter(filter).map(({ name }) => {
+              fetch(`https://raw.githubusercontent.com/Deezer-Tweaker/community-plugins/main/${name}/${name}.js`).then(res => res.text()).then(res => {
+                const js = eval?.('(() => {' + res.replace('module.exports =', 'return') + '})();');
+                data.push({
+                  name: js.name,
+                  description: js.description,
+                  file: `https://raw.githubusercontent.com/Deezer-Tweaker/community-plugins/main/${name}/${name}.js`,
+                  img: js.screenshot && `https://raw.githubusercontent.com/Deezer-Tweaker/community-plugins/main/${name}/${js.screenshot}`,
+                  settings: js.settings
+                });
+                setData(data);
+              });
             });
-            setData(data);
-          });
-        });
+            const interval = setInterval(() => {
+              const nb = list.length + json.filter(filter).length;
+              if (nb === data.length) {
+                clearInterval(interval);
+                setLoading(false);
+              }
+            }, 10);
+          })
+          .catch(handleError);
       })
       .catch(handleError);
-
-    const interval = setInterval(() => {
-      if (pluginsNumber >= data.length || data.length >= 1) {
-        clearInterval(interval);
-        setLoading(false);
-      }
-    }, 200);
   }
 
   return loading ? <div>Loading</div> : <DataComponent title="Plugins" data={data} error={error} />;

@@ -17,7 +17,7 @@
   },
   {
     "name": "FreePremium",
-    "description": "Unlocks all audio qualities",
+    "description": "Unlocks all audio qualities, downloading songs",
     "main": "FreePremium.js"
   }
 ]

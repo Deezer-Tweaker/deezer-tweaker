@@ -65,12 +65,31 @@ module.exports = () => {
             const updateUrl = 'https://api.github.com/repos/Deezer-Tweaker/deezer-tweaker/releases/latest';
             fetch(updateUrl).then(res => res.json()).then(json => {
               if (json.tag_name !== window.DeezerTweaker.version) {
-                const notification = new Notification('New update available!', {
-                  body: `The version ${json.tag_name} is available to download! Click on this notification to download it.`
-                });
-                notification.addEventListener('click', () => {
-                  electron.openExternalLink(json.assets[0].browser_download_url);
-                });
+                const React = window.DeezerTweaker.importWebpackModule.n(window.DeezerTweaker.importWebpackModule('q1tI')).a;
+                const ReactDOM = window.DeezerTweaker.importWebpackModule.n(window.DeezerTweaker.importWebpackModule('i8i4')).a;
+                const Popper = window.DeezerTweaker.importWebpackModule('hG0x').a;
+                const Button = window.DeezerTweaker.importWebpackModule('s86Q').a;
+                const data = {
+                  colorScheme: 'gray',
+                  message: `The version ${json.tag_name} of Deezer Tweaker is available to download!`,
+                  action: [React.createElement(Button, {
+                    colorScheme: 'white', variant: 'outline', onClick: () => electron.openExternalLink(json.assets[0].browser_download_url),
+                    key: 'download'
+                  }, 'Download')]
+                };
+                const render = React.createElement(Popper, data);
+                const alert = React.createElement('div', { className: 'alert-wrapper' }, render);
+                ReactDOM.createRoot(document.querySelector('.page-alerts')).render(alert);
+                const i = setInterval(() => {
+                  const alert = document.querySelector('.css-3mqnm2.chakra-alert[role="alert"]');
+                  if (alert) clearInterval(i); else return;
+                  alert.querySelector('.chakra-alert__title').className = 'chakra-alert__title css-4j2z69 e3mndjk0';
+                  alert.querySelector('.chakra-alert__desc').className = 'chakra-alert__desc css-vfhx9v e3mndjk0';
+                  alert.className = 'chakra-alert e3mndjk0 css-1eou3g4';
+                  alert.querySelector('.chakra-stack').addEventListener('click', () => {
+                    alert.parentElement.remove();
+                  });
+                }, 1);
               }
             });
           }}>Check for updates</Button>

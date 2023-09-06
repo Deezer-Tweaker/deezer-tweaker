@@ -32,29 +32,43 @@ const DataComponent = ({ data, title, error }) => {
       <div className="container">
         <ul className="thumbnail-grid thumbnail-grid-responsive">
           {data.map(plugin => {
-            const [downloaded, isDownloaded] = React.useState(fs.existsSync(join(paths.data, 'plugins', plugin.name, `${plugin.name}.js`)));
+            const { external, core, name, description, img, file, settings } = plugin;
+            const pluginSettings = fs.existsSync(join(paths.data, 'settings.json')) ? require(join(paths.data, 'settings.json')) : {};
+            const [downloaded, isDownloaded] = React.useState(
+              (pluginSettings.plugins && pluginSettings.plugins[name] && pluginSettings.plugins[name].enabled) ??
+              fs.existsSync(join(paths.data, 'plugins', name, `${name}.js`))
+            );
 
             return (
               <li className="thumbnail-col">
                 <figure className="thumbnail">
                   <div className="picture picture-link no-background">
-                    <img src={plugin.img} alt="" loading="lazy" className="picture-img css-1hv77co e3mndjk0" />
+                    <img src={img} alt="" loading="lazy" className="picture-img css-1hv77co e3mndjk0" />
                   </div>
                   <ul className="action">
-                    {!plugin.core && <li className="action-item">
+                    {!core && <li className="action-item">
                       <button
                         type="button" className="chakra-button action-item-tempo-btn action-force css-1sqw0k3 e3mndjk0"
                         onClick={() => {
-                          if (!downloaded) {
-                            if (!fs.existsSync(join(paths.data, 'plugins', plugin.name))) fs.mkdirSync(join(paths.data, 'plugins', plugin.name));
-                            fetch(plugin.file).then(res => res.text()).then(res => {
-                              fs.writeFileSync(join(paths.data, 'plugins', plugin.name, `${plugin.name}.js`), res);
+                          if (external) {
+                            if (!downloaded) {
+                              if (!fs.existsSync(join(paths.data, 'plugins', name))) fs.mkdirSync(join(paths.data, 'plugins', name));
+                              fetch(file).then(res => res.text()).then(res => {
+                                fs.writeFileSync(join(paths.data, 'plugins', name, `${name}.js`), res);
+                                recompile();
+                                isDownloaded(true);
+                              });
+                            } else {
+                              fs.rmdirSync(join(paths.data, 'plugins', name), { recursive: true });
+                              isDownloaded(false);
                               recompile();
-                              isDownloaded(true);
-                            });
+                            }
                           } else {
-                            fs.rmdirSync(join(paths.data, 'plugins', plugin.name), { recursive: true });
-                            isDownloaded(false);
+                            const settings = fs.existsSync(join(paths.data, 'settings.json')) ? require(join(paths.data, 'settings.json')) : {};
+                            if (!settings.plugins) settings.plugins = {};
+                            settings.plugins[name] = { enabled: !downloaded };
+                            fs.writeFileSync(join(paths.data, 'settings.json'), JSON.stringify(settings));
+                            isDownloaded(!downloaded);
                             recompile();
                           }
                         }}
@@ -70,13 +84,13 @@ const DataComponent = ({ data, title, error }) => {
                         </svg>
                       </button>
                     </li>}
-                    {(downloaded && plugin.settings) && <li className="action-item">
+                    {(downloaded && settings) && <li className="action-item">
                       <button
                         type="button" className="chakra-button action-item-tempo-btn action-force css-1sqw0k3 e3mndjk0"
                         onClick={() => Modal({
-                          title: `${plugin.name} Settings`,
+                          title: `${name} Settings`,
                           body: () => <div style={{ padding: '20px' }}>{
-                            plugin.settings.map(setting => {
+                            settings.map(setting => {
                               if (setting.type === 'button') {
                                 return (
                                   <FormGroup>
@@ -103,8 +117,8 @@ const DataComponent = ({ data, title, error }) => {
                   </ul>
                 </figure>
                 <div className="thumbnail-caption">
-                  <h3 className="heading-4">{plugin.name}</h3>
-                  <h3 className="heading-4-sub">{plugin.description}</h3>
+                  <h3 className="heading-4">{name}</h3>
+                  <h3 className="heading-4-sub">{description}</h3>
                 </div>
               </li>
             );

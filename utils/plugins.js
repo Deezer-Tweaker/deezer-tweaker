@@ -169,6 +169,8 @@ module.exports.apply = (startup = false) => {
   pluginsList
     .filter(plugin => !plugin.main.startsWith('_') && !plugin.runOnDocument)
     .forEach(plugin => {
+      const settings = require(join(paths.data, 'settings.json'));
+      if (!settings.plugins || !settings.plugins[plugin.name] || !settings.plugins[plugin.name].enabled) return;
       startup ?
         require(join(paths.corePlugins, '..', plugin.main)) :
         require(join(__dirname, '..', 'src', 'plugins', plugin.main));

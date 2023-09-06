@@ -27,7 +27,8 @@ const PluginsComponent = () => {
             description: plugin.description,
             file: `https://raw.githubusercontent.com/Deezer-Tweaker/deezer-tweaker/master/src/plugins/${plugin.main.endsWith('index.js') ? `${name}/index` : name}.js`,
             settings: plugin.settings,
-            core: plugin.main.startsWith('_core/')
+            core: plugin.main.startsWith('_core/'),
+            external: false
           });
           setData(data);
         });
@@ -44,7 +45,9 @@ const PluginsComponent = () => {
                   description: js.description,
                   file: `https://raw.githubusercontent.com/Deezer-Tweaker/community-plugins/main/${name}/${name}.js`,
                   img: js.screenshot && `https://raw.githubusercontent.com/Deezer-Tweaker/community-plugins/main/${name}/${js.screenshot}`,
-                  settings: js.settings
+                  settings: js.settings,
+                  core: false,
+                  external: true
                 });
                 setData(data);
               });
